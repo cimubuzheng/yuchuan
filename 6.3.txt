@@ -16,155 +16,131 @@
 CTrade trade;
 
 //--- 输入参数
-input string   API_Key = "sk-12a1ae199f05481a85c899561e669a1a"; // DeepSeek API密钥
+input string   AuthorizedAccounts = "7277935,277227475"; // 授权账号
+input datetime AuthorizationExpiry = D'2025.12.31 23:59:59'; // 授权到期时间
 input bool     EnableAIAnalysis = true;                // 启用AI分析
-input int      AnalysisIntervalSeconds = 600;              // 分析间隔(秒)
-input double   SingleRiskPercent = 1.0;            // 单笔风险(%)
-input double   DailyRiskLimit = 3.0;              // 单日风险(%)
-input double   MinRiskRewardRatio = 2.0;            // 最小风险回报比
-input int      MaxDailyTrades = 3;              // 最大每日交易数
+input int      AnalysisIntervalSeconds = 600;          // 分析间隔(秒)
+input double   SingleRiskPercent = 1.0;                // 单笔风险(%)
+input double   DailyRiskLimit = 3.0;                   // 单日风险(%)
+input double   MinRiskRewardRatio = 2.0;               // 最小风险回报比
+input int      MaxDailyTrades = 3;                     // 最大每日交易数
 input string   TradingSymbols = "EURUSD,XAUUSD,GBPUSD"; // 交易品种
 
 //--- AI全自动交易参数
-input bool     EnableAIFullAuto = false;        // 启用AI全自动交易
+input bool     EnableAIFullAuto = false;              // 启用AI全自动交易
 input string   AITradingPrompt = "你是一个拥有20年交易经验的专业交易员..."; // AI交易提示词
-input int      AIDecisionInterval = 300;        // AI决策间隔(秒)
-input double   AITradingConfidence = 0.75;      // AI交易置信度阈值
-input bool     AILimitByRiskParams = true;      // AI受风险参数限制
-input bool     AIShowDecisionProcess = true;    // 显示AI决策过程
+input int      AIDecisionInterval = 300;              // AI决策间隔(秒)
+input double   AITradingConfidence = 0.75;             // AI交易置信度阈值
+input bool     AILimitByRiskParams = true;             // AI受风险参数限制
+input bool     AIShowDecisionProcess = true;           // 显示AI决策过程
 
 //--- DeepSeek API配置
 input string   DeepSeekAPIKey = "sk-12a1ae199f05481a85c899561e669a1a"; // DeepSeek API密钥
 input string   DeepSeekBaseURL = "https://api.deepseek.com/v1/chat/completions"; // DeepSeek API地址
-input int      APITimeout = 30000; // API请求超时(毫秒)
-input bool     EnableAPILog = true; // 启用API日志
+input int      APITimeout = 30000;                     // API请求超时(毫秒)
+input bool     EnableAPILog = true;                    // 启用API日志
 
 //--- 策略参数
-input bool     EnableTrendFollowing = true;    // 启用趋势跟踪策略
-input bool     EnableMeanReversion = true;    // 启用均值回归策略
-input bool     EnableTurtleTrading = true;    // 启用海龟交易策略
-input bool     EnableRule123 = true;       // 启用123法则策略
-input bool     EnablePriceAction = true;           // 启用裸K策略
-input bool     EnableVolatilityBreakout = true; // 启用波动率突破策略
-input bool     EnableBollingerReversion = true; // 启用布林带回归策略
-input bool     EnableSMC = true;       // 启用SMC聪明钱概念
-input bool     EnableGoldenCross = true;       // 启用金叉死叉策略
+input bool     EnableTrendFollowing = true;            // 启用趋势跟踪策略
+input bool     EnableMeanReversion = true;             // 启用均值回归策略
+input bool     EnableTurtleTrading = true;             // 启用海龟交易策略
+input bool     EnableRule123 = true;                   // 启用123法则策略
+input bool     EnablePriceAction = true;               // 启用裸K策略
+input bool     EnableVolatilityBreakout = true;        // 启用波动率突破策略
+input bool     EnableBollingerReversion = true;        // 启用布林带回归策略
+input bool     EnableSMC = true;                       // 启用SMC聪明钱概念
+input bool     EnableGoldenCross = true;               // 启用金叉死叉策略
 
 //--- 时间框架配置
-input ENUM_TIMEFRAMES  MainTF = PERIOD_M15;   // 主交易时间框架
-input ENUM_TIMEFRAMES  ConfirmTF = PERIOD_H1;   // 确认时间框架
-input ENUM_TIMEFRAMES  TrendTF = PERIOD_H4;      // 趋势判断时间框架
+input ENUM_TIMEFRAMES  MainTF = PERIOD_M15;            // 主交易时间框架
+input ENUM_TIMEFRAMES  ConfirmTF = PERIOD_H1;          // 确认时间框架
+input ENUM_TIMEFRAMES  TrendTF = PERIOD_H4;            // 趋势判断时间框架
 
 //--- 布林带参数
-input int      BollingerPeriod = 20;                  // 布林带周期
-input double   StdDevMultiplier = 2.0;              // 标准差倍数
-input double   OverboughtThreshold = 70;    // 超买阈值(结合RSI)
-input double   OversoldThreshold = 30;     // 超卖阈值(结合RSI)
-input bool     UseRSIFilter = true;        // 使用RSI过滤信号
+input int      BollingerPeriod = 20;                   // 布林带周期
+input double   StdDevMultiplier = 2.0;                 // 标准差倍数
+input double   OverboughtThreshold = 70;               // 超买阈值(结合RSI)
+input double   OversoldThreshold = 30;                 // 超卖阈值(结合RSI)
+input bool     UseRSIFilter = true;                    // 使用RSI过滤信号
 
 //--- 金叉死叉参数
-input int      FastMAPeriod = 50;                 // 快线周期
-input int      SlowMAPeriod = 200;                // 慢线周期
-input ENUM_MA_METHOD MAMethod = MODE_SMA;   // MA计算方法
-input int      SignalConfirmBars = 2;      // 信号确认柱数
+input int      FastMAPeriod = 50;                      // 快线周期
+input int      SlowMAPeriod = 200;                     // 慢线周期
+input ENUM_MA_METHOD MAMethod = MODE_SMA;              // MA计算方法
+input int      SignalConfirmBars = 2;                  // 信号确认柱数
 
 //--- 策略权重
-input double   TrendFollowingWeight = 0.15;   // 趋势跟踪权重
-input double   MeanReversionWeight = 0.12;    // 均值回归权重
-input double   TurtleTradingWeight = 0.15;     // 海龟交易权重
-input double   Rule123Weight = 0.12;         // 123法则权重
-input double   PriceActionWeight = 0.12;            // 裸K策略权重
-input double   VolatilityBreakoutWeight = 0.12; // 波动率突破权重
-input double   BollingerReversionWeight = 0.11; // 布林带回归权重
-input double   SMCWeight = 0.11;       // SMC聪明钱概念权重
-input double   GoldenCrossWeight = 0.11;       // 金叉死叉权重
+input double   TrendFollowingWeight = 0.15;            // 趋势跟踪权重
+input double   MeanReversionWeight = 0.12;             // 均值回归权重
+input double   TurtleTradingWeight = 0.15;             // 海龟交易权重
+input double   Rule123Weight = 0.12;                   // 123法则权重
+input double   PriceActionWeight = 0.12;                // 裸K策略权重
+input double   VolatilityBreakoutWeight = 0.12;         // 波动率突破权重
+input double   BollingerReversionWeight = 0.11;         // 布林带回归权重
+input double   SMCWeight = 0.11;                       // SMC聪明钱概念权重
+input double   GoldenCrossWeight = 0.11;               // 金叉死叉权重
 
 //--- 止盈止损参数
-input bool     EnableAdaptiveSLTP = true;        // 启用自适应止盈止损
-input double   M15ATRSLMultiplier = 1.5;      // M15周期ATR止损乘数
-input double   M15ATRTPMultiplier = 3.0;       // M15周期ATR止盈乘数
-input double   H1ATRSLMultiplier = 2.0;       // H1周期ATR止损乘数
-input double   H1ATRTPMultiplier = 4.0;        // H1周期ATR止盈乘数
+input bool     EnableAdaptiveSLTP = true;              // 启用自适应止盈止损
+input double   M15ATRSLMultiplier = 1.5;               // M15周期ATR止损乘数
+input double   M15ATRTPMultiplier = 3.0;               // M15周期ATR止盈乘数
+input double   H1ATRSLMultiplier = 2.0;                // H1周期ATR止损乘数
+input double   H1ATRTPMultiplier = 4.0;                // H1周期ATR止盈乘数
 
 //--- AI智能分析参数
-input double   AIConfidenceThreshold = 0.65;
-input bool     EnableDetailedLog = true;
-input int      AIMaxTokens = 1000;            // AI最大返回token数
-input double   AICreativityParam = 0.7;           // AI创造性参数(0-1)
+input double   AIConfidenceThreshold = 0.65;           // AI置信度阈值
+input bool     EnableDetailedLog = true;               // 启用详细日志
+input int      AIMaxTokens = 1000;                     // AI最大返回token数
+input double   AICreativityParam = 0.7;                // AI创造性参数(0-1)
 
 //--- 动态风险参数
-input int      MaxConsecutiveLosses = 3;
-input double   MaxDailyDrawdownPercent = 15.0;
+input int      MaxConsecutiveLosses = 3;               // 最大连续亏损次数
+input double   MaxDailyDrawdownPercent = 15.0;         // 最大日回撤百分比
 
 //--- 市场状态识别参数
-input int      StateUpdateInterval = 3600;          // 状态更新间隔(秒)
-input double   TrendADXThreshold = 25.0;         // ADX>25判断为趋势市
-input double   RangeADXThreshold = 20.0;         // ADX<20判断为震荡市
-input double   BreakoutVolatilityThreshold = 1.8;         // 波动率比率>1.8判断突破
-input bool     EnableEnhancedState = true;      // 启用增强识别功能
+input int      StateUpdateInterval = 3600;             // 状态更新间隔(秒)
+input double   TrendADXThreshold = 25.0;               // ADX>25判断为趋势市
+input double   RangeADXThreshold = 20.0;               // ADX<20判断为震荡市
+input double   BreakoutVolatilityThreshold = 1.8;       // 波动率比率>1.8判断突破
+input bool     EnableEnhancedState = true;             // 启用增强识别功能
 
 //--- 复盘配置
-input bool     EnableDailyReview = true;                // 启用每日自动复盘
-input bool     EnableWeeklyReview = true;                // 启用每周自动复盘
-input bool     EnableMonthlyReview = true;                // 启用每月自动复盘
-input int      DailyReviewHour = 23;                 // 每日复盘时间(小时,0-23)
-input int      WeeklyReviewDay = 6;                   // 每周复盘日(0-6,0=周日)
+input bool     EnableDailyReview = true;               // 启用每日自动复盘
+input bool     EnableWeeklyReview = true;              // 启用每周自动复盘
+input bool     EnableMonthlyReview = true;              // 启用每月自动复盘
+input int      DailyReviewHour = 23;                   // 每日复盘时间(小时,0-23)
+input int      WeeklyReviewDay = 6;                    // 每周复盘日(0-6,0=周日)
 input int      MonthlyReviewDay = 28;                  // 每月复盘日(1-28)
-input bool     GenerateDetailedReport = true;               // 生成详细文本报告
-input string   ReportSavePath = "Reports/";          // 报告保存路径
+input bool     GenerateDetailedReport = true;          // 生成详细文本报告
+input string   ReportSavePath = "Reports/";            // 报告保存路径
 
-//--- 授权信息常量
-const string AuthorizedAccounts = "7277935,277227475"; // 授权账号，用逗号分隔
-const datetime AuthorizationExpiry = D'2025.12.31'; // 授权到期时间
+//--- 新增参数
+input bool     EnableML = false;                       // 启用机器学习
+input double   MLWeight = 0.1;                         // 机器学习权重
+input bool     MartingaleEnabled = false;              // 启用马丁策略
+input bool     GridEnabled = false;                    // 启用网格策略
+input double   AIConfidence = 0.7;                     // AI置信度
+input bool     EnableCustomPrompt = true;              // 启用自定义提示词
 
 //--- 市场状态枚举
-enum MARKET_STATE {
+enum ENUM_MARKET_STATE {
    MARKET_TREND,     // 趋势市
    MARKET_RANGE,     // 震荡市
    MARKET_BREAKOUT   // 突破市
 };
 
-//--- API响应数据结构
-struct DeepSeekResponse {
-   string      id;
-   string      object;
-   int         created;
-   string      model;
-   string      content;
-   string      finish_reason;
-   int         usage_total_tokens;
-   bool        success;
-   string      error_message;
-};
-
-//--- AI决策数据结构
-struct AITradingDecision {
-   string      action;
-   string      symbol;
-   string      direction;
-   double      volume;
-   double      stopLoss;
-   double      takeProfit;
-   double      confidence;
-   string      reasoning;
-   datetime    expiry;
-   bool        closeAll;
-   string      closeSymbol;
-   int         closePositionType;
-};
-
 //--- 策略信号结构
 struct StrategySignal {
-   string      StrategyName;     // 策略名称
-   string      SignalDirection;        // 信号方向(BUY/SELL/HOLD)
-   int         SignalStrength;         // 信号强度(0-100)
-   double      Confidence;       // 置信度(0-1)
+   string      StrategyName;          // 策略名称
+   string      SignalDirection;       // 信号方向(BUY/SELL/HOLD)
+   int         SignalStrength;        // 信号强度(0-100)
+   double      Confidence;            // 置信度(0-1)
    string      DecisionReason;        // 决策理由
-   double      EstimatedWinRate;          // 预估胜率
-   datetime    SignalExpiry;       // 信号有效期
-   string      SMCKeyLevel;        // SMC关键水平
-   double      LiquidityScore;  // 流动性评分
-   double      MLScore;         // 机器学习评分
+   double      EstimatedWinRate;     // 预估胜率
+   datetime    SignalExpiry;          // 信号有效期
+   string      SMCKeyLevel;          // SMC关键水平
+   double      LiquidityScore;        // 流动性评分
+   double      MLScore;               // 机器学习评分
 };
 
 //--- 交易信号结构
@@ -173,7 +149,7 @@ struct TradeSignal {
    int         Strength;
    double      Confidence;
    string      Reason;
-   StrategySignal  StrategyArray[10];  // 固定大小数组
+   StrategySignal StrategyArray[10];  // 固定大小数组
    int         ValidStrategyCount;    // 有效策略数量
 };
 
@@ -207,9 +183,78 @@ struct ReviewStatistics {
    datetime    EndTime;
 };
 
+//--- AI决策结构
+struct AITradingDecision {
+   string      action;
+   string      symbol;
+   string      direction;
+   double      volume;
+   double      stopLoss;
+   double      takeProfit;
+   double      confidence;
+   string      reasoning;
+   datetime    expiry;
+   bool        closeAll;
+   string      closeSymbol;
+   int         closePositionType;
+};
+
+//--- 网格状态结构
+struct GridStatus {
+   double      basePrice;
+   int         currentBuyLevel;
+   int         currentSellLevel;
+};
+
+//--- API响应结构
+struct DeepSeekResponse {
+   string      id;
+   string      object;
+   int         created;
+   string      model;
+   string      content;
+   string      finish_reason;
+   int         usage_total_tokens;
+   bool        success;
+   string      error_message;
+};
+
 //--- 全局变量
-datetime StartTime;  // 系统启动时间
 string   SymbolArray[];
+int      maHandle_TF1[];
+int      maHandle_TF2[];
+int      maHandle_TF3[];
+int      rsiHandle_TF1[];
+int      rsiHandle_TF2[];
+int      atrHandle[];
+int      macdHandle[];
+int      bbandsHandle[];
+int      gcFastMAHandle[];
+int      gcSlowMAHandle[];
+int      adxHandle[];
+
+TradeRecord TradeHistory[1000];
+int      TradeRecordCount = 0;
+ReviewStatistics CurrentStats;
+GridStatus gridStatus[];
+
+//--- 马丁策略参数
+input double   MartingaleStartLot = 0.01;              // 马丁起始手数
+input double   MartingaleMultiplier = 2.0;             // 马丁乘数
+input int      MartingaleMaxLevels = 5;                // 马丁最大层数
+input double   MartingaleTPRatio = 3.0;                // 马丁止盈比率
+input int      MartingaleSLPoints = 500;               // 马丁止损点数
+input bool     MartingaleTrendFilter = true;          // 马丁趋势过滤
+
+//--- 网格策略参数
+input double   GridStartLot = 0.01;                   // 网格起始手数
+input int      GridSpacingPoints = 50;                // 网格间距点数
+input int      GridLevels = 10;                       // 网格层数
+input int      GridTPPoints = 100;                    // 网格止盈点数
+input bool     GridTrendFilter = true;                // 网格趋势过滤
+
+//--- 系统状态变量
+datetime StartTime;
 datetime LastAnalysisTime = 0;
 int      DailyTradeCount = 0;
 double   DailyLoss = 0.0;
@@ -217,27 +262,18 @@ int      ConsecutiveLosses = 0;
 datetime RestStartTime = 0;
 bool     SystemError = false;
 string   ErrorReason = "";
-datetime LastMLPredictionTime = 0;         // 上次预测时间
-double   MLPredictionValue = 0;               // 最新预测值（1为看涨，-1为看跌，0为中性）
-double   MLConfidence = 0.0;             // 最新预测置信度
-MARKET_STATE currentMarketState = MARKET_RANGE; // 当前市场状态
-datetime lastStateUpdate = 0;               // 上次状态更新时间
-datetime LastDailyReviewTime = 0;              // 上次每日复盘时间
-datetime LastWeeklyReviewTime = 0;              // 上次每周复盘时间
-datetime LastMonthlyReviewTime = 0;              // 上次每月复盘时间
+datetime LastMLPredictionTime = 0;
+double   MLPredictionValue = 0;
+double   MLConfidence = 0.0;
+ENUM_MARKET_STATE currentMarketState = MARKET_RANGE;
+datetime lastStateUpdate = 0;
+datetime LastDailyReviewTime = 0;
+datetime LastWeeklyReviewTime = 0;
+datetime LastMonthlyReviewTime = 0;
+bool     AIProcessing = false;
+datetime LastAIDecisionTime = 0;
 
-//--- 指标句柄数组
-int maHandle_TF1[], maHandle_TF2[], maHandle_TF3[];
-int rsiHandle_TF1[], rsiHandle_TF2[], atrHandle[], macdHandle[];
-int bbandsHandle[], gcFastMAHandle[], gcSlowMAHandle[];
-int adxHandle[]; // ADX指标句柄
-
-//--- 交易记录数组
-TradeRecord TradeHistory[1000];  // 固定大小数组
-int      TradeRecordCount = 0;
-ReviewStatistics CurrentStats;
-
-//--- 策略启用状态变量
+//--- 策略启用状态
 bool TrendFollowingEnabled = true;
 bool MeanReversionEnabled = true;
 bool TurtleTradingEnabled = true;
@@ -245,7 +281,7 @@ bool Rule123Enabled = true;
 bool PriceActionEnabled = true;
 bool VolatilityBreakoutEnabled = true;
 bool BollingerReversionEnabled = true;
-bool SMEnabled = true;
+bool SMCEnabled = true;
 bool GoldenCrossEnabled = true;
 
 //+------------------------------------------------------------------+
@@ -255,7 +291,7 @@ int OnInit()
 {
    StartTime = TimeCurrent();
    
-   // === 授权检查 ===
+   // 授权检查
    if(!CheckAuthorization()) {
       SystemError = true;
       ErrorReason = "授权验证失败";
@@ -263,154 +299,63 @@ int OnInit()
    }
 
    // 初始化交易品种
-   int Count = StringSplit(TradingSymbols, ',', SymbolArray);
-   if(Count <= 0) return InitError("无效的交易品种");
-
-   // === 数据检查 ===
-   Print("=== 开始数据检查 ===");
-   for(int i = 0; i < Count; i++) {
-      string symbol = SymbolArray[i];
-      int bars = Bars(symbol, MainTF);
-      Print(symbol, " 在 ", EnumToString(MainTF), " 上有 ", bars, " 根K线");
-   }
-
-   // 初始化指标句柄数组
-   ArrayResize(maHandle_TF1, Count);
-   ArrayResize(maHandle_TF2, Count);
-   ArrayResize(maHandle_TF3, Count);
-   ArrayResize(rsiHandle_TF1, Count);
-   ArrayResize(rsiHandle_TF2, Count);
-   ArrayResize(atrHandle, Count);
-   ArrayResize(macdHandle, Count);
-   ArrayResize(bbandsHandle, Count);
-   ArrayResize(gcFastMAHandle, Count);
-   ArrayResize(gcSlowMAHandle, Count);
-   ArrayResize(adxHandle, Count);
-
-   // === 修复版：指标初始化 ===
-   Print("=== 开始指标初始化（修复版）===");
-   bool allIndicatorsValid = true;
-
-   for(int i = 0; i < Count; i++) {
-      string symbol = SymbolArray[i];
-      
-      // 检查品种是否可用
-      if(!SymbolInfoInteger(symbol, SYMBOL_SELECT)) {
-         Print("警告: 品种 ", symbol, " 不可用，跳过");
-         // 将所有该品种的指标句柄设为无效
-         maHandle_TF1[i] = INVALID_HANDLE;
-         maHandle_TF2[i] = INVALID_HANDLE;
-         maHandle_TF3[i] = INVALID_HANDLE;
-         rsiHandle_TF1[i] = INVALID_HANDLE;
-         rsiHandle_TF2[i] = INVALID_HANDLE;
-         atrHandle[i] = INVALID_HANDLE;
-         macdHandle[i] = INVALID_HANDLE;
-         bbandsHandle[i] = INVALID_HANDLE;
-         gcFastMAHandle[i] = INVALID_HANDLE;
-         gcSlowMAHandle[i] = INVALID_HANDLE;
-         adxHandle[i] = INVALID_HANDLE;
-         continue;
-      }
-
-      Print("初始化指标 for ", symbol);
-
-      // === 修复1: 主时间框架MA指标 ===
-      maHandle_TF1[i] = iMA(symbol, MainTF, 50, 0, MODE_SMA, PRICE_CLOSE);
-      if(maHandle_TF1[i] == INVALID_HANDLE) {
-         Print("错误: 主时间框架MA初始化失败，尝试使用当前时间框架");
-         maHandle_TF1[i] = iMA(symbol, PERIOD_CURRENT, 50, 0, MODE_SMA, PRICE_CLOSE);
-      }
-      if(maHandle_TF1[i] == INVALID_HANDLE) {
-         Print("严重错误: 无法初始化MA指标 - ", symbol);
-         allIndicatorsValid = false;
-      }
-
-      // === 修复2: 确认时间框架MA指标 ===
-      maHandle_TF2[i] = iMA(symbol, ConfirmTF, 100, 0, MODE_SMA, PRICE_CLOSE);
-      if(maHandle_TF2[i] == INVALID_HANDLE) {
-         Print("警告: 确认时间框架MA初始化失败 - ", symbol);
-      }
-
-      // === 修复3: 趋势判断时间框架MA指标 ===
-      maHandle_TF3[i] = iMA(symbol, TrendTF, 200, 0, MODE_SMA, PRICE_CLOSE);
-      if(maHandle_TF3[i] == INVALID_HANDLE) {
-         Print("警告: 趋势时间框架MA初始化失败 - ", symbol);
-      }
-
-      // === 修复4: RSI指标 ===
-      rsiHandle_TF1[i] = iRSI(symbol, MainTF, 14, PRICE_CLOSE);
-      if(rsiHandle_TF1[i] == INVALID_HANDLE) {
-         Print("错误: RSI指标初始化失败 - ", symbol);
-         allIndicatorsValid = false;
-      }
-
-      rsiHandle_TF2[i] = iRSI(symbol, ConfirmTF, 14, PRICE_CLOSE);
-      if(rsiHandle_TF2[i] == INVALID_HANDLE) {
-         Print("警告: 确认时间框架RSI初始化失败 - ", symbol);
-      }
-
-      // === 修复5: ATR指标 ===
-      atrHandle[i] = iATR(symbol, MainTF, 14);
-      if(atrHandle[i] == INVALID_HANDLE) {
-         Print("错误: ATR指标初始化失败 - ", symbol);
-         allIndicatorsValid = false;
-      }
-
-      // === 修复6: MACD指标 ===
-      macdHandle[i] = iMACD(symbol, MainTF, 12, 26, 9, PRICE_CLOSE);
-      if(macdHandle[i] == INVALID_HANDLE) {
-         Print("警告: MACD指标初始化失败 - ", symbol);
-      }
-
-      // === 修复7: 布林带指标 ===
-      bbandsHandle[i] = iBands(symbol, MainTF, BollingerPeriod, 0, StdDevMultiplier, PRICE_CLOSE);
-      if(bbandsHandle[i] == INVALID_HANDLE) {
-         Print("警告: 布林带指标初始化失败 - ", symbol);
-      }
-
-      // === 修复8: 金叉死叉策略MA指标 ===
-      gcFastMAHandle[i] = iMA(symbol, MainTF, FastMAPeriod, 0, MAMethod, PRICE_CLOSE);
-      gcSlowMAHandle[i] = iMA(symbol, MainTF, SlowMAPeriod, 0, MAMethod, PRICE_CLOSE);
-      if(gcFastMAHandle[i] == INVALID_HANDLE || gcSlowMAHandle[i] == INVALID_HANDLE) {
-         Print("警告: 金叉死叉MA指标初始化失败 - ", symbol);
-      }
-
-      // === 修复9: ADX指标 ===
-      adxHandle[i] = iADX(symbol, MainTF, 14);
-      if(adxHandle[i] == INVALID_HANDLE) {
-         Print("警告: ADX指标初始化失败 - ", symbol);
-      }
-
-      // === 修复10: 验证指标数据可用性 ===
-      if(maHandle_TF1[i] != INVALID_HANDLE) {
-         double testMA[1];
-         if(CopyBuffer(maHandle_TF1[i], 0, 0, 1, testMA) <= 0) {
-            Print("警告: MA指标数据获取失败 - ", symbol);
-         } else if(testMA[0] == 0) {
-            Print("警告: MA指标值为0，可能数据不完整 - ", symbol);
-         }
-      }
-
-      if(rsiHandle_TF1[i] != INVALID_HANDLE) {
-         double testRSI[1];
-         if(CopyBuffer(rsiHandle_TF1[i], 0, 0, 1, testRSI) <= 0) {
-            Print("警告: RSI指标数据获取失败 - ", symbol);
-         } else if(testRSI[0] == 0) {
-            Print("警告: RSI指标值为0，可能数据不完整 - ", symbol);
-         }
-      }
-   }
-
-   // === 修复11: 检查整体指标状态 ===
-   if(!allIndicatorsValid) {
-      SystemError = true;
-      ErrorReason = "关键指标初始化失败";
-      Print("!!! 关键指标初始化失败，系统将无法正常工作");
+   int symbolCount = StringSplit(TradingSymbols, ',', SymbolArray);
+   if(symbolCount <= 0) {
+      Print("错误: 无效的交易品种");
       return INIT_FAILED;
    }
 
-   Print("=== 指标初始化完成 ===");
+   // 初始化指标句柄数组
+   ArrayResize(maHandle_TF1, symbolCount);
+   ArrayResize(maHandle_TF2, symbolCount);
+   ArrayResize(maHandle_TF3, symbolCount);
+   ArrayResize(rsiHandle_TF1, symbolCount);
+   ArrayResize(rsiHandle_TF2, symbolCount);
+   ArrayResize(atrHandle, symbolCount);
+   ArrayResize(macdHandle, symbolCount);
+   ArrayResize(bbandsHandle, symbolCount);
+   ArrayResize(gcFastMAHandle, symbolCount);
+   ArrayResize(gcSlowMAHandle, symbolCount);
+   ArrayResize(adxHandle, symbolCount);
+
+   // 初始化网格状态
+   ArrayResize(gridStatus, symbolCount);
+
+   // 为每个品种初始化指标
+   for(int i = 0; i < symbolCount; i++) {
+      string symbol = SymbolArray[i];
+      
+      maHandle_TF1[i] = iMA(symbol, MainTF, 50, 0, MODE_SMA, PRICE_CLOSE);
+      maHandle_TF2[i] = iMA(symbol, ConfirmTF, 100, 0, MODE_SMA, PRICE_CLOSE);
+      maHandle_TF3[i] = iMA(symbol, TrendTF, 200, 0, MODE_SMA, PRICE_CLOSE);
+      rsiHandle_TF1[i] = iRSI(symbol, MainTF, 14, PRICE_CLOSE);
+      rsiHandle_TF2[i] = iRSI(symbol, ConfirmTF, 14, PRICE_CLOSE);
+      atrHandle[i] = iATR(symbol, MainTF, 14);
+      macdHandle[i] = iMACD(symbol, MainTF, 12, 26, 9, PRICE_CLOSE);
+      bbandsHandle[i] = iBands(symbol, MainTF, BollingerPeriod, 0, StdDevMultiplier, PRICE_CLOSE);
+      gcFastMAHandle[i] = iMA(symbol, MainTF, FastMAPeriod, 0, MAMethod, PRICE_CLOSE);
+      gcSlowMAHandle[i] = iMA(symbol, MainTF, SlowMAPeriod, 0, MAMethod, PRICE_CLOSE);
+      adxHandle[i] = iADX(symbol, MainTF, 14);
+
+      // 初始化网格状态
+      gridStatus[i].basePrice = 0;
+      gridStatus[i].currentBuyLevel = 0;
+      gridStatus[i].currentSellLevel = 0;
+      
+      // 验证指标句柄
+      if(maHandle_TF1[i] == INVALID_HANDLE || rsiHandle_TF1[i] == INVALID_HANDLE || atrHandle[i] == INVALID_HANDLE) {
+         Print("错误: 指标初始化失败 - ", symbol);
+         return INIT_FAILED;
+      }
+   }
+
    Print("=== 宇川AI智能交易系统V6.1初始化成功 ===");
+   Print("交易品种: ", TradingSymbols);
+   Print("主时间框架: ", EnumToString(MainTF));
+   Print("AI分析: ", EnableAIAnalysis ? "启用" : "禁用");
+   Print("授权账号: ", AuthorizedAccounts);
+   Print("授权到期: ", TimeToString(AuthorizationExpiry));
+   
    return INIT_SUCCEEDED;
 }
 
@@ -419,44 +364,31 @@ int OnInit()
 //+------------------------------------------------------------------+
 bool CheckAuthorization()
 {
-    // 检查账号授权
-    long CurrentAccount = AccountInfoInteger(ACCOUNT_LOGIN);
-    string AccountList[];
-    int Count = StringSplit(AuthorizedAccounts, ',', AccountList);
-    bool AccountAuthorized = false;
+   long currentAccount = AccountInfoInteger(ACCOUNT_LOGIN);
+   string accountList[];
+   int count = StringSplit(AuthorizedAccounts, ',', accountList);
+   bool accountAuthorized = false;
 
-    for(int i = 0; i < Count; i++) {
-        if(StringToInteger(AccountList[i]) == CurrentAccount) {
-            AccountAuthorized = true;
-            break;
-        }
-    }
+   for(int i = 0; i < count; i++) {
+      if(StringToInteger(accountList[i]) == currentAccount) {
+         accountAuthorized = true;
+         break;
+      }
+   }
 
-    if(!AccountAuthorized) {
-        Print("账号" + IntegerToString(CurrentAccount) + "未授权");
-        return false;
-    }
+   if(!accountAuthorized) {
+      Print("账号 " + IntegerToString(currentAccount) + " 未授权");
+      return false;
+   }
 
-    // 检查时间授权
-    datetime CurrentTime = TimeCurrent();
-    if(CurrentTime > AuthorizationExpiry) {
-        Print("EA使用已过期，当前时间: " + TimeToString(CurrentTime) +
-              " 有效期至: " + TimeToString(AuthorizationExpiry));
-        return false;
-    }
+   datetime currentTime = TimeCurrent();
+   if(currentTime > AuthorizationExpiry) {
+      Print("EA使用已过期，当前时间: " + TimeToString(currentTime) +
+            " 有效期至: " + TimeToString(AuthorizationExpiry));
+      return false;
+   }
 
-    return true;
-}
-
-//+------------------------------------------------------------------+
-//| 初始化错误函数                                                   |
-//+------------------------------------------------------------------+
-int InitError(string Reason)
-{
-   SystemError = true;
-   ErrorReason = Reason;
-   Print("初始化失败: " + Reason);
-   return INIT_FAILED;
+   return true;
 }
 
 //+------------------------------------------------------------------+
@@ -464,70 +396,32 @@ int InitError(string Reason)
 //+------------------------------------------------------------------+
 void OnDeinit(const int reason)
 {
-   // === 释放所有指标句柄 ===
-   Print("开始释放指标资源...");
+   // 释放所有指标句柄
    for(int i = 0; i < ArraySize(SymbolArray); i++) {
-      ReleaseIndicatorHandles(i);
+      if(maHandle_TF1[i] != INVALID_HANDLE) IndicatorRelease(maHandle_TF1[i]);
+      if(maHandle_TF2[i] != INVALID_HANDLE) IndicatorRelease(maHandle_TF2[i]);
+      if(maHandle_TF3[i] != INVALID_HANDLE) IndicatorRelease(maHandle_TF3[i]);
+      if(rsiHandle_TF1[i] != INVALID_HANDLE) IndicatorRelease(rsiHandle_TF1[i]);
+      if(rsiHandle_TF2[i] != INVALID_HANDLE) IndicatorRelease(rsiHandle_TF2[i]);
+      if(atrHandle[i] != INVALID_HANDLE) IndicatorRelease(atrHandle[i]);
+      if(macdHandle[i] != INVALID_HANDLE) IndicatorRelease(macdHandle[i]);
+      if(bbandsHandle[i] != INVALID_HANDLE) IndicatorRelease(bbandsHandle[i]);
+      if(gcFastMAHandle[i] != INVALID_HANDLE) IndicatorRelease(gcFastMAHandle[i]);
+      if(gcSlowMAHandle[i] != INVALID_HANDLE) IndicatorRelease(gcSlowMAHandle[i]);
+      if(adxHandle[i] != INVALID_HANDLE) IndicatorRelease(adxHandle[i]);
    }
    
-   // === 保存交易历史 ===
-   Print("保存交易历史数据...");
+   // 保存交易历史
    SaveTradeHistory();
    
-   // === 生成最终报告 ===
-   if(EnableDailyReview) {
-      GenerateFinalReport(reason);
-   }
+   // 生成最终报告
+   GenerateFinalReport(reason);
    
-   // === 系统停止消息 ===
-   string deinitReason = GetDeinitReasonDescription(reason);
    Print("=== 宇川AI智能交易系统V6.1停止运行 ===");
-   Print("停止原因: ", deinitReason);
    Print("运行时长: ", DoubleToString((TimeCurrent() - StartTime) / 3600.0, 1), " 小时");
    Print("总交易次数: ", TradeRecordCount);
-   Print("=====================================");
 }
 
-//+------------------------------------------------------------------+
-//| 释放指标句柄函数                                                 |
-//+------------------------------------------------------------------+
-void ReleaseIndicatorHandles(int symbolIndex)
-{
-   int handles[] = {
-      maHandle_TF1[symbolIndex], maHandle_TF2[symbolIndex], maHandle_TF3[symbolIndex],
-      rsiHandle_TF1[symbolIndex], rsiHandle_TF2[symbolIndex], atrHandle[symbolIndex],
-      macdHandle[symbolIndex], bbandsHandle[symbolIndex], gcFastMAHandle[symbolIndex],
-      gcSlowMAHandle[symbolIndex], adxHandle[symbolIndex]
-   };
-   
-   for(int i = 0; i < ArraySize(handles); i++) {
-      if(handles[i] != INVALID_HANDLE) {
-         IndicatorRelease(handles[i]);
-         handles[i] = INVALID_HANDLE;
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 获取逆初始化原因描述                                             |
-//+------------------------------------------------------------------+
-string GetDeinitReasonDescription(int reason)
-{
-   switch(reason)
-   {
-      case 0:   return "EA被移除";
-      case 1:   return "图表被关闭";
-      case 2:   return "代码被重新编译";
-      case 3:   return "图表时间框架改变";
-      case 4:   return "图表品种改变";
-      case 5:   return "输入参数改变";
-      case 6:   return "账户改变";
-      case 7:   return "模板改变";
-      case 8:   return "初始化失败";
-      case 9:   return "终端关闭";
-      default:  return "未知原因 (" + IntegerToString(reason) + ")";
-   }
-}
 //+------------------------------------------------------------------+
 //| Tick处理函数                                                     |
 //+------------------------------------------------------------------+
@@ -536,85 +430,63 @@ void OnTick()
    // 检查系统状态
    if(SystemError || !CanTrade()) return;
    
-   datetime CurrentTime = TimeCurrent();
+   datetime currentTime = TimeCurrent();
    
-   // === 新增: 检查指标数据有效性 ===
-   static datetime lastIndicatorCheck = 0;
-   if(TimeCurrent() - lastIndicatorCheck > 3600) { // 每小时检查一次
-      if(!CheckAllIndicatorsValid()) {
-         Print("警告: 指标数据异常，暂停交易");
-         SystemError = true;
-         ErrorReason = "指标数据异常";
-         return;
-      }
-      lastIndicatorCheck = TimeCurrent();
-   }
-   
-   // === AI全自动策略优先执行 ===
+   // AI全自动策略优先执行
    if(EnableAIFullAuto) {
       ExecuteAIFullAutoTrading();
-      return; // AI全自动模式下，不执行其他策略
+      return;
    }
    
-   // === 原有策略执行逻辑 ===
+   // 检查是否在休息期
    if(IsResting()) return;
    
    // 定期更新市场状态
-   if(EnableEnhancedState && CurrentTime - lastStateUpdate >= StateUpdateInterval) {
+   if(EnableEnhancedState && currentTime - lastStateUpdate >= StateUpdateInterval) {
       for(int i = 0; i < ArraySize(SymbolArray); i++) {
          currentMarketState = AnalyzeMarketState(SymbolArray[i], i);
-         lastStateUpdate = CurrentTime;
+         lastStateUpdate = currentTime;
          AdjustStrategyConfig(currentMarketState);
       }
    }
    
    // 定期分析
-   if(CurrentTime - LastAnalysisTime >= AnalysisIntervalSeconds) {
+   if(currentTime - LastAnalysisTime >= AnalysisIntervalSeconds) {
       if(EnableDetailedLog) Print("=== 开始多品种多策略分析 ===");
 
       for(int i = 0; i < ArraySize(SymbolArray); i++) {
-         if(HasPosition(SymbolArray[i])) continue;
-         if(!CheckAdvancedTradeFilter(SymbolArray[i])) continue;
+         string symbol = SymbolArray[i];
+         
+         if(HasPosition(symbol)) continue;
+         if(!CheckTradeConditions(symbol)) continue;
 
-         TradeSignal Signal;
-         if(MultiStrategyAnalysis(SymbolArray[i], i, Signal)) {
-            RecordAIAnalysis(SymbolArray[i], Signal);
+         TradeSignal signal;
+         if(MultiStrategyAnalysis(symbol, i, signal)) {
+            RecordAIAnalysis(symbol, signal);
 
-            if(Signal.Direction != "HOLD" && Signal.Confidence > AIConfidenceThreshold) {
-               double LotSize, StopLoss, TakeProfit;
-               if(CalculateDynamicRisk(SymbolArray[i], Signal, LotSize, StopLoss, TakeProfit, i)) {
-                  // 构建订单注释
-                  string OrderComment = "宇川AI-";
-                  if(Signal.ValidStrategyCount > 0) {
-                     // 使用第一个有效策略的名称和强度
-                     OrderComment += Signal.StrategyArray[0].StrategyName + "+" + IntegerToString(Signal.StrategyArray[0].SignalStrength);
-                  } else {
-                     // 如果没有策略详情，使用综合信号强度
-                     OrderComment += "综合信号+" + IntegerToString(Signal.Strength);
-                  }
+            if(signal.Direction != "HOLD" && signal.Confidence > AIConfidenceThreshold) {
+               double lotSize, stopLoss, takeProfit;
+               if(CalculateRisk(symbol, signal, lotSize, stopLoss, takeProfit, i)) {
+                  string comment = "宇川AI-" + signal.StrategyArray[0].StrategyName + "+" + 
+                                 IntegerToString(signal.StrategyArray[0].SignalStrength);
 
-                  if(ExecuteTrade(SymbolArray[i], Signal.Direction, LotSize, StopLoss, TakeProfit, OrderComment)) {
+                  if(ExecuteTrade(symbol, signal.Direction, lotSize, stopLoss, takeProfit, comment)) {
                      DailyTradeCount++;
-                     RecordTradeDetails(SymbolArray[i], Signal.Direction, LotSize, Signal.StrategyArray[0].EstimatedWinRate,
-                                Signal.StrategyArray[0].StrategyName, OrderComment, StopLoss, TakeProfit, 0);
+                     RecordTrade(symbol, signal.Direction, lotSize, 0, 
+                               signal.StrategyArray[0].StrategyName, comment, stopLoss, takeProfit, 0);
                   }
                }
             }
          }
       }
-      LastAnalysisTime = CurrentTime;
+      LastAnalysisTime = currentTime;
    }
    
    // 检查复盘时机
    CheckReviewTiming();
    
    // 风险检查
-   static datetime LastRiskCheckTime = 0;
-   if(CurrentTime - LastRiskCheckTime >= 60) {
-      CheckRiskManagement();
-      CheckCapitalProtection();
-      LastRiskCheckTime = CurrentTime;
-   }
+   CheckRiskManagement();
 }
 
 //+------------------------------------------------------------------+
@@ -624,8 +496,8 @@ void ExecuteAIFullAutoTrading()
 {
    if(!EnableAIFullAuto || AIProcessing) return;
    
-   datetime CurrentTime = TimeCurrent();
-   if(CurrentTime - LastAIDecisionTime < AIDecisionInterval) return;
+   datetime currentTime = TimeCurrent();
+   if(currentTime - LastAIDecisionTime < AIDecisionInterval) return;
    
    AIProcessing = true;
    
@@ -634,12 +506,12 @@ void ExecuteAIFullAutoTrading()
    }
    
    // 准备AI分析数据
-   string marketData = PrepareAIFullMarketData();
+   string marketData = PrepareAIMarketData();
    string accountData = PrepareAIAccountData();
    string positionData = PrepareAIPositionData();
    
    // 构建完整的AI提示词
-   string fullPrompt = BuildAIFullTradingPrompt(marketData, accountData, positionData);
+   string fullPrompt = BuildAITradingPrompt(marketData, accountData, positionData);
    
    if(AIShowDecisionProcess) {
       Print("AI提示词: ", fullPrompt);
@@ -655,596 +527,288 @@ void ExecuteAIFullAutoTrading()
       }
    }
    
-   LastAIDecisionTime = CurrentTime;
+   LastAIDecisionTime = currentTime;
    AIProcessing = false;
 }
 
 //+------------------------------------------------------------------+
 //| 多策略分析引擎                                                   |
 //+------------------------------------------------------------------+
-bool MultiStrategyAnalysis(string symbol, int symbolIndex, TradeSignal &FinalSignal)
+bool MultiStrategyAnalysis(string symbol, int symbolIndex, TradeSignal &signal)
 {
-   FinalSignal.Direction = "HOLD";
-   FinalSignal.Strength = 0;
-   FinalSignal.Confidence = 0.5;
-   FinalSignal.Reason = "";
-   FinalSignal.ValidStrategyCount = 0;
+   signal.Direction = "HOLD";
+   signal.Strength = 0;
+   signal.Confidence = 0.5;
+   signal.Reason = "";
+   signal.ValidStrategyCount = 0;
 
    // 重置策略数组
-   for(int i = 0; i < 10; i++) {
-      FinalSignal.StrategyArray[i].StrategyName = "";
-      FinalSignal.StrategyArray[i].SignalDirection = "HOLD";
-      FinalSignal.StrategyArray[i].SignalStrength = 0;
-      FinalSignal.StrategyArray[i].Confidence = 0;
-   }
+   ArrayInitialize(signal.StrategyArray, 0);
 
-   StrategySignal StrategyList[10]; // 固定大小数组
-   int ValidCount = 0;
+   StrategySignal strategies[10];
+   int validCount = 0;
 
    // 收集所有策略信号
-   if(TrendFollowingEnabled && ValidCount < 10 && TrendFollowingStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   if(TrendFollowingEnabled && validCount < 10) {
+      if(TrendFollowingStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(MeanReversionEnabled && ValidCount < 10 && MeanReversionStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   
+   if(MeanReversionEnabled && validCount < 10) {
+      if(MeanReversionStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(TurtleTradingEnabled && ValidCount < 10 && TurtleTradingStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   
+   if(TurtleTradingEnabled && validCount < 10) {
+      if(TurtleTradingStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(Rule123Enabled && ValidCount < 10 && Rule123Strategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   
+   if(Rule123Enabled && validCount < 10) {
+      if(Rule123Strategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(PriceActionEnabled && ValidCount < 10 && PriceActionStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   
+   if(PriceActionEnabled && validCount < 10) {
+      if(PriceActionStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(VolatilityBreakoutEnabled && ValidCount < 10 && VolatilityBreakoutStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   
+   if(VolatilityBreakoutEnabled && validCount < 10) {
+      if(VolatilityBreakoutStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(BollingerReversionEnabled && ValidCount < 10 && BollingerStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   
+   if(BollingerReversionEnabled && validCount < 10) {
+      if(BollingerStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(SMEnabled && ValidCount < 10 && SMCStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
+   
+   if(SMCEnabled && validCount < 10) {
+      if(SMCStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
+      }
    }
-   if(GoldenCrossEnabled && ValidCount < 10 && GoldenCrossStrategy(symbol, symbolIndex, StrategyList[ValidCount])) {
-      ValidCount++;
-   }
-
-   // 添加机器学习策略
-   if(EnableML && ValidCount < 10) {
-      double Prediction, Confidence;
-      if(GetMLPrediction(symbol, Prediction, Confidence)) {
-         StrategyList[ValidCount].StrategyName = "MachineLearning";
-         StrategyList[ValidCount].SignalDirection = Prediction > 0.5 ? "BUY" : (Prediction < -0.5 ? "SELL" : "HOLD");
-         StrategyList[ValidCount].SignalStrength = (int)(Confidence * 100);
-         StrategyList[ValidCount].Confidence = Confidence;
-         StrategyList[ValidCount].DecisionReason = "LSTM预测";
-         StrategyList[ValidCount].EstimatedWinRate = 70;
-
-         if(StrategyList[ValidCount].SignalDirection != "HOLD") {
-            ValidCount++;
-         }
+   
+   if(GoldenCrossEnabled && validCount < 10) {
+      if(GoldenCrossStrategy(symbol, symbolIndex, strategies[validCount])) {
+         validCount++;
       }
    }
 
-   if(ValidCount == 0) return false;
+//+------------------------------------------------------------------+
+//| 机器学习策略实现                                                 |
+//+------------------------------------------------------------------+
+bool MachineLearningStrategy(string symbol, int symbolIndex, StrategySignal &signal)
+{
+   signal.StrategyName = "MachineLearning";
+   signal.SignalDirection = "HOLD";
 
-   // 复制策略信号
-   for(int i = 0; i < ValidCount && i < 10; i++) {
-      FinalSignal.StrategyArray[i] = StrategyList[i];
-   }
-   FinalSignal.ValidStrategyCount = ValidCount;
-
-   // 策略信号融合与加权投票
-   int BuyVotes = 0, SellVotes = 0;
-   double TotalStrength = 0, TotalConfidence = 0;
-   string Reason = "策略共识: ";
-
-   for(int i = 0; i < ValidCount; i++) {
-      double Weight = GetStrategyWeight(StrategyList[i].StrategyName);
-
-      if(StrategyList[i].SignalDirection == "BUY") {
-         BuyVotes++;
-         TotalStrength += StrategyList[i].SignalStrength * Weight;
-         TotalConfidence += StrategyList[i].Confidence;
-         Reason += StrategyList[i].StrategyName + "[买] ";
-      } else if(StrategyList[i].SignalDirection == "SELL") {
-         SellVotes++;
-         TotalStrength += StrategyList[i].SignalStrength * Weight;
-         TotalConfidence += StrategyList[i].Confidence;
-         Reason += StrategyList[i].StrategyName + "[卖] ";
+   // 获取机器学习预测
+   double prediction, confidence;
+   if(GetMLPrediction(symbol, prediction, confidence)) {
+      if(prediction > 0.6) {
+         signal.SignalDirection = "BUY";
+         signal.SignalStrength = (int)(confidence * 100);
+         signal.Confidence = confidence;
+         signal.DecisionReason = "LSTM神经网络预测看涨";
+         signal.EstimatedWinRate = 72;
+         signal.MLScore = prediction;
+      } else if(prediction < -0.6) {
+         signal.SignalDirection = "SELL";
+         signal.SignalStrength = (int)(confidence * 100);
+         signal.Confidence = confidence;
+         signal.DecisionReason = "LSTM神经网络预测看跌";
+         signal.EstimatedWinRate = 72;
+         signal.MLScore = prediction;
       }
    }
 
-   // 决策逻辑：多数投票+置信度加权
-   int MinVotesRequired = MathMax(1, ValidCount / 3);
+   signal.SignalExpiry = TimeCurrent() + 1800; // 30分钟有效期
+   return (signal.SignalDirection != "HOLD");
+}
 
-   if(BuyVotes > SellVotes && BuyVotes >= MinVotesRequired) {
-      FinalSignal.Direction = "BUY";
-      FinalSignal.Strength = (int)(TotalStrength / BuyVotes);
-   } else if(SellVotes > BuyVotes && SellVotes >= MinVotesRequired) {
-      FinalSignal.Direction = "SELL";
-      FinalSignal.Strength = (int)(TotalStrength / SellVotes);
-   } else {
-      FinalSignal.Direction = "HOLD";
+//+------------------------------------------------------------------+
+//| 获取机器学习预测函数                                             |
+//+------------------------------------------------------------------+
+bool GetMLPrediction(string symbol, double &Prediction, double &Confidence)
+{
+   if(!EnableML) return false;
+   
+   datetime CurrentTime = TimeCurrent();
+   if(CurrentTime - LastMLPredictionTime < 3600) {
+      Prediction = MLPredictionValue;
+      Confidence = MLConfidence;
+      return true;
+   }
+   
+   // 准备特征数据
+   double features[];
+   if(!PrepareMLFeatures(symbol, features)) {
       return false;
    }
-
-   FinalSignal.Confidence = TotalConfidence / ValidCount;
-   FinalSignal.Reason = Reason;
-
-   // AI增强分析（集成DeepSeek提示词）
-   if(EnableAIAnalysis && EnableCustomPrompt) {
-      string MarketData = PrepareAIData(symbol, symbolIndex, FinalSignal);
-      TradeSignal AISignal;
-      if(GetDeepSeekAnalysis(MarketData, AISignal)) {
-         if(AISignal.Confidence > FinalSignal.Confidence) {
-            FinalSignal.Direction = AISignal.Direction;
-            FinalSignal.Confidence = AISignal.Confidence;
-            FinalSignal.Reason = "AI决策覆盖: " + AISignal.Reason;
-            if(EnableDetailedLog) {
-               Print("DeepSeek AI分析结果: ", AISignal.Direction, " 置信度: ", AISignal.Confidence);
-            }
-         }
+   
+   // 简化的机器学习预测实现
+   // 实际中需要调用机器学习服务API
+   Prediction = 0.0;
+   Confidence = 0.5;
+   
+   // 基于技术指标的简单预测
+   int symbolIndex = GetSymbolIndex(symbol);
+   if(symbolIndex >= 0) {
+      double rsi = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
+      double maFast = GetIndicatorValue(maHandle_TF1[symbolIndex]);
+      double maSlow = GetIndicatorValue(maHandle_TF2[symbolIndex]);
+      double atr = GetIndicatorValue(atrHandle[symbolIndex]);
+      double adx = GetIndicatorValue(adxHandle[symbolIndex]);
+      
+      // 多因子模型
+      double score = 0;
+      
+      // RSI因子
+      if(rsi < 30) score += 0.3;
+      else if(rsi > 70) score -= 0.3;
+      
+      // 均线因子
+      if(maFast > maSlow) score += 0.2;
+      else score -= 0.2;
+      
+      // 波动率因子
+      double volatilityRatio = atr / SymbolInfoDouble(symbol, SYMBOL_BID);
+      if(volatilityRatio > 0.0015) score += 0.1;
+      
+      // 趋势强度因子
+      if(adx > 25) score += 0.2;
+      
+      // 价格动量因子
+      double priceChange[5];
+      if(CopyClose(symbol, MainTF, 0, 5, priceChange) > 0) {
+         double momentum = (priceChange[0] - priceChange[4]) / priceChange[4];
+         if(momentum > 0.002) score += 0.2;
+         else if(momentum < -0.002) score -= 0.2;
+      }
+      
+      Prediction = score;
+      Confidence = 0.6 + MathAbs(score) * 0.4;
+      
+      if(score > 0.5) {
+         Prediction = 1.0;
+      } else if(score < -0.5) {
+         Prediction = -1.0;
       }
    }
+   
+   MLPredictionValue = Prediction;
+   MLConfidence = Confidence;
+   LastMLPredictionTime = CurrentTime;
+   
+   return (Prediction != 0.0);
+}
 
+//+------------------------------------------------------------------+
+//| 准备机器学习特征函数                                             |
+//+------------------------------------------------------------------+
+bool PrepareMLFeatures(string symbol, double &features[])
+{
+   int symbolIndex = GetSymbolIndex(symbol);
+   if(symbolIndex < 0) return false;
+   
+   // 获取技术指标值
+   double rsi = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
+   double maFast = GetIndicatorValue(maHandle_TF1[symbolIndex]);
+   double maSlow = GetIndicatorValue(maHandle_TF2[symbolIndex]);
+   double atr = GetIndicatorValue(atrHandle[symbolIndex]);
+   double adx = GetIndicatorValue(adxHandle[symbolIndex]);
+   
+   // 获取价格数据
+   double close[10], high[10], low[10];
+   if(CopyClose(symbol, MainTF, 0, 10, close) <= 0) return false;
+   if(CopyHigh(symbol, MainTF, 0, 10, high) <= 0) return false;
+   if(CopyLow(symbol, MainTF, 0, 10, low) <= 0) return false;
+   
+   // 计算特征
+   ArrayResize(features, 15);
+   
+   // 1. RSI值
+   features[0] = rsi;
+   
+   // 2. 均线差值比率
+   features[1] = (maFast - maSlow) / SymbolInfoDouble(symbol, SYMBOL_BID);
+   
+   // 3. ATR波动率
+   features[2] = atr / SymbolInfoDouble(symbol, SYMBOL_BID);
+   
+   // 4. ADX趋势强度
+   features[3] = adx;
+   
+   // 5. 价格动量 (5周期)
+   features[4] = (close[0] - close[4]) / close[4];
+   
+   // 6. 价格动量 (10周期)
+   features[5] = (close[0] - close[9]) / close[9];
+   
+   // 7. 最高价突破
+   features[6] = (close[0] - high[ArrayMaximum(high, 1, 9)]) / high[ArrayMaximum(high, 1, 9)];
+   
+   // 8. 最低价突破
+   features[7] = (close[0] - low[ArrayMinimum(low, 1, 9)]) / low[ArrayMinimum(low, 1, 9)];
+   
+   // 9. 价格波动范围
+   features[8] = (high[ArrayMaximum(high, 0, 9)] - low[ArrayMinimum(low, 0, 9)]) / close[0];
+   
+   // 10. 成交量变化 (如果有)
+   if(SymbolInfoInteger(symbol, SYMBOL_TRADE_CALC_MODE) != SYMBOL_CALC_MODE_FOREX) {
+      long volume[5];
+      if(CopyTickVolume(symbol, MainTF, 0, 5, volume) > 0) {
+         features[9] = (double)(volume[0] - volume[4]) / volume[4];
+      }
+   }
+   
+   // 11. RSI动量
+   double rsiValues[5];
+   if(CopyBuffer(rsiHandle_TF1[symbolIndex], 0, 0, 5, rsiValues) > 0) {
+      features[10] = rsiValues[0] - rsiValues[4];
+   }
+   
+   // 12. 布林带位置
+   double upperBand[1], lowerBand[1];
+   if(CopyBuffer(bbandsHandle[symbolIndex], 0, 0, 1, upperBand) > 0 &&
+      CopyBuffer(bbandsHandle[symbolIndex], 2, 0, 1, lowerBand) > 0) {
+      features[11] = (close[0] - lowerBand[0]) / (upperBand[0] - lowerBand[0]);
+   }
+   
+   // 13. MACD信号
+   double macdMain[1], macdSignal[1];
+   if(CopyBuffer(macdHandle[symbolIndex], 0, 0, 1, macdMain) > 0 &&
+      CopyBuffer(macdHandle[symbolIndex], 1, 0, 1, macdSignal) > 0) {
+      features[12] = macdMain[0] - macdSignal[0];
+   }
+   
+   // 14. 价格加速度
+   features[13] = ((close[0] - close[2]) / 2 - (close[2] - close[4]) / 2) / close[0];
+   
+   // 15. 市场状态特征
+   features[14] = (double)currentMarketState;
+   
    return true;
 }
 
 //+------------------------------------------------------------------+
-//| 趋势跟踪策略实现                                                 |
+//| 获取品种索引函数                                                 |
 //+------------------------------------------------------------------+
-bool TrendFollowingStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
+int GetSymbolIndex(string symbol)
 {
-   Signal.StrategyName = "TrendFollowing";
-   Signal.SignalDirection = "HOLD";
-
-   double FastMA[3], SlowMA[3];
-   if(CopyBuffer(maHandle_TF1[symbolIndex], 0, 0, 3, FastMA) <= 0) return false;
-   if(CopyBuffer(maHandle_TF2[symbolIndex], 0, 0, 3, SlowMA) <= 0) return false;
-
-   ArraySetAsSeries(FastMA, true);
-   ArraySetAsSeries(SlowMA, true);
-
-   bool GoldenCross = (FastMA[0] > SlowMA[0]) && (FastMA[1] <= SlowMA[1]);
-   bool DeathCross = (FastMA[0] < SlowMA[0]) && (FastMA[1] >= SlowMA[1]);
-
-   if(GoldenCross) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 75;
-      Signal.Confidence = 0.7;
-      Signal.DecisionReason = "趋势跟踪金叉信号";
-      Signal.EstimatedWinRate = 65;
-   } else if(DeathCross) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 75;
-      Signal.Confidence = 0.7;
-      Signal.DecisionReason = "趋势跟踪死叉信号";
-      Signal.EstimatedWinRate = 65;
+   for(int i = 0; i < ArraySize(SymbolArray); i++) {
+      if(SymbolArray[i] == symbol) return i;
    }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 均值回归策略实现                                                 |
-//+------------------------------------------------------------------+
-bool MeanReversionStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "MeanReversion";
-   Signal.SignalDirection = "HOLD";
-
-   double rsiValue = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
-   double price = SymbolInfoDouble(symbol, SYMBOL_BID);
-
-   if(rsiValue < 30) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 70;
-      Signal.Confidence = 0.65;
-      Signal.DecisionReason = "RSI超卖均值回归";
-      Signal.EstimatedWinRate = 60;
-   } else if(rsiValue > 70) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 70;
-      Signal.Confidence = 0.65;
-      Signal.DecisionReason = "RSI超买均值回归";
-      Signal.EstimatedWinRate = 60;
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 海龟交易策略实现                                                 |
-//+------------------------------------------------------------------+
-bool TurtleTradingStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "TurtleTrading";
-   Signal.SignalDirection = "HOLD";
-
-   double high[20], low[20], close[20];
-   CopyHigh(symbol, MainTF, 0, 20, high);
-   CopyLow(symbol, MainTF, 0, 20, low);
-   CopyClose(symbol, MainTF, 0, 20, close);
-
-   double currentHigh = high[0];
-   double currentLow = low[0];
-   double highest20 = high[ArrayMaximum(high, 0, WHOLE_ARRAY)];
-   double lowest20 = low[ArrayMinimum(low, 0, WHOLE_ARRAY)];
-
-   if(currentHigh >= highest20) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 80;
-      Signal.Confidence = 0.75;
-      Signal.DecisionReason = "海龟交易20日新高突破";
-      Signal.EstimatedWinRate = 65;
-   } else if(currentLow <= lowest20) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 80;
-      Signal.Confidence = 0.75;
-      Signal.DecisionReason = "海龟交易20日新低突破";
-      Signal.EstimatedWinRate = 65;
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 123法则策略实现                                                  |
-//+------------------------------------------------------------------+
-bool Rule123Strategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "Rule123";
-   Signal.SignalDirection = "HOLD";
-
-   double close[10], high[10], low[10];
-   CopyClose(symbol, MainTF, 0, 10, close);
-   CopyHigh(symbol, MainTF, 0, 10, high);
-   CopyLow(symbol, MainTF, 0, 10, low);
-
-   // 简化的123法则实现
-   bool LowerHighs = high[0] < high[1] && high[1] < high[2];
-   bool LowerLows = low[0] < low[1] && low[1] < low[2];
-   bool HigherHighs = high[0] > high[1] && high[1] > high[2];
-   bool HigherLows = low[0] > low[1] && low[1] > low[2];
-
-   if(LowerHighs && LowerLows) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 75;
-      Signal.Confidence = 0.7;
-      Signal.DecisionReason = "123法则看跌信号";
-      Signal.EstimatedWinRate = 62;
-   } else if(HigherHighs && HigherLows) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 75;
-      Signal.Confidence = 0.7;
-      Signal.DecisionReason = "123法则看涨信号";
-      Signal.EstimatedWinRate = 62;
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 裸K策略实现                                                      |
-//+------------------------------------------------------------------+
-bool PriceActionStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "PriceAction";
-   Signal.SignalDirection = "HOLD";
-
-   double open[5], close[5], high[5], low[5];
-   CopyOpen(symbol, MainTF, 0, 5, open);
-   CopyClose(symbol, MainTF, 0, 5, close);
-   CopyHigh(symbol, MainTF, 0, 5, high);
-   CopyLow(symbol, MainTF, 0, 5, low);
-
-   // 简化的裸K分析
-   bool BullishEngulfing = close[0] > open[0] && close[1] < open[1] && close[0] > open[1];
-   bool BearishEngulfing = close[0] < open[0] && close[1] > open[1] && close[0] < open[1];
-
-   if(BullishEngulfing) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 70;
-      Signal.Confidence = 0.65;
-      Signal.DecisionReason = "裸K看涨吞没形态";
-      Signal.EstimatedWinRate = 58;
-   } else if(BearishEngulfing) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 70;
-      Signal.Confidence = 0.65;
-      Signal.DecisionReason = "裸K看跌吞没形态";
-      Signal.EstimatedWinRate = 58;
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 波动率突破策略实现                                               |
-//+------------------------------------------------------------------+
-bool VolatilityBreakoutStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "VolatilityBreakout";
-   Signal.SignalDirection = "HOLD";
-
-   double atrValue = GetIndicatorValue(atrHandle[symbolIndex]);
-   double price = SymbolInfoDouble(symbol, SYMBOL_BID);
-
-   // 简化的波动率突破逻辑
-   if(atrValue > 0.002) { // ATR阈值
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 65;
-      Signal.Confidence = 0.6;
-      Signal.DecisionReason = "波动率突破信号";
-      Signal.EstimatedWinRate = 55;
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 布林带策略实现                                                   |
-//+------------------------------------------------------------------+
-bool BollingerStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "BollingerBands";
-   Signal.SignalDirection = "HOLD";
-
-   // 修复布林带数组访问错误
-   double upperBand[3], middleBand[3], lowerBand[3];
-   if(CopyBuffer(bbandsHandle[symbolIndex], 0, 0, 3, upperBand) <= 0) return false;
-   if(CopyBuffer(bbandsHandle[symbolIndex], 1, 0, 3, middleBand) <= 0) return false;
-   if(CopyBuffer(bbandsHandle[symbolIndex], 2, 0, 3, lowerBand) <= 0) return false;
-
-   double price = SymbolInfoDouble(symbol, SYMBOL_BID);
-   double rsiValue = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
-
-   if(price <= lowerBand[0] && rsiValue < OversoldThreshold) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 80;
-      Signal.Confidence = 0.75;
-      Signal.DecisionReason = "布林带下轨+RSI超卖";
-      Signal.EstimatedWinRate = 68;
-   } else if(price >= upperBand[0] && rsiValue > OverboughtThreshold) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 80;
-      Signal.Confidence = 0.75;
-      Signal.DecisionReason = "布林带上轨+RSI超买";
-      Signal.EstimatedWinRate = 68;
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| SMC策略实现                                                      |
-//+------------------------------------------------------------------+
-bool SMCStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "SMC";
-   Signal.SignalDirection = "HOLD";
-
-   double high[10], low[10];
-   CopyHigh(symbol, MainTF, 0, 10, high);
-   CopyLow(symbol, MainTF, 0, 10, low);
-
-   // 简化的SMC聪明钱概念
-   double HighestResistance = high[ArrayMaximum(high, 0, WHOLE_ARRAY)];
-   double LowestSupport = low[ArrayMinimum(low, 0, WHOLE_ARRAY)];
-   double currentPrice = SymbolInfoDouble(symbol, SYMBOL_BID);
-
-   if(MathAbs(currentPrice - LowestSupport) < 0.0010) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 75;
-      Signal.Confidence = 0.7;
-      Signal.DecisionReason = "SMC支撑位反弹";
-      Signal.EstimatedWinRate = 63;
-      Signal.SMCKeyLevel = "支撑: " + DoubleToString(LowestSupport, 5);
-   } else if(MathAbs(currentPrice - HighestResistance) < 0.0010) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 75;
-      Signal.Confidence = 0.7;
-      Signal.DecisionReason = "SMC阻力位回落";
-      Signal.EstimatedWinRate = 63;
-      Signal.SMCKeyLevel = "阻力: " + DoubleToString(HighestResistance, 5);
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 金叉死叉策略实现                                                 |
-//+------------------------------------------------------------------+
-bool GoldenCrossStrategy(string symbol, int symbolIndex, StrategySignal &Signal)
-{
-   Signal.StrategyName = "GoldenCross";
-   Signal.SignalDirection = "HOLD";
-
-   double fastMA[3], slowMA[3];
-   CopyBuffer(gcFastMAHandle[symbolIndex], 0, 0, 3, fastMA);
-   CopyBuffer(gcSlowMAHandle[symbolIndex], 0, 0, 3, slowMA);
-
-   bool GoldenCross = (fastMA[0] > slowMA[0]) && (fastMA[1] <= slowMA[1]);
-   bool DeathCross = (fastMA[0] < slowMA[0]) && (fastMA[1] >= slowMA[1]);
-
-   if(GoldenCross) {
-      Signal.SignalDirection = "BUY";
-      Signal.SignalStrength = 85;
-      Signal.Confidence = 0.8;
-      Signal.DecisionReason = "金叉信号";
-      Signal.EstimatedWinRate = 70;
-   } else if(DeathCross) {
-      Signal.SignalDirection = "SELL";
-      Signal.SignalStrength = 85;
-      Signal.Confidence = 0.8;
-      Signal.DecisionReason = "死叉信号";
-      Signal.EstimatedWinRate = 70;
-   }
-
-   Signal.SignalExpiry = TimeCurrent() + 3600;
-   return (Signal.SignalDirection != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 获取策略权重函数                                                 |
-//+------------------------------------------------------------------+
-double GetStrategyWeight(string StrategyName)
-{
-   if(StrategyName == "TrendFollowing") return TrendFollowingWeight;
-   if(StrategyName == "MeanReversion") return MeanReversionWeight;
-   if(StrategyName == "TurtleTrading") return TurtleTradingWeight;
-   if(StrategyName == "Rule123") return Rule123Weight;
-   if(StrategyName == "PriceAction") return PriceActionWeight;
-   if(StrategyName == "VolatilityBreakout") return VolatilityBreakoutWeight;
-   if(StrategyName == "BollingerBands") return BollingerReversionWeight;
-   if(StrategyName == "SMC") return SMCWeight;
-   if(StrategyName == "GoldenCross") return GoldenCrossWeight;
-   if(StrategyName == "MachineLearning") return MLWeight;
-   return 0.1;
-}
-
-//+------------------------------------------------------------------+
-//| 执行交易函数                                                     |
-//+------------------------------------------------------------------+
-bool ExecuteTrade(string symbol, string Direction, double LotSize, double StopLoss, double TakeProfit, string comment)
-{
-   if(!CheckMaxPosition(symbol, LotSize)) {
-      Print("手数检查失败: ", symbol, " 手数: ", LotSize);
-      return false;
-   }
-   
-   MqlTradeRequest Request;
-   MqlTradeResult Result;
-   ZeroMemory(Request);
-   ZeroMemory(Result);
-   
-   Request.action = TRADE_ACTION_DEAL;
-   Request.symbol = symbol;
-   Request.volume = LotSize;
-   if(StopLoss > 0) Request.sl = NormalizeDouble(StopLoss, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   if(TakeProfit > 0) Request.tp = NormalizeDouble(TakeProfit, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   Request.deviation = 10;  // 增加偏差容限
-   Request.magic = 2025;
-   Request.comment = comment;
-   
-   if(Direction == "BUY") {
-      Request.type = ORDER_TYPE_BUY;
-      Request.price = NormalizeDouble(SymbolInfoDouble(symbol, SYMBOL_ASK), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   } else {
-      Request.type = ORDER_TYPE_SELL;
-      Request.price = NormalizeDouble(SymbolInfoDouble(symbol, SYMBOL_BID), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   }
-   
-   // 发送订单前再次验证价格
-   if(StopLoss > 0) {
-      double MinStopLevel = SymbolInfoInteger(symbol, SYMBOL_TRADE_STOPS_LEVEL) * Point;
-      if(Direction == "BUY" && Request.price - StopLoss < MinStopLevel) {
-         StopLoss = Request.price - MinStopLevel;
-         Request.sl = NormalizeDouble(StopLoss, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         Print("最终调整买入止损: ", StopLoss);
-      } else if(Direction == "SELL" && StopLoss - Request.price < MinStopLevel) {
-         StopLoss = Request.price + MinStopLevel;
-         Request.sl = NormalizeDouble(StopLoss, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         Print("最终调整卖出止损: ", StopLoss);
-      }
-   }
-   
-   if(EnableDetailedLog) {
-      Print("=== 交易执行请求 ===");
-      Print("品种: ", symbol);
-      Print("方向: ", Direction);
-      Print("手数: ", LotSize);
-      Print("价格: ", Request.price);
-      Print("止损: ", Request.sl);
-      Print("止盈: ", Request.tp);
-      Print("注释: ", comment);
-      Print("=======================");
-   }
-   
-   bool Success = OrderSend(Request, Result);
-   if(Success && Result.retcode == TRADE_RETCODE_DONE) {
-      Print("✅ 交易成功: ", Direction, " ", symbol, " 手数:", LotSize, " 注释:", comment);
-      return true;
-   } else {
-      Print("❌❌❌❌❌❌❌❌ 交易失败: ", Direction, " ", symbol, " 错误代码:", Result.retcode, " 错误描述:", GetRetcodeDescription(Result.retcode));
-      
-      // 详细错误信息
-      Print("请求价格: ", Request.price);
-      Print("请求止损: ", Request.sl);
-      Print("请求止盈: ", Request.tp);
-      Print("结果代码: ", Result.retcode);
-      
-      return false;
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 错误代码描述函数                                                 |
-//+------------------------------------------------------------------+
-string GetRetcodeDescription(int retcode)
-{
-   switch(retcode) {
-      case 0:     return "成功";
-      case 4301:  return "未知符号";
-      case 4302:  return "指标不支持的时间框架";
-      case 4303:  return "指标找不到";
-      case 4304:  return "指标参数数量错误";
-      case 4305:  return "指标参数值错误";
-      case 4306:  return "指标不支持该价格类型";
-      case 10004: return "TRADE_RETCODE_REQUOTE";
-      case 10006: return "TRADE_RETCODE_REJECT";
-      case 10007: return "TRADE_RETCODE_CANCEL";
-      case 10008: return "TRADE_RETCODE_PLACED";
-      case 10009: return "TRADE_RETCODE_DONE";
-      case 10010: return "TRADE_RETCODE_DONE_PARTIAL";
-      case 10011: return "TRADE_RETCODE_ERROR";
-      case 10012: return "TRADE_RETCODE_TIMEOUT";
-      case 10013: return "TRADE_RETCODE_INVALID";
-      case 10014: return "TRADE_RETCODE_INVALID_VOLUME";
-      case 10015: return "TRADE_RETCODE_INVALID_PRICE";
-      case 10016: return "TRADE_RETCODE_INVALID_STOPS";
-      case 10017: return "TRADE_RETCODE_TRADE_DISABLED";
-      case 10018: return "TRADE_RETCODE_MARKET_CLOSED";
-      case 10019: return "TRADE_RETCODE_NO_MONEY";
-      case 10020: return "TRADE_RETCODE_PRICE_CHANGED";
-      case 10021: return "TRADE_RETCODE_PRICE_OFF";
-      case 10022: return "TRADE_RETCODE_INVALID_EXPIRATION";
-      case 10023: return "TRADE_RETCODE_ORDER_CHANGED";
-      case 10024: return "TRADE_RETCODE_TOO_MANY_REQUESTS";
-      case 10025: return "TRADE_RETCODE_NO_CHANGES";
-      case 10026: return "TRADE_RETCODE_SERVER_DISABLES_AT";
-      case 10027: return "TRADE_RETCODE_CLIENT_DISABLES_AT";
-      case 10028: return "TRADE_RETCODE_LOCKED";
-      case 10029: return "TRADE_RETCODE_FROZEN";
-      case 10030: return "TRADE_RETCODE_INVALID_FILL";
-      case 10031: return "TRADE_RETCODE_CONNECTION";
-      case 10032: return "TRADE_RETCODE_ONLY_REAL";
-      case 10033: return "TRADE_RETCODE_LIMIT_ORDERS";
-      case 10034: return "TRADE_RETCODE_LIMIT_VOLUME";
-      case 10035: return "TRADE_RETCODE_INVALID_ORDER";
-      case 10036: return "TRADE_RETCODE_POSITION_CLOSED";
-      case 10037: return "TRADE_RETCODE_INVALID_CLOSE_VOLUME";
-case 10038: return "TRADE_RETCODE_CLOSE_ORDER_EXISTS";
-case 10039: return "TRADE_RETCODE_LIMIT_POSITIONS";
-case 10040: return "TRADE_RETCODE_REJECT_CANCEL";
-case 10041: return "TRADE_RETCODE_LONG_ONLY";
-case 10042: return "TRADE_RETCODE_SHORT_ONLY";
-case 10043: return "TRADE_RETCODE_CLOSE_ONLY";
-case 10044: return "TRADE_RETCODE_FIFO_CLOSE";
-case 10045: return "TRADE_RETCODE_HEDGE_PROHIBITED";
-case 10046: return "TRADE_RETCODE_PROHIBITED_BY_FIFO";
-default: return "未知错误代码 (" + IntegerToString(retcode) + ")";
-}
+   return -1;
 }
 
 //+------------------------------------------------------------------+
@@ -1255,6 +819,454 @@ double GetIndicatorValue(int handle)
    double value[1];
    if(CopyBuffer(handle, 0, 0, 1, value) <= 0) return 0;
    return value[0];
+}
+
+//+------------------------------------------------------------------+
+//| 准备AI市场数据函数                                               |
+//+------------------------------------------------------------------+
+string PrepareAIMarketData()
+{
+   string data = "当前市场状态分析:\n";
+   
+   for(int i = 0; i < ArraySize(SymbolArray); i++) {
+      string symbol = SymbolArray[i];
+      
+      data += "品种: " + symbol + "\n";
+      data += "价格: " + DoubleToString(SymbolInfoDouble(symbol, SYMBOL_BID), 5) + "\n";
+      data += "点差: " + DoubleToString(SymbolInfoDouble(symbol, SYMBOL_ASK) - SymbolInfoDouble(symbol, SYMBOL_BID), 1) + " pips\n";
+      
+      // 技术指标数据
+      data += "RSI(14): " + DoubleToString(GetIndicatorValue(rsiHandle_TF1[i]), 1) + "\n";
+      data += "ATR(14): " + DoubleToString(GetIndicatorValue(atrHandle[i]), 5) + "\n";
+      data += "快慢均线差: " + DoubleToString(GetIndicatorValue(maHandle_TF1[i]) - GetIndicatorValue(maHandle_TF2[i]), 5) + "\n";
+      data += "ADX: " + DoubleToString(GetIndicatorValue(adxHandle[i]), 1) + "\n";
+      
+      // 市场状态
+      data += "市场状态: ";
+      switch(currentMarketState) {
+         case MARKET_TREND: data += "趋势市"; break;
+         case MARKET_RANGE: data += "震荡市"; break;
+         case MARKET_BREAKOUT: data += "突破市"; break;
+      }
+      data += "\n\n";
+   }
+   
+   return data;
+}
+
+//+------------------------------------------------------------------+
+//| 准备AI账户数据函数                                               |
+//+------------------------------------------------------------------+
+string PrepareAIAccountData()
+{
+   string data = "账户状态分析:\n";
+   data += "余额: " + DoubleToString(AccountInfoDouble(ACCOUNT_BALANCE), 2) + " USD\n";
+   data += "净值: " + DoubleToString(AccountInfoDouble(ACCOUNT_EQUITY), 2) + " USD\n";
+   data += "可用保证金: " + DoubleToString(AccountInfoDouble(ACCOUNT_MARGIN_FREE), 2) + " USD\n";
+   data += "保证金比率: " + DoubleToString(AccountInfoDouble(ACCOUNT_MARGIN_LEVEL), 2) + "%\n";
+   data += "当日盈亏: " + DoubleToString(AccountInfoDouble(ACCOUNT_PROFIT), 2) + " USD\n";
+   data += "持仓数量: " + IntegerToString(PositionsTotal()) + "\n";
+   data += "当日交易次数: " + IntegerToString(DailyTradeCount) + "/" + IntegerToString(MaxDailyTrades) + "\n";
+   data += "连续亏损: " + IntegerToString(ConsecutiveLosses) + "/" + IntegerToString(MaxConsecutiveLosses) + "\n\n";
+   
+   return data;
+}
+
+//+------------------------------------------------------------------+
+//| 准备AI持仓数据函数                                               |
+//+------------------------------------------------------------------+
+string PrepareAIPositionData()
+{
+   string data = "当前持仓分析:\n";
+   
+   if(PositionsTotal() == 0) {
+      data += "无持仓\n\n";
+      return data;
+   }
+   
+   for(int i = 0; i < PositionsTotal(); i++) {
+      if(PositionGetTicket(i)) {
+         string symbol = PositionGetString(POSITION_SYMBOL);
+         long type = PositionGetInteger(POSITION_TYPE);
+         double volume = PositionGetDouble(POSITION_VOLUME);
+         double profit = PositionGetDouble(POSITION_PROFIT);
+         double openPrice = PositionGetDouble(POSITION_PRICE_OPEN);
+         string comment = PositionGetString(POSITION_COMMENT);
+         
+         data += symbol + " " + (type == POSITION_TYPE_BUY ? "买入" : "卖出") + 
+                " 手数:" + DoubleToString(volume, 2) + 
+                " 盈亏:" + DoubleToString(profit, 2) + 
+                " 开仓价:" + DoubleToString(openPrice, 5) + 
+                " 注释:" + comment + "\n";
+      }
+   }
+   data += "\n";
+   
+   return data;
+}
+
+//+------------------------------------------------------------------+
+//| 构建AI交易提示词函数                                             |
+//+------------------------------------------------------------------+
+string BuildAITradingPrompt(string marketData, string accountData, string positionData)
+{
+   string prompt = AITradingPrompt + "\n\n";
+   
+   prompt += "=== 市场数据 ===\n";
+   prompt += marketData + "\n";
+   
+   prompt += "=== 账户状态 ===\n";
+   prompt += accountData + "\n";
+   
+   prompt += "=== 持仓情况 ===\n";
+   prompt += positionData + "\n";
+   
+   prompt += "=== 交易指令 ===\n";
+   prompt += "请基于以上分析给出交易建议，包括:\n";
+   prompt += "1. 操作类型(开仓/平仓/观望)\n";
+   prompt += "2. 交易品种\n";
+   prompt += "3. 交易方向(买入/卖出)\n";
+   prompt += "4. 手数大小\n";
+   prompt += "5. 止损位置\n";
+   prompt += "6. 止盈位置\n";
+   prompt += "7. 置信度(0-1)\n";
+   prompt += "8. 决策理由\n\n";
+   
+   prompt += "请用JSON格式返回分析结果。\n";
+   
+   return prompt;
+}
+
+//+------------------------------------------------------------------+
+//| 获取AI交易决策函数                                               |
+//+------------------------------------------------------------------+
+bool GetAITradingDecision(string prompt, AITradingDecision &decision)
+{
+   if(!EnableAIAnalysis || StringLen(DeepSeekAPIKey) < 10) {
+      // 模拟AI决策
+      decision.action = "HOLD";
+      decision.confidence = 0.5;
+      decision.reasoning = "AI分析未启用";
+      return true;
+   }
+   
+   // 构建请求数据
+   string headers = "Content-Type: application/json\r\n";
+   headers += "Authorization: Bearer " + DeepSeekAPIKey + "\r\n";
+   
+   string request_data = "{\n";
+   request_data += "  \"model\": \"deepseek-chat\",\n";
+   request_data += "  \"messages\": [\n";
+   request_data += "    {\n";
+   request_data += "      \"role\": \"user\",\n";
+   request_data += "      \"content\": \"" + EscapeJSONString(prompt) + "\"\n";
+   request_data += "    }\n";
+   request_data += "  ],\n";
+   request_data += "  \"temperature\": " + DoubleToString(AICreativityParam, 1) + ",\n";
+   request_data += "  \"max_tokens\": " + IntegerToString(AIMaxTokens) + ",\n";
+   request_data += "  \"stream\": false\n";
+   request_data += "}";
+   
+   if(EnableAPILog) {
+      Print("=== DeepSeek API请求 ===");
+      Print("URL: ", DeepSeekBaseURL);
+      Print("请求数据: ", request_data);
+   }
+   
+   // 发送HTTP请求
+   uchar result[];
+   string result_headers;
+   int response_code;
+   
+   int res = WebRequest("POST", DeepSeekBaseURL, headers, APITimeout, request_data, result, result_headers, response_code);
+   
+   if(res == -1) {
+      string error_message = "WebRequest错误: " + IntegerToString(GetLastError());
+      if(EnableDetailedLog) Print(error_message);
+      
+      // 模拟响应
+      decision.action = "HOLD";
+      decision.confidence = 0.5;
+      decision.reasoning = "API请求失败: " + error_message;
+      return false;
+   }
+   
+   if(response_code != 200) {
+      string error_msg = "HTTP错误代码: " + IntegerToString(response_code);
+      if(EnableDetailedLog) Print(error_msg);
+      
+      decision.action = "HOLD";
+      decision.confidence = 0.5;
+      decision.reasoning = "API响应错误: " + error_msg;
+      return false;
+   }
+   
+   string response_text = CharArrayToString(result);
+   
+   if(EnableAPILog) {
+      Print("API响应: ", response_text);
+      Print("响应头: ", result_headers);
+      Print("响应代码: ", IntegerToString(response_code));
+   }
+   
+   // 解析AI响应
+   return ParseAIResponse(response_text, decision);
+}
+
+//+------------------------------------------------------------------+
+//| 解析AI响应函数                                                   |
+//+------------------------------------------------------------------+
+bool ParseAIResponse(string response, AITradingDecision &decision)
+{
+   // 简化的响应解析
+   // 实际中需要完整解析JSON响应
+   
+   decision.action = "HOLD";
+   decision.confidence = 0.5;
+   decision.reasoning = "默认分析";
+   
+   if(StringFind(response, "\"action\":\"OPEN\"") >= 0) {
+      decision.action = "OPEN";
+   } else if(StringFind(response, "\"action\":\"CLOSE\"") >= 0) {
+      decision.action = "CLOSE";
+   }
+   
+   if(StringFind(response, "\"direction\":\"BUY\"") >= 0) {
+      decision.direction = "BUY";
+   } else if(StringFind(response, "\"direction\":\"SELL\"") >= 0) {
+      decision.direction = "SELL";
+   }
+   
+   // 提取置信度
+   int confStart = StringFind(response, "\"confidence\":");
+   if(confStart >= 0) {
+      confStart += 13;
+      int confEnd = StringFind(response, ",", confStart);
+      if(confEnd < 0) confEnd = StringFind(response, "}", confStart);
+      if(confEnd > confStart) {
+         string confStr = StringSubstr(response, confStart, confEnd - confStart);
+         decision.confidence = StringToDouble(confStr);
+      }
+   }
+   
+   // 提取理由
+   int reasonStart = StringFind(response, "\"reasoning\":\"");
+   if(reasonStart >= 0) {
+      reasonStart += 13;
+      int reasonEnd = StringFind(response, "\"", reasonStart);
+      if(reasonEnd > reasonStart) {
+         decision.reasoning = StringSubstr(response, reasonStart, reasonEnd - reasonStart);
+      }
+   }
+   
+   return true;
+}
+
+//+------------------------------------------------------------------+
+//| 执行AI决策函数                                                   |
+//+------------------------------------------------------------------+
+void ExecuteAIDecision(AITradingDecision &decision)
+{
+   if(decision.action == "HOLD") {
+      Print("AI决策: 保持观望 - ", decision.reasoning);
+      return;
+   }
+   
+   if(decision.action == "OPEN") {
+      ExecuteAIOpenDecision(decision);
+   } else if(decision.action == "CLOSE") {
+      ExecuteAICloseDecision(decision);
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 执行AI开仓决策函数                                               |
+//+------------------------------------------------------------------+
+void ExecuteAIOpenDecision(AITradingDecision &decision)
+{
+   if(DailyTradeCount >= MaxDailyTrades) {
+      Print("达到每日交易次数限制");
+      return;
+   }
+   
+   if(decision.symbol == "" || decision.direction == "") {
+      Print("AI决策缺少必要参数");
+      return;
+   }
+   
+   int symbolIndex = GetSymbolIndex(decision.symbol);
+   if(symbolIndex < 0) {
+      Print("无效的交易品种: ", decision.symbol);
+      return;
+   }
+   
+   // 计算风险参数
+   double lotSize = CalculateAILotSize(decision.symbol, decision.confidence);
+   double stopLoss = CalculateAISL(decision.symbol, decision.direction, symbolIndex);
+   double takeProfit = CalculateAITP(decision.symbol, decision.direction, stopLoss, symbolIndex);
+   
+   string comment = "AI决策 | 置信度:" + DoubleToString(decision.confidence, 2) + 
+                   " | 理由:" + decision.reasoning;
+   
+   if(ExecuteTrade(decision.symbol, decision.direction, lotSize, stopLoss, takeProfit, comment)) {
+      Print("AI开仓成功: ", decision.direction, " ", decision.symbol);
+      DailyTradeCount++;
+      
+      // 记录交易
+      RecordTrade(decision.symbol, decision.direction, lotSize, 0, 
+                 "AI决策", comment, stopLoss, takeProfit, 0);
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 执行AI平仓决策函数                                               |
+//+------------------------------------------------------------------+
+void ExecuteAICloseDecision(AITradingDecision &decision)
+{
+   if(decision.closeAll) {
+      CloseAllPositions();
+      Print("AI平仓: 所有仓位已平仓");
+   } else if(decision.closeSymbol != "") {
+      CloseSymbolPositions(decision.closeSymbol, decision.closePositionType);
+      Print("AI平仓: ", decision.closeSymbol, " 已平仓");
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 计算AI手数大小函数                                               |
+//+------------------------------------------------------------------+
+double CalculateAILotSize(string symbol, double confidence)
+{
+   double accountBalance = AccountInfoDouble(ACCOUNT_BALANCE);
+   double riskAmount = accountBalance * SingleRiskPercent / 100 * confidence;
+   
+   double pointValue = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_VALUE);
+   double point = SymbolInfoDouble(symbol, SYMBOL_POINT);
+   double stopLossPoints = 30.0; // 默认30点止损
+   
+   if(point > 0 && pointValue > 0) {
+      double lotSize = riskAmount / (stopLossPoints * pointValue);
+      
+      // 调整到合法手数
+      double minLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
+      double maxLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX);
+      double lotStep = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
+      
+      if(lotStep > 0) {
+         lotSize = MathFloor(lotSize / lotStep) * lotStep;
+      }
+      
+      lotSize = MathMax(minLot, MathMin(lotSize, maxLot));
+      
+      return lotSize;
+   }
+   
+   return SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
+}
+
+//+------------------------------------------------------------------+
+//| 计算AI止损函数                                                   |
+//+------------------------------------------------------------------+
+double CalculateAISL(string symbol, string direction, int symbolIndex)
+{
+   double atr = GetIndicatorValue(atrHandle[symbolIndex]);
+   double price = (direction == "BUY") ? SymbolInfoDouble(symbol, SYMBOL_BID) : SymbolInfoDouble(symbol, SYMBOL_ASK);
+   double point = SymbolInfoDouble(symbol, SYMBOL_POINT);
+   
+   if(direction == "BUY") {
+      return price - atr * M15ATRSLMultiplier;
+   } else {
+      return price + atr * M15ATRSLMultiplier;
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 计算AI止盈函数                                                   |
+//+------------------------------------------------------------------+
+double CalculateAITP(string symbol, string direction, double stopLoss, int symbolIndex)
+{
+   double atr = GetIndicatorValue(atrHandle[symbolIndex]);
+   double price = (direction == "BUY") ? SymbolInfoDouble(symbol, SYMBOL_BID) : SymbolInfoDouble(symbol, SYMBOL_ASK);
+   
+   if(direction == "BUY") {
+      return price + atr * M15ATRTPMultiplier;
+   } else {
+      return price - atr * M15ATRTPMultiplier;
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 转义JSON字符串函数                                               |
+//+------------------------------------------------------------------+
+string EscapeJSONString(string input)
+{
+   string output = input;
+   StringReplace(output, "\\", "\\\\");
+   StringReplace(output, "\"", "\\\"");
+   StringReplace(output, "/", "\\/");
+   StringReplace(output, "\b", "\\b");
+   StringReplace(output, "\f", "\\f");
+   StringReplace(output, "\n", "\\n");
+   StringReplace(output, "\r", "\\r");
+   StringReplace(output, "\t", "\\t");
+   return output;
+}
+
+//+------------------------------------------------------------------+
+//| 关闭所有仓位函数                                                 |
+//+------------------------------------------------------------------+
+void CloseAllPositions()
+{
+   for(int i = PositionsTotal()-1; i >= 0; i--) {
+      ulong ticket = PositionGetTicket(i);
+      if(PositionSelectByTicket(ticket)) {
+         trade.PositionClose(ticket);
+         Print("平仓: ", PositionGetString(POSITION_SYMBOL));
+      }
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 关闭指定品种仓位函数                                             |
+//+------------------------------------------------------------------+
+void CloseSymbolPositions(string symbol, int positionType = -1)
+{
+   for(int i = PositionsTotal()-1; i >= 0; i--) {
+      ulong ticket = PositionGetTicket(i);
+      if(PositionSelectByTicket(ticket)) {
+         string posSymbol = PositionGetString(POSITION_SYMBOL);
+         long posType = PositionGetInteger(POSITION_TYPE);
+         
+         if(posSymbol == symbol && (positionType == -1 || posType == positionType)) {
+            trade.PositionClose(ticket);
+            Print("平仓: ", symbol);
+            
+            // 记录平仓信息
+            RecordTradeClose(symbol, posType == POSITION_TYPE_BUY ? "BUY" : "SELL", 
+                           PositionGetDouble(POSITION_VOLUME), PositionGetDouble(POSITION_PROFIT));
+         }
+      }
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 记录平仓交易函数                                                 |
+//+------------------------------------------------------------------+
+void RecordTradeClose(string symbol, string direction, double volume, double profit)
+{
+   if(TradeRecordCount >= 1000) return;
+   
+   // 查找对应的开仓记录并更新盈亏
+   for(int i = 0; i < TradeRecordCount; i++) {
+      if(TradeHistory[i].Symbol == symbol && 
+         TradeHistory[i].Direction == direction &&
+         TradeHistory[i].Profit == 0) { // 未平仓记录
+         
+         TradeHistory[i].Profit = profit;
+         TradeHistory[i].HoldTime = (int)((TimeCurrent() - TradeHistory[i].Time) / 60); // 分钟
+         break;
+      }
+   }
 }
 
 //+------------------------------------------------------------------+
@@ -1269,24 +1281,36 @@ bool HasPosition(string symbol)
 }
 
 //+------------------------------------------------------------------+
-//| 检查最大仓位函数                                                 |
+//| 检查交易条件函数                                                 |
 //+------------------------------------------------------------------+
-bool CheckMaxPosition(string symbol, double lotSize)
+bool CheckTradeConditions(string symbol)
 {
-   double MinLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
-   double MaxLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX);
-   return (lotSize >= MinLot && lotSize <= MaxLot);
-}
-
-//+------------------------------------------------------------------+
-//| 检查高级交易过滤函数                                             |
-//+------------------------------------------------------------------+
-bool CheckAdvancedTradeFilter(string symbol)
-{
-   if(HasPosition(symbol)) return false;
-   if(DailyTradeCount >= MaxDailyTrades) return false;
-   if(SystemError) return false;
-   if(IsResting()) return false;
+   if(HasPosition(symbol)) {
+      if(EnableDetailedLog) Print("跳过 ", symbol, " - 已有持仓");
+      return false;
+   }
+   
+   if(DailyTradeCount >= MaxDailyTrades) {
+      if(EnableDetailedLog) Print("跳过 ", symbol, " - 达到每日交易限制");
+      return false;
+   }
+   
+   if(SystemError) {
+      if(EnableDetailedLog) Print("跳过 ", symbol, " - 系统错误");
+      return false;
+   }
+   
+   if(IsResting()) {
+      if(EnableDetailedLog) Print("跳过 ", symbol, " - 系统休息期");
+      return false;
+   }
+   
+   // 检查交易时间
+   if(!IsTradingTime(symbol)) {
+      if(EnableDetailedLog) Print("跳过 ", symbol, " - 非交易时间");
+      return false;
+   }
+   
    return true;
 }
 
@@ -1303,54 +1327,34 @@ bool IsResting()
 //+------------------------------------------------------------------+
 bool CanTrade()
 {
-   return (DailyTradeCount < MaxDailyTrades && !SystemError);
+   return (DailyTradeCount < MaxDailyTrades && !SystemError && !IsResting());
 }
 
-
-
 //+------------------------------------------------------------------+
-//| 检查风险管理函数                                                 |
+//| 检查交易时间函数                                                 |
 //+------------------------------------------------------------------+
-void CheckRiskManagement()
+bool IsTradingTime(string symbol)
 {
-   double TotalProfit = 0;
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      ulong Ticket = PositionGetTicket(i);
-      if(Ticket > 0 && PositionSelectByTicket(Ticket)) {
-         TotalProfit += PositionGetDouble(POSITION_PROFIT);
-      }
+   // 获取当前时间
+   MqlDateTime timeNow;
+   TimeToStruct(TimeCurrent(), timeNow);
+   
+   // 简单的交易时间检查
+   // 周一至周五，避开重要数据发布时间
+   if(timeNow.day_of_week == 0 || timeNow.day_of_week == 6) { // 周末
+      return false;
    }
-
-   if(TotalProfit < 0) {
-      DailyLoss += -TotalProfit;
-      ConsecutiveLosses++;
+   
+   // 避开市场关闭时间（根据品种调整）
+   if(StringFind(symbol, "XAU") >= 0) {
+      // 黄金交易时间检查
+      if(timeNow.hour < 1 || timeNow.hour > 23) return false;
    } else {
-      ConsecutiveLosses = 0;
+      // 外汇交易时间检查
+      if(timeNow.hour < 2 || timeNow.hour > 22) return false;
    }
-
-   if(ConsecutiveLosses >= MaxConsecutiveLosses) {
-      RestStartTime = TimeCurrent();
-      Print("连续亏损达到限制，系统进入休息期");
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 检查资金保护函数                                                 |
-//+------------------------------------------------------------------+
-void CheckCapitalProtection()
-{
-   double AccountEquity = AccountInfoDouble(ACCOUNT_EQUITY);
-   double AccountBalance = AccountInfoDouble(ACCOUNT_BALANCE);
-
-   if(AccountBalance == 0) return;
-
-   double DrawdownPercent = (AccountBalance - AccountEquity) / AccountBalance * 100;
-
-   if(DrawdownPercent > MaxDailyDrawdownPercent) {
-      SystemError = true;
-      ErrorReason = "资金回撤超过" + DoubleToString(MaxDailyDrawdownPercent, 1) + "%";
-      Print("!!! 风控触发: " + ErrorReason);
-   }
+   
+   return true;
 }
 
 //+------------------------------------------------------------------+
@@ -1372,145 +1376,18 @@ void RecordAIAnalysis(string symbol, TradeSignal &Signal)
       Print("策略", i+1, ": ", Signal.StrategyArray[i].StrategyName,
             " 方向: ", Signal.StrategyArray[i].SignalDirection,
             " 强度: ", Signal.StrategyArray[i].SignalStrength,
-            " 置信度: ", DoubleToString(Signal.StrategyArray[i].Confidence, 2));
+            " 置信度: ", DoubleToString(Signal.StrategyArray[i].Confidence, 2),
+            " 预估胜率: ", DoubleToString(Signal.StrategyArray[i].EstimatedWinRate, 1), "%",
+            " 理由: ", Signal.StrategyArray[i].DecisionReason);
    }
 
    Print("=======================");
 }
 
 //+------------------------------------------------------------------+
-//| 准备AI数据函数                                                   |
+//| 计算风险函数                                                     |
 //+------------------------------------------------------------------+
-string PrepareAIData(string symbol, int symbolIndex, TradeSignal &Signal)
-{
-   string data = "品种:" + symbol;
-   data += " | 价格:" + DoubleToString(SymbolInfoDouble(symbol, SYMBOL_BID), 5);
-   data += " | 点差:" + DoubleToString(SymbolInfoDouble(symbol, SYMBOL_ASK) - SymbolInfoDouble(symbol, SYMBOL_BID), 1);
-   
-   // 添加技术指标数据
-   data += " | RSI:" + DoubleToString(GetIndicatorValue(rsiHandle_TF1[symbolIndex]), 1);
-   data += " | ATR:" + DoubleToString(GetIndicatorValue(atrHandle[symbolIndex]), 5);
-   data += " | MA快线:" + DoubleToString(GetIndicatorValue(maHandle_TF1[symbolIndex]), 5);
-   data += " | MA慢线:" + DoubleToString(GetIndicatorValue(maHandle_TF2[symbolIndex]), 5);
-   
-   // 添加信号信息
-   data += " | 信号方向:" + Signal.Direction;
-   data += " | 信号强度:" + IntegerToString(Signal.Strength);
-   data += " | 置信度:" + DoubleToString(Signal.Confidence, 2);
-   data += " | 策略数量:" + IntegerToString(Signal.ValidStrategyCount);
-   
-   return data;
-}
-
-//+------------------------------------------------------------------+
-//| 获取DeepSeek分析函数                                             |
-//+------------------------------------------------------------------+
-bool GetDeepSeekAnalysis(string MarketData, TradeSignal &AISignal)
-{
-   AISignal.Direction = "HOLD";
-   AISignal.Confidence = 0.5;
-   AISignal.Reason = "AI分析待实现";
-
-   if(!EnableAIAnalysis) return false;
-
-   // 构建完整的提示词
-   string FullPrompt = BuildAIPrompt(MarketData);
-
-   if(EnableDetailedLog) {
-      Print("=== DeepSeek AI分析提示词 ===");
-      Print(FullPrompt);
-      Print("=======================");
-   }
-
-   // 模拟AI分析结果
-   if(StringFind(MarketData, "BUY") >= 0 || StringFind(MarketData, "金叉") >= 0 || StringFind(MarketData, "超卖") >= 0) {
-      AISignal.Direction = "BUY";
-      AISignal.Confidence = 0.75;
-      AISignal.Reason = "DeepSeek分析: 技术指标显示看涨信号，符合多时间框架共振条件";
-   } else if(StringFind(MarketData, "SELL") >= 0 || StringFind(MarketData, "死叉") >= 0 || StringFind(MarketData, "超买") >= 0) {
-      AISignal.Direction = "SELL";
-      AISignal.Confidence = 0.75;
-      AISignal.Reason = "DeepSeek分析: 技术指标显示看跌信号，建议关注风险控制";
-   } else {
-      AISignal.Direction = "HOLD";
-      AISignal.Confidence = 0.6;
-      AISignal.Reason = "DeepSeek分析: 市场信号不明确，建议观望等待更好机会";
-   }
-
-   if(EnableDetailedLog) {
-      Print("=== DeepSeek AI决策过程 ===");
-      Print("市场数据: ", MarketData);
-      Print("AI分析结果: ", AISignal.Direction);
-      Print("AI置信度: ", AISignal.Confidence);
-      Print("AI理由: ", AISignal.Reason);
-      Print("=======================");
-   }
-
-   return (AISignal.Direction != "HOLD");
-}
-
-//+------------------------------------------------------------------+
-//| 构建AI提示词函数                                                 |
-//+------------------------------------------------------------------+
-string BuildAIPrompt(string MarketData)
-{
-   string prompt = "你是一名专业量化交易分析师，请基于以下市场数据给出交易建议：\n\n";
-   prompt += MarketData + "\n\n";
-   prompt += "请从以下选项中选择：\n";
-   prompt += "1. BUY - 强烈看涨，建议买入\n";
-   prompt += "2. SELL - 强烈看跌，建议卖出\n";
-   prompt += "3. HOLD - 信号不明确，建议观望\n\n";
-   prompt += "请用JSON格式返回：{\"direction\":\"BUY/SELL/HOLD\",\"confidence\":0.0-1.0,\"reason\":\"分析理由\"}";
-   
-   return prompt;
-}
-
-//+------------------------------------------------------------------+
-//| 执行交易函数                                                     |
-//+------------------------------------------------------------------+
-bool ExecuteTrade(string symbol, string Direction, double LotSize, double StopLoss, double TakeProfit, string comment)
-{
-   if(!CheckMaxPosition(symbol, LotSize)) {
-      Print("手数检查失败: ", symbol, " 手数: ", LotSize);
-      return false;
-   }
-   
-   MqlTradeRequest Request;
-   MqlTradeResult Result;
-   ZeroMemory(Request);
-   ZeroMemory(Result);
-   
-   Request.action = TRADE_ACTION_DEAL;
-   Request.symbol = symbol;
-   Request.volume = LotSize;
-   if(StopLoss > 0) Request.sl = NormalizeDouble(StopLoss, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   if(TakeProfit > 0) Request.tp = NormalizeDouble(TakeProfit, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   Request.deviation = 10;
-   Request.magic = 2025;
-   Request.comment = comment;
-   
-   if(Direction == "BUY") {
-      Request.type = ORDER_TYPE_BUY;
-      Request.price = NormalizeDouble(SymbolInfoDouble(symbol, SYMBOL_ASK), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   } else {
-      Request.type = ORDER_TYPE_SELL;
-      Request.price = NormalizeDouble(SymbolInfoDouble(symbol, SYMBOL_BID), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-   }
-   
-   bool Success = OrderSend(Request, Result);
-   if(Success && Result.retcode == TRADE_RETCODE_DONE) {
-      Print("交易成功: ", Direction, " ", symbol, " 手数:", LotSize);
-      return true;
-   } else {
-      Print("交易失败: ", Direction, " ", symbol, " 错误代码:", Result.retcode, " 错误描述:", GetRetcodeDescription(Result.retcode));
-      return false;
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 计算动态风险函数                                                 |
-//+------------------------------------------------------------------+
-bool CalculateDynamicRisk(string symbol, TradeSignal &Signal, double &LotSize, double &StopLoss, double &TakeProfit, int symbolIndex)
+bool CalculateRisk(string symbol, TradeSignal &Signal, double &LotSize, double &StopLoss, double &TakeProfit, int symbolIndex)
 {
    double AccountBalance = AccountInfoDouble(ACCOUNT_BALANCE);
    if(AccountBalance <= 0) return false;
@@ -1559,13 +1436,6 @@ bool CalculateDynamicRisk(string symbol, TradeSignal &Signal, double &LotSize, d
    
    LotSize = MathMax(MinLot, MathMin(LotSize, MaxLot));
    
-   if(LotSize < MinLot) {
-      LotSize = MinLot;
-   }
-   if(LotSize > MaxLot) {
-      LotSize = MaxLot;
-   }
-   
    if(Signal.Direction == "BUY") {
       StopLoss = CurrentPrice - StopLossPoints * Point;
       TakeProfit = CurrentPrice + TakeProfitPoints * Point;
@@ -1611,9 +1481,90 @@ bool CalculateDynamicRisk(string symbol, TradeSignal &Signal, double &LotSize, d
 }
 
 //+------------------------------------------------------------------+
-//| 记录交易详情函数                                                 |
+//| 执行交易函数                                                     |
 //+------------------------------------------------------------------+
-void RecordTradeDetails(string symbol, string direction, double volume, double winRate, string strategy, string comment, double sl, double tp, int holdTime)
+bool ExecuteTrade(string symbol, string Direction, double LotSize, double StopLoss, double TakeProfit, string comment)
+{
+   if(!CheckMaxPosition(symbol, LotSize)) {
+      Print("手数检查失败: ", symbol, " 手数: ", LotSize);
+      return false;
+   }
+   
+   MqlTradeRequest Request;
+   MqlTradeResult Result;
+   ZeroMemory(Request);
+   ZeroMemory(Result);
+   
+   Request.action = TRADE_ACTION_DEAL;
+   Request.symbol = symbol;
+   Request.volume = LotSize;
+   if(StopLoss > 0) Request.sl = NormalizeDouble(StopLoss, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
+   if(TakeProfit > 0) Request.tp = NormalizeDouble(TakeProfit, (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
+   Request.deviation = 10;
+   Request.magic = 2025;
+   Request.comment = comment;
+   
+   if(Direction == "BUY") {
+      Request.type = ORDER_TYPE_BUY;
+      Request.price = NormalizeDouble(SymbolInfoDouble(symbol, SYMBOL_ASK), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
+   } else {
+      Request.type = ORDER_TYPE_SELL;
+      Request.price = NormalizeDouble(SymbolInfoDouble(symbol, SYMBOL_BID), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
+   }
+   
+   bool Success = OrderSend(Request, Result);
+   if(Success && Result.retcode == TRADE_RETCODE_DONE) {
+      Print("交易成功: ", Direction, " ", symbol, " 手数:", LotSize, " 注释:", comment);
+      return true;
+   } else {
+      Print("交易失败: ", Direction, " ", symbol, " 错误代码:", Result.retcode, " 错误描述:", GetRetcodeDescription(Result.retcode));
+      return false;
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 检查最大仓位函数                                                 |
+//+------------------------------------------------------------------+
+bool CheckMaxPosition(string symbol, double lotSize)
+{
+   double MinLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
+   double MaxLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX);
+   return (lotSize >= MinLot && lotSize <= MaxLot);
+}
+
+//+------------------------------------------------------------------+
+//| 错误代码描述函数                                                 |
+//+------------------------------------------------------------------+
+string GetRetcodeDescription(int retcode)
+{
+   switch(retcode) {
+      case 0:     return "成功";
+      case 10004: return "TRADE_RETCODE_REQUOTE";
+      case 10006: return "TRADE_RETCODE_REJECT";
+      case 10007: return "TRADE_RETCODE_CANCEL";
+      case 10008: return "TRADE_RETCODE_PLACED";
+      case 10009: return "TRADE_RETCODE_DONE";
+      case 10010: return "TRADE_RETCODE_DONE_PARTIAL";
+      case 10011: return "TRADE_RETCODE_ERROR";
+      case 10012: return "TRADE_RETCODE_TIMEOUT";
+      case 10013: return "TRADE_RETCODE_INVALID";
+      case 10014: return "TRADE_RETCODE_INVALID_VOLUME";
+      case 10015: return "TRADE_RETCODE_INVALID_PRICE";
+      case 10016: return "TRADE_RETCODE_INVALID_STOPS";
+      case 10017: return "TRADE_RETCODE_TRADE_DISABLED";
+      case 10018: return "TRADE_RETCODE_MARKET_CLOSED";
+      case 10019: return "TRADE_RETCODE_NO_MONEY";
+      case 10020: return "TRADE_RETCODE_PRICE_CHANGED";
+      case 10021: return "TRADE_RETCODE_PRICE_OFF";
+      default:    return "未知错误代码 (" + IntegerToString(retcode) + ")";
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 记录交易函数                                                     |
+//+------------------------------------------------------------------+
+void RecordTrade(string symbol, string direction, double volume, double profit, 
+                 string strategy, string comment, double sl, double tp, int holdTime)
 {
    if(TradeRecordCount >= 1000) return;
    
@@ -1621,7 +1572,7 @@ void RecordTradeDetails(string symbol, string direction, double volume, double w
    TradeHistory[TradeRecordCount].Symbol = symbol;
    TradeHistory[TradeRecordCount].Direction = direction;
    TradeHistory[TradeRecordCount].Volume = volume;
-   TradeHistory[TradeRecordCount].Profit = 0; // 初始化为0，实际盈亏在平仓时更新
+   TradeHistory[TradeRecordCount].Profit = profit;
    TradeHistory[TradeRecordCount].Strategy = strategy;
    TradeHistory[TradeRecordCount].Comment = comment;
    TradeHistory[TradeRecordCount].SL = sl;
@@ -1661,6 +1612,54 @@ void SaveTradeHistory()
    
    FileClose(handle);
    Print("交易历史已保存，记录数: ", TradeRecordCount);
+}
+
+//+------------------------------------------------------------------+
+//| 检查风险管理函数                                                 |
+//+------------------------------------------------------------------+
+void CheckRiskManagement()
+{
+   double TotalProfit = 0;
+   for(int i = PositionsTotal() - 1; i >= 0; i--) {
+      ulong Ticket = PositionGetTicket(i);
+      if(Ticket > 0 && PositionSelectByTicket(Ticket)) {
+         TotalProfit += PositionGetDouble(POSITION_PROFIT);
+      }
+   }
+
+   if(TotalProfit < 0) {
+      DailyLoss += -TotalProfit;
+      ConsecutiveLosses++;
+   } else {
+      ConsecutiveLosses = 0;
+   }
+
+   if(ConsecutiveLosses >= MaxConsecutiveLosses) {
+      RestStartTime = TimeCurrent();
+      Print("连续亏损达到限制，系统进入休息期");
+   }
+
+   // 检查资金保护
+   CheckCapitalProtection();
+}
+
+//+------------------------------------------------------------------+
+//| 检查资金保护函数                                                 |
+//+------------------------------------------------------------------+
+void CheckCapitalProtection()
+{
+   double AccountEquity = AccountInfoDouble(ACCOUNT_EQUITY);
+   double AccountBalance = AccountInfoDouble(ACCOUNT_BALANCE);
+
+   if(AccountBalance == 0) return;
+
+   double DrawdownPercent = (AccountBalance - AccountEquity) / AccountBalance * 100;
+
+   if(DrawdownPercent > MaxDailyDrawdownPercent) {
+      SystemError = true;
+      ErrorReason = "资金回撤超过" + DoubleToString(MaxDailyDrawdownPercent, 1) + "%";
+      Print("!!! 风控触发: " + ErrorReason);
+   }
 }
 
 //+------------------------------------------------------------------+
@@ -1723,6 +1722,56 @@ void ExecuteDailyReview()
 }
 
 //+------------------------------------------------------------------+
+//| 执行每周复盘函数                                                 |
+//+------------------------------------------------------------------+
+void ExecuteWeeklyReview()
+{
+   Print("=== 开始每周复盘 ===");
+   
+   datetime WeekStart = iTime(Symbol(), PERIOD_W1, 0);
+   datetime WeekEnd = TimeCurrent();
+   
+   ReviewStatistics WeekStats = CalculatePeriodStats(WeekStart, WeekEnd);
+   string ReportContent = GenerateWeeklyReport(WeekStats);
+   
+   string FileName = "WeeklyReview_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
+   SaveReport(FileName, ReportContent);
+   
+   if(EnableAIAnalysis) {
+      string AIAnalysis = GetReviewAIAnalysis(WeekStats, "每周");
+      Print("AI每周分析: ", AIAnalysis);
+      SaveReport("AIAnalysis_Weekly_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
+   }
+   
+   Print("每周复盘完成");
+}
+
+//+------------------------------------------------------------------+
+//| 执行每月复盘函数                                                 |
+//+------------------------------------------------------------------+
+void ExecuteMonthlyReview()
+{
+   Print("=== 开始每月复盘 ===");
+   
+   datetime MonthStart = iTime(Symbol(), PERIOD_MN1, 0);
+   datetime MonthEnd = TimeCurrent();
+   
+   ReviewStatistics MonthStats = CalculatePeriodStats(MonthStart, MonthEnd);
+   string ReportContent = GenerateMonthlyReport(MonthStats);
+   
+   string FileName = "MonthlyReview_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
+   SaveReport(FileName, ReportContent);
+   
+   if(EnableAIAnalysis) {
+      string AIAnalysis = GetReviewAIAnalysis(MonthStats, "每月");
+      Print("AI每月分析: ", AIAnalysis);
+      SaveReport("AIAnalysis_Monthly_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
+   }
+   
+   Print("每月复盘完成");
+}
+
+//+------------------------------------------------------------------+
 //| 计算周期统计函数                                                 |
 //+------------------------------------------------------------------+
 ReviewStatistics CalculatePeriodStats(datetime StartTime, datetime EndTime)
@@ -1769,539 +1818,23 @@ ReviewStatistics CalculatePeriodStats(datetime StartTime, datetime EndTime)
    if(Stats.TotalTrades > 0) {
       Stats.WinRate = (double)Stats.WinTrades / Stats.TotalTrades * 100;
       Stats.AvgProfit = Stats.TotalProfit / Stats.TotalTrades;
+      
+      // 计算盈亏比
+      double TotalWin = 0, TotalLoss = 0;
+      for(int i = 0; i < TradeRecordCount; i++) {
+         if(TradeHistory[i].Time >= StartTime && TradeHistory[i].Time <= EndTime) {
+            if(TradeHistory[i].Profit > 0) TotalWin += TradeHistory[i].Profit;
+            else TotalLoss += MathAbs(TradeHistory[i].Profit);
+         }
+      }
+      
+      if(TotalLoss > 0) {
+         Stats.ProfitFactor = TotalWin / TotalLoss;
+      } else {
+         Stats.ProfitFactor = 0;
+      }
    }
    
-   return Stats;
-}
-//+------------------------------------------------------------------+
-//| 市场状态分析函数                                                 |
-//+------------------------------------------------------------------+
-MARKET_STATE AnalyzeMarketState(string symbol, int symbolIndex)
-{
-   // 获取多时间框架数据
-   double atrValue = GetIndicatorValue(atrHandle[symbolIndex]);
-   double rsiValue = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
-   double adxValue = GetIndicatorValue(adxHandle[symbolIndex]);
-
-   // 获取价格波动范围
-   double high[20], low[20];
-   CopyHigh(symbol, PERIOD_H1, 0, 20, high);
-   CopyLow(symbol, PERIOD_H1, 0, 20, low);
-
-   double rangeSize = 0;
-   for(int i=0; i<20; i++) {
-      rangeSize += (high[i] - low[i]);
-   }
-   rangeSize /= 20;
-
-   // 构建AI分析提示词
-   string marketData = "品种:" + symbol;
-   marketData += " | ATR:" + DoubleToString(atrValue, 5);
-   marketData += " | RSI:" + DoubleToString(rsiValue, 1);
-   marketData += " | ADX:" + DoubleToString(adxValue, 1);
-   marketData += " | 平均波动范围:" + DoubleToString(rangeSize, 5);
-   marketData += " | 价格:" + DoubleToString(SymbolInfoDouble(symbol, SYMBOL_BID), 5);
-
-   // 添加K线形态数据
-   marketData += " | K线数据:" + CollectCandleData(symbol, PERIOD_H1);
-
-   // 构建AI提示词
-   string prompt = "你是一名专业量化分析师，请基于以下市场数据判断当前市场状态：\n";
-   prompt += marketData + "\n\n";
-   prompt += "请从以下三种状态中选择最符合当前市场的状态：\n";
-   prompt += "1. 趋势市（TREND）- 价格持续朝一个方向运动，ADX>25\n";
-   prompt += "2. 震荡市（RANGE）- 价格在固定区间内波动，ADX<20\n";
-   prompt += "3. 突破市（BREAKOUT）- 价格突破关键支撑/阻力位，波动率突然增大\n";
-   prompt += "请用JSON格式返回分析结果：{\"state\":\"状态\", \"confidence\":0.0-1.0, \"reason\":\"分析理由\"}";
-
-   // 调用DeepSeek API
-   string response = CallDeepSeekAPI(prompt);
-
-   // 解析AI响应
-   MARKET_STATE detectedState = MARKET_RANGE;
-   double confidence = 0.7;
-   string reason = "默认分析";
-
-   if(StringFind(response, "\"state\":\"TREND\"") >= 0) {
-      detectedState = MARKET_TREND;
-   }
-   else if(StringFind(response, "\"state\":\"BREAKOUT\"") >= 0) {
-      detectedState = MARKET_BREAKOUT;
-   }
-
-   // 更新日志
-   if(EnableDetailedLog) {
-      Print("=== 市场状态分析 ===");
-      Print("品种: ", symbol);
-      Print("ATR: ", atrValue);
-      Print("RSI: ", rsiValue);
-      Print("ADX: ", adxValue);
-      Print("平均波动范围: ", rangeSize);
-      Print("AI分析结果: ", detectedState);
-      Print("置信度: ", confidence);
-      Print("理由: ", reason);
-      Print("===================");
-   }
-
-   return detectedState;
-}
-
-//+------------------------------------------------------------------+
-//| 策略配置调整函数                                                 |
-//+------------------------------------------------------------------+
-void AdjustStrategyConfig(MARKET_STATE state)
-{
-   switch(state) {
-      case MARKET_TREND:
-         // 趋势市配置
-         TrendFollowingEnabled = true;
-         TurtleTradingEnabled = true;
-         GoldenCrossEnabled = true;
-         MartingaleEnabled = false;     // 趋势市禁用马丁
-         GridEnabled = true;       // 只在趋势方向开网格
-         MeanReversionEnabled = false;      // 禁用反转策略
-         BollingerReversionEnabled = false;
-         Print("切换到趋势市策略组合");
-         break;
-
-      case MARKET_RANGE:
-         // 震荡市配置
-         TrendFollowingEnabled = false;
-         TurtleTradingEnabled = false;
-         GoldenCrossEnabled = false;
-         MartingaleEnabled = true;       // 震荡市启用马丁
-         GridEnabled = false;      // 震荡市禁用网格
-         MeanReversionEnabled = true;       // 启用反转策略
-         BollingerReversionEnabled = true;
-         Print("切换到震荡市策略组合");
-         break;
-
-      case MARKET_BREAKOUT:
-         // 突破市配置
-         TrendFollowingEnabled = true;
-         TurtleTradingEnabled = true;
-         VolatilityBreakoutEnabled = true;
-         MartingaleEnabled = false;     // 突破市禁用马丁
-         GridEnabled = false;    // 突破市禁用网格
-         MeanReversionEnabled = false;    // 禁用反转策略
-         BollingerReversionEnabled = false;
-         Print("切换到突破市策略组合");
-         break;
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 马丁策略管理函数                                                 |
-//+------------------------------------------------------------------+
-void ManageMartingale(string symbol, int symbolIndex)
-{
-   if(!MartingaleEnabled || currentMarketState != MARKET_RANGE) return;
-
-   // 获取该品种的持仓
-   int positionCount = 0;
-   double totalVolume = 0;
-   double avgPrice = 0;
-   for(int i = PositionsTotal()-1; i>=0; i--)
-   {
-      if(PositionGetSymbol(i) == symbol &&
-         StringFind(PositionGetString(POSITION_COMMENT), "马丁") >= 0)
-      {
-         positionCount++;
-         totalVolume += PositionGetDouble(POSITION_VOLUME);
-         avgPrice += PositionGetDouble(POSITION_PRICE_OPEN) *
-                    PositionGetDouble(POSITION_VOLUME);
-      }
-   }
-
-   if(positionCount > 0) {
-      avgPrice /= totalVolume;
-
-      // 检查是否达到最大层数
-      if(positionCount >= MartingaleMaxLevels) {
-         Print("马丁策略已达最大层数:", symbol);
-         return;
-      }
-
-      // 检查是否需要加仓
-      double currentPrice = SymbolInfoDouble(symbol, SYMBOL_BID);
-      double priceDiff = MathAbs(currentPrice - avgPrice) /
-                         SymbolInfoDouble(symbol, SYMBOL_POINT);
-
-      // 加仓条件：亏损达到平均持仓成本的1.5倍ATR
-      double atrValue = GetIndicatorValue(atrHandle[symbolIndex]);
-      if(priceDiff > 1.5 * atrValue / SymbolInfoDouble(symbol, SYMBOL_POINT))
-      {
-         // 趋势过滤：只在趋势方向加仓
-         if(MartingaleTrendFilter) {
-            double maFast = GetIndicatorValue(maHandle_TF1[symbolIndex]);
-            double maSlow = GetIndicatorValue(maHandle_TF2[symbolIndex]);
-            bool trendUp = (maFast > maSlow);
-
-            // 检查当前持仓方向
-            bool isLong = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY);
-
-            if((isLong && !trendUp) || (!isLong && trendUp)) {
-               Print("马丁策略趋势过滤阻止加仓:", symbol);
-               return;
-            }
-         }
-
-         // 计算新手数
-         double newVolume = MartingaleStartLot * MathPow(MartingaleMultiplier, positionCount);
-
-         // 执行加仓（与原始持仓同方向）
-         string direction = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) ? "BUY" : "SELL";
-         double price = (direction == "BUY") ? SymbolInfoDouble(symbol, SYMBOL_ASK) :
-                                              SymbolInfoDouble(symbol, SYMBOL_BID);
-
-         ExecuteTrade(symbol, direction, newVolume, 0, 0, "马丁加仓#" + IntegerToString(positionCount+1));
-      }
-
-      // 检查整体止盈止损
-      double totalProfit = 0;
-      for(int i = PositionsTotal()-1; i>=0; i--)
-      {
-         if(PositionGetSymbol(i) == symbol &&
-            StringFind(PositionGetString(POSITION_COMMENT), "马丁") >= 0)
-         {
-            totalProfit += PositionGetDouble(POSITION_PROFIT);
-         }
-      }
-
-      // 整体止盈：当总盈利达到原始风险的3倍
-      if(totalProfit > MartingaleStartLot * 10000 * SingleRiskPercent / 100 * MartingaleTPRatio)
-      {
-         CloseAllMartingalePositions(symbol);
-         Print("马丁策略整体止盈:", symbol);
-      }
-
-      // 整体止损：当亏损达到500点
-      if(MartingaleSLPoints > 0 && totalProfit < -MartingaleSLPoints * SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_VALUE))
-      {
-         CloseAllMartingalePositions(symbol);
-         Print("马丁策略整体止损:", symbol);
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 关闭所有马丁仓位                                                 |
-//+------------------------------------------------------------------+
-void CloseAllMartingalePositions(string symbol)
-{
-   for(int i = PositionsTotal()-1; i>=0; i--)
-   {
-      if(PositionGetSymbol(i) == symbol &&
-         StringFind(PositionGetString(POSITION_COMMENT), "马丁") >= 0)
-      {
-         trade.PositionClose(PositionGetTicket(i));
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 网格策略管理函数                                                 |
-//+------------------------------------------------------------------+
-void ManageGrid(string symbol, int symbolIndex)
-{
-   if(!GridEnabled || currentMarketState != MARKET_TREND) return;
-
-   // 初始化网格状态
-   if(ArraySize(gridStatus) <= symbolIndex) {
-      ArrayResize(gridStatus, symbolIndex+1);
-      gridStatus[symbolIndex].basePrice = 0;
-      gridStatus[symbolIndex].currentBuyLevel = 0;
-      gridStatus[symbolIndex].currentSellLevel = 0;
-   }
-
-   double currentPrice = SymbolInfoDouble(symbol, SYMBOL_BID);
-   double point = SymbolInfoDouble(symbol, SYMBOL_POINT);
-   double gridStep = GridSpacingPoints * point;
-
-   // 首次设置基准价
-   if(gridStatus[symbolIndex].basePrice == 0) {
-      // 趋势过滤
-      if(GridTrendFilter) {
-         double maFast = GetIndicatorValue(maHandle_TF1[symbolIndex]);
-         double maSlow = GetIndicatorValue(maHandle_TF2[symbolIndex]);
-         bool trendUp = (maFast > maSlow);
-
-         // 只在趋势方向开首单
-         if(trendUp) {
-            ExecuteTrade(symbol, "BUY", GridStartLot, 0, 0, "网格首单");
-            gridStatus[symbolIndex].currentBuyLevel = 1;
-         } else {
-            ExecuteTrade(symbol, "SELL", GridStartLot, 0, 0, "网格首单");
-            gridStatus[symbolIndex].currentSellLevel = 1;
-         }
-      } else {
-         // 无趋势过滤，双向开首单
-         ExecuteTrade(symbol, "BUY", GridStartLot, 0, 0, "网格首单");
-         ExecuteTrade(symbol, "SELL", GridStartLot, 0, 0, "网格首单");
-         gridStatus[symbolIndex].currentBuyLevel = 1;
-         gridStatus[symbolIndex].currentSellLevel = 1;
-      }
-
-      gridStatus[symbolIndex].basePrice = currentPrice;
-      return;
-   }
-
-   // 检查是否需要开新单
-   double priceDiff = currentPrice - gridStatus[symbolIndex].basePrice;
-   int targetBuyLevel = (int)MathFloor(priceDiff / gridStep);
-   int targetSellLevel = (int)MathCeil(-priceDiff / gridStep);
-
-   // 开新买单
-   while(gridStatus[symbolIndex].currentBuyLevel < targetBuyLevel &&
-         gridStatus[symbolIndex].currentBuyLevel < GridLevels)
-   {
-      double volume = GridStartLot * MathPow(1.3, gridStatus[symbolIndex].currentBuyLevel);
-      double entryPrice = gridStatus[symbolIndex].basePrice -
-                          gridStatus[symbolIndex].currentBuyLevel * gridStep;
-
-      // 设置止盈
-      double takeProfit = entryPrice + GridTPPoints * point;
-
-      ExecuteTrade(symbol, "BUY", volume, 0, takeProfit, "网格买单#" +
-             IntegerToString(gridStatus[symbolIndex].currentBuyLevel+1));
-
-      gridStatus[symbolIndex].currentBuyLevel++;
-   }
-
-   // 开新卖单
-   while(gridStatus[symbolIndex].currentSellLevel < targetSellLevel &&
-         gridStatus[symbolIndex].currentSellLevel < GridLevels)
-   {
-      double volume = GridStartLot * MathPow(1.3, gridStatus[symbolIndex].currentSellLevel);
-      double entryPrice = gridStatus[symbolIndex].basePrice +
-                          gridStatus[symbolIndex].currentSellLevel * gridStep;
-
-      // 设置止盈
-      double takeProfit = entryPrice - GridTPPoints * point;
-
-      ExecuteTrade(symbol, "SELL", volume, 0, takeProfit, "网格卖单#" +
-             IntegerToString(gridStatus[symbolIndex].currentSellLevel+1));
-
-      gridStatus[symbolIndex].currentSellLevel++;
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 自动复盘系统函数                                                 |
-//+------------------------------------------------------------------+
-void InitReviewSystem()
-{
-   Print("自动复盘系统初始化完成");
-   Print("报告保存路径: ", ReportSavePath);
-}
-
-//+------------------------------------------------------------------+
-//| 记录交易详情函数                                                 |
-//+------------------------------------------------------------------+
-void RecordTradeDetails(string symbol, string direction, double volume, double profit,
-                  string strategy, string comment, double sl, double tp, int holdTime)
-{
-   if(TradeRecordCount >= 1000) {  // 检查数组边界
-      Print("交易历史记录已达最大容量");
-      return;
-   }
-
-   TradeHistory[TradeRecordCount].Time = TimeCurrent();
-   TradeHistory[TradeRecordCount].Symbol = symbol;
-   TradeHistory[TradeRecordCount].Direction = direction;
-   TradeHistory[TradeRecordCount].Volume = volume;
-   TradeHistory[TradeRecordCount].Profit = profit;
-   TradeHistory[TradeRecordCount].Strategy = strategy;
-   TradeHistory[TradeRecordCount].Comment = comment;
-   TradeHistory[TradeRecordCount].SL = sl;
-   TradeHistory[TradeRecordCount].TP = tp;
-   TradeHistory[TradeRecordCount].HoldTime = holdTime;
-
-   TradeRecordCount++;
-
-   // 定期保存到文件
-   if(TradeRecordCount % 50 == 0) {
-      SaveTradeHistory();
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 检查复盘时机函数                                                 |
-//+------------------------------------------------------------------+
-void CheckReviewTiming()
-{
-   datetime CurrentTime = TimeCurrent();
-   MqlDateTime TimeStruct;
-   TimeToStruct(CurrentTime, TimeStruct);
-
-   // 每日复盘
-   if(EnableDailyReview && TimeStruct.hour == DailyReviewHour && TimeStruct.min == 0) {
-      if(CurrentTime - LastDailyReviewTime >= 86400) {
-         ExecuteDailyReview();
-         LastDailyReviewTime = CurrentTime;
-      }
-   }
-
-   // 每周复盘
-   if(EnableWeeklyReview && TimeStruct.day_of_week == WeeklyReviewDay && TimeStruct.hour == DailyReviewHour) {
-      if(CurrentTime - LastWeeklyReviewTime >= 604800) {
-         ExecuteWeeklyReview();
-         LastWeeklyReviewTime = CurrentTime;
-      }
-   }
-
-   // 每月复盘
-   if(EnableMonthlyReview && TimeStruct.day == MonthlyReviewDay && TimeStruct.hour == DailyReviewHour) {
-      if(CurrentTime - LastMonthlyReviewTime >= 2592000) {
-         ExecuteMonthlyReview();
-         LastMonthlyReviewTime = CurrentTime;
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 执行每日复盘函数                                                 |
-//+------------------------------------------------------------------+
-void ExecuteDailyReview()
-{
-   Print("=== 开始每日复盘 ===");
-
-   // 计算当日统计
-   ReviewStatistics DailyStats = CalculatePeriodStats(TimeCurrent() - 86400, TimeCurrent());
-
-   // 生成报告
-   string ReportContent = GenerateDailyReport(DailyStats);
-
-   // 保存报告
-   string FileName = "每日复盘_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
-   SaveReport(FileName, ReportContent);
-
-   // AI分析
-   if(EnableAIAnalysis) {
-      string AIAnalysis = GetReviewAIAnalysis(DailyStats, "每日");
-      Print("AI每日分析: ", AIAnalysis);
-      SaveReport("AI分析_每日_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
-   }
-
-   Print("每日复盘完成");
-}
-
-//+------------------------------------------------------------------+
-//| 执行每周复盘函数                                                 |
-//+------------------------------------------------------------------+
-void ExecuteWeeklyReview()
-{
-   Print("=== 开始每周复盘 ===");
-
-   datetime WeekStart = iTime(Symbol(), PERIOD_W1, 0);
-   datetime WeekEnd = TimeCurrent();
-
-   ReviewStatistics WeekStats = CalculatePeriodStats(WeekStart, WeekEnd);
-
-   string ReportContent = GenerateWeeklyReport(WeekStats);
-   string FileName = "每周复盘_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
-   SaveReport(FileName, ReportContent);
-
-   // 策略性能分析
-   AnalyzeStrategyPerformance(WeekStart, WeekEnd);
-
-   if(EnableAIAnalysis) {
-      string AIAnalysis = GetReviewAIAnalysis(WeekStats, "每周");
-      Print("AI每周分析: ", AIAnalysis);
-      SaveReport("AI分析_每周_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
-   }
-
-   Print("每周复盘完成");
-}
-
-//+------------------------------------------------------------------+
-//| 执行每月复盘函数                                                 |
-//+------------------------------------------------------------------+
-void ExecuteMonthlyReview()
-{
-   Print("=== 开始每月复盘 ===");
-
-   datetime MonthStart = iTime(Symbol(), PERIOD_MN1, 0);
-   datetime MonthEnd = TimeCurrent();
-
-   ReviewStatistics MonthStats = CalculatePeriodStats(MonthStart, MonthEnd);
-
-   string ReportContent = GenerateMonthlyReport(MonthStats);
-   string FileName = "每月复盘_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
-   SaveReport(FileName, ReportContent);
-
-   // 深度策略优化分析
-   ExecuteDeepStrategyAnalysis(MonthStart, MonthEnd);
-
-   if(EnableAIAnalysis) {
-      string AIAnalysis = GetReviewAIAnalysis(MonthStats, "每月");
-      Print("AI每月分析: ", AIAnalysis);
-      SaveReport("AI分析_每月_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
-   }
-
-   Print("每月复盘完成");
-}
-
-//+------------------------------------------------------------------+
-//| 计算周期统计函数                                                 |
-//+------------------------------------------------------------------+
-ReviewStatistics CalculatePeriodStats(datetime StartTime, datetime EndTime)
-{
-   ReviewStatistics Stats;
-   Stats.StartTime = StartTime;
-   Stats.EndTime = EndTime;
-
-   Stats.TotalTrades = 0;
-   Stats.WinTrades = 0;
-   Stats.LossTrades = 0;
-   Stats.TotalProfit = 0;
-   int CurrentWinStreak = 0;
-   int CurrentLossStreak = 0;
-   Stats.MaxWinStreak = 0;
-   Stats.MaxLossStreak = 0;
-   double MaxEquity = 0;
-   double CurrentDrawdown = 0;
-   Stats.MaxDrawdown = 0;
-   double CumulativeProfit = 0;
-   double CumulativeLoss = 0;
-
-   for(int i = 0; i < TradeRecordCount; i++) {
-      if(TradeHistory[i].Time >= StartTime && TradeHistory[i].Time <= EndTime) {
-         Stats.TotalTrades++;
-         Stats.TotalProfit += TradeHistory[i].Profit;
-
-         if(TradeHistory[i].Profit > 0) {
-            Stats.WinTrades++;
-            CurrentWinStreak++;
-            CurrentLossStreak = 0;
-            CumulativeProfit += TradeHistory[i].Profit;
-            if(CurrentWinStreak > Stats.MaxWinStreak) Stats.MaxWinStreak = CurrentWinStreak;
-         } else {
-            Stats.LossTrades++;
-            CurrentLossStreak++;
-            CurrentWinStreak = 0;
-            CumulativeLoss += MathAbs(TradeHistory[i].Profit);
-            if(CurrentLossStreak > Stats.MaxLossStreak) Stats.MaxLossStreak = CurrentLossStreak;
-         }
-
-         // 计算回撤
-         double CurrentEquity = CumulativeProfit - CumulativeLoss;
-         if(CurrentEquity > MaxEquity) {
-            MaxEquity = CurrentEquity;
-         }
-         CurrentDrawdown = MaxEquity - CurrentEquity;
-         if(CurrentDrawdown > Stats.MaxDrawdown) {
-            Stats.MaxDrawdown = CurrentDrawdown;
-         }
-      }
-   }
-
-   if(Stats.TotalTrades > 0) {
-      Stats.WinRate = (double)Stats.WinTrades / Stats.TotalTrades * 100;
-      Stats.AvgProfit = Stats.TotalProfit / Stats.TotalTrades;
-      Stats.ProfitFactor = (Stats.LossTrades > 0) ? (CumulativeProfit / Stats.LossTrades) / (CumulativeLoss / Stats.LossTrades) : 0;
-   }
-
    return Stats;
 }
 
@@ -2313,7 +1846,7 @@ string GenerateDailyReport(ReviewStatistics &Stats)
    string Report = "=== 宇川AI交易系统每日复盘报告 ===\n\n";
    Report += "统计周期: " + TimeToString(Stats.StartTime) + " 至 " + TimeToString(Stats.EndTime) + "\n\n";
 
-   Report += "📊📊📊📊📊📊📊📊 当日交易概览\n";
+   Report += "当日交易概览\n";
    Report += "───────────────\n";
    Report += "总交易笔数: " + IntegerToString(Stats.TotalTrades) + "\n";
    Report += "盈利交易: " + IntegerToString(Stats.WinTrades) + "笔\n";
@@ -2323,985 +1856,11 @@ string GenerateDailyReport(ReviewStatistics &Stats)
    Report += "平均每笔盈亏: " + DoubleToString(Stats.AvgProfit, 2) + " USD\n";
    Report += "盈亏比: " + DoubleToString(Stats.ProfitFactor, 2) + "\n\n";
 
-   Report += "⚡⚡⚡⚡⚡⚡⚡⚡ 风险指标\n";
+   Report += "风险指标\n";
    Report += "───────────────\n";
    Report += "最大连胜: " + IntegerToString(Stats.MaxWinStreak) + "笔\n";
    Report += "最大连败: " + IntegerToString(Stats.MaxLossStreak) + "笔\n";
    Report += "最大回撤: " + DoubleToString(Stats.MaxDrawdown, 2) + " USD\n\n";
-
-   // 策略表现分析
-   Report += "🎯🎯🎯🎯🎯🎯🎯🎯 策略表现分析\n";
-   Report += "───────────────\n";
-   Report += AnalyzeDailyStrategyPerformance(Stats.StartTime, Stats.EndTime) + "\n";
-
-   // 错误分析
-   Report += "⚠️ 当日错误分析\n";
-   Report += "───────────────\n";
-   Report += AnalyzeDailyErrors() + "\n";
-
-   // 明日建议
-   Report += "💡💡💡💡💡💡💡💡 明日交易建议\n";
-   Report += "───────────────\n";
-   Report += GenerateTomorrowSuggestion(Stats) + "\n";
-
-   Report += "报告生成时间: " + TimeToString(TimeCurrent()) + "\n";
-
-   return Report;
-}
-
-//+------------------------------------------------------------------+
-//| 辅助函数（修复函数重复定义问题）                                 |
-//+------------------------------------------------------------------+
-bool HasPosition(string symbol)
-{
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionGetSymbol(i) == symbol) return true;
-   }
-   return false;
-}
-
-bool CheckMaxPosition(string symbol, double lotSize)
-{
-   double MinLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
-   double MaxLot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX);
-   return (lotSize >= MinLot && lotSize <= MaxLot);
-}
-
-// 修复函数重复定义 - 重命名函数
-bool CheckAdvancedTradeFilter(string symbol)
-{
-   // 基础的交易过滤逻辑
-   if(HasPosition(symbol)) return false;
-   if(DailyTradeCount >= MaxDailyTrades) return false;
-   if(SystemError) return false;
-   if(IsResting()) return false;
-
-   return true;
-}
-
-bool IsResting()
-{
-   return (RestStartTime > 0 && TimeCurrent() - RestStartTime < 24 * 3600);
-}
-
-bool CanTrade()
-{
-   return (DailyTradeCount < MaxDailyTrades && !SystemError);
-}
-
-int InitError(string Reason)
-{
-   SystemError = true;
-   ErrorReason = Reason;
-   Print("!!! 初始化失败: " + Reason);
-   return INIT_FAILED;
-}
-
-void CheckRiskManagement()
-{
-   double TotalProfit = 0;
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      ulong Ticket = PositionGetTicket(i);
-      if(Ticket > 0 && PositionSelectByTicket(Ticket)) {
-         TotalProfit += PositionGetDouble(POSITION_PROFIT);
-      }
-   }
-
-   if(TotalProfit < 0) {
-      DailyLoss += -TotalProfit;
-      ConsecutiveLosses++;
-   } else {
-      ConsecutiveLosses = 0;
-   }
-
-   if(ConsecutiveLosses >= MaxConsecutiveLosses) {
-      RestStartTime = TimeCurrent();
-      Print("连续亏损达到限制，系统进入休息期");
-   }
-}
-
-void CheckCapitalProtection()
-{
-   double AccountEquity = AccountInfoDouble(ACCOUNT_EQUITY);
-   double AccountBalance = AccountInfoDouble(ACCOUNT_BALANCE);
-
-   if(AccountBalance == 0) return;
-
-   double DrawdownPercent = (AccountBalance - AccountEquity) / AccountBalance * 100;
-
-   if(DrawdownPercent > MaxDailyDrawdownPercent) {
-      SystemError = true;
-      ErrorReason = "资金回撤超过" + DoubleToString(MaxDailyDrawdownPercent, 1) + "%";
-      Print("!!! 风控触发: " + ErrorReason);
-   }
-}
-
-void RecordAIAnalysis(string symbol, TradeSignal &Signal)
-{
-   if(!EnableDetailedLog) return;
-
-   Print("=== AI分析报告 [", symbol, "] ===");
-   Print("最终决策: ", Signal.Direction);
-   Print("策略数量: ", Signal.ValidStrategyCount);
-   Print("趋势强度: ", Signal.Strength, "/100");
-   Print("AI置信度: ", DoubleToString(Signal.Confidence, 2));
-   Print("决策理由: ", Signal.Reason);
-
-// 输出每个策略的详细信号
-for(int i = 0; i < Signal.ValidStrategyCount; i++) {
-   Print("策略", i+1, ": ", Signal.StrategyArray[i].StrategyName,
-         " 方向: ", Signal.StrategyArray[i].SignalDirection,
-         " 强度: ", Signal.StrategyArray[i].SignalStrength,
-         " 置信度: ", DoubleToString(Signal.StrategyArray[i].Confidence, 2),
-         " 预估胜率: ", DoubleToString(Signal.StrategyArray[i].EstimatedWinRate, 1), "%",
-         " 理由: ", Signal.StrategyArray[i].DecisionReason);
-         
-   // 如果是SMC策略，输出关键水平信息
-   if(Signal.StrategyArray[i].StrategyName == "SMC" && Signal.StrategyArray[i].SMCKeyLevel != "") {
-      Print("  关键水平: ", Signal.StrategyArray[i].SMCKeyLevel);
-   }
-   
-   // 输出信号有效期
-   Print("  信号有效期: ", TimeToString(Signal.StrategyArray[i].SignalExpiry));
-}
-
-// 输出综合信号强度和市场状态
-Print("综合信号强度: ", Signal.Strength, "/100");
-Print("AI置信度: ", DoubleToString(Signal.Confidence, 2));
-Print("市场状态: ", GetMarketStateDescription(currentMarketState));
-Print("决策理由: ", Signal.Reason);
-
-// 记录到详细日志文件
-if(EnableDetailedLog) {
-   string logEntry = TimeToString(TimeCurrent()) + " | " + 
-                    "策略数量: " + IntegerToString(Signal.ValidStrategyCount) + " | " +
-                    "最终方向: " + Signal.Direction + " | " +
-                    "综合强度: " + IntegerToString(Signal.Strength) + " | " +
-                    "AI置信度: " + DoubleToString(Signal.Confidence, 2);
-   
-   // 添加到日志文件
-   AppendToLogFile("StrategySignals.log", logEntry);
-}
-
-// 检查信号是否过期
-if(Signal.ValidStrategyCount > 0) {
-   datetime earliestExpiry = Signal.StrategyArray[0].SignalExpiry;
-   for(int i = 1; i < Signal.ValidStrategyCount; i++) {
-      if(Signal.StrategyArray[i].SignalExpiry < earliestExpiry) {
-         earliestExpiry = Signal.StrategyArray[i].SignalExpiry;
-      }
-   }
-   
-   if(TimeCurrent() > earliestExpiry) {
-      Print("警告: 部分策略信号已过期");
-      Signal.Confidence = MathMax(0.3, Signal.Confidence * 0.8); // 降低置信度
-   }
-}
-
-// 验证信号一致性
-if(Signal.ValidStrategyCount >= 2) {
-   int buySignals = 0;
-   int sellSignals = 0;
-   
-   for(int i = 0; i < Signal.ValidStrategyCount; i++) {
-      if(Signal.StrategyArray[i].SignalDirection == "BUY") buySignals++;
-      if(Signal.StrategyArray[i].SignalDirection == "SELL") sellSignals++;
-   }
-   
-   // 如果信号分歧较大，调整置信度
-   if(buySignals > 0 && sellSignals > 0) {
-      double disagreementRatio = (double)MathMin(buySignals, sellSignals) / MathMax(buySignals, sellSignals);
-      Signal.Confidence *= (1.0 - disagreementRatio * 0.3);
-      Print("信号分歧检测: 买入:", buySignals, " 卖出:", sellSignals, 
-            " 分歧比率:", DoubleToString(disagreementRatio, 2),
-            " 调整后置信度:", DoubleToString(Signal.Confidence, 2));
-   }
-}
-//+------------------------------------------------------------------+
-//| 获取市场状态描述函数                                             |
-//+------------------------------------------------------------------+
-string GetMarketStateDescription(int state)
-{
-   switch(state) {
-      case MARKET_TREND:   return "趋势市";
-      case MARKET_RANGE:   return "震荡市";
-      case MARKET_BREAKOUT: return "突破市";
-      default:             return "未知状态";
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 添加日志文件函数                                                 |
-//+------------------------------------------------------------------+
-void AppendToLogFile(string filename, string content)
-{
-   int handle = FileOpen(filename, FILE_WRITE|FILE_TXT|FILE_COMMON|FILE_ANSI);
-   if(handle == INVALID_HANDLE) {
-      Print("错误: 无法打开日志文件 ", filename);
-      return;
-   }
-   
-   FileSeek(handle, 0, SEEK_END);
-   FileWrite(handle, content);
-   FileClose(handle);
-}
-
-//+------------------------------------------------------------------+
-//| 执行AI决策函数                                                   |
-//+------------------------------------------------------------------+
-void ExecuteAIDecision(AITradingDecision &decision)
-{
-   if(decision.action == "HOLD") {
-      Print("AI决策: 保持观望 - ", decision.reasoning);
-      return;
-   }
-   
-   if(decision.action == "OPEN") {
-      ExecuteAIOpenDecision(decision);
-   }
-   else if(decision.action == "CLOSE") {
-      ExecuteAICloseDecision(decision);
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 执行AI开仓决策函数                                               |
-//+------------------------------------------------------------------+
-void ExecuteAIOpenDecision(AITradingDecision &decision)
-{
-   if(DailyTradeCount >= MaxDailyTrades) {
-      Print("达到每日交易次数限制");
-      return;
-   }
-   
-   string comment = "AI自动交易 | 置信度:" + DoubleToString(decision.confidence, 2);
-   if(ExecuteTrade(decision.symbol, decision.direction, decision.volume, 
-                  decision.stopLoss, decision.takeProfit, comment)) {
-      Print("AI开仓成功: ", decision.direction, " ", decision.symbol);
-      DailyTradeCount++;
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 执行AI平仓决策函数                                               |
-//+------------------------------------------------------------------+
-void ExecuteAICloseDecision(AITradingDecision &decision)
-{
-   if(decision.closeAll) {
-      CloseAllPositions();
-      Print("AI平仓: 所有仓位已平仓");
-   } else if(decision.closeSymbol != "") {
-      CloseSymbolPositions(decision.closeSymbol, decision.closePositionType);
-      Print("AI平仓: ", decision.closeSymbol, " 已平仓");
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 关闭所有仓位函数                                                 |
-//+------------------------------------------------------------------+
-void CloseAllPositions()
-{
-   for(int i = PositionsTotal()-1; i >= 0; i--) {
-      ulong ticket = PositionGetTicket(i);
-      if(PositionSelectByTicket(ticket)) {
-         trade.PositionClose(ticket);
-         Print("平仓: ", PositionGetString(POSITION_SYMBOL));
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 关闭指定品种仓位函数                                             |
-//+------------------------------------------------------------------+
-void CloseSymbolPositions(string symbol, int positionType = -1)
-{
-   for(int i = PositionsTotal()-1; i >= 0; i--) {
-      ulong ticket = PositionGetTicket(i);
-      if(PositionSelectByTicket(ticket)) {
-         string posSymbol = PositionGetString(POSITION_SYMBOL);
-         long posType = PositionGetInteger(POSITION_TYPE);
-         
-         if(posSymbol == symbol && (positionType == -1 || posType == positionType)) {
-            trade.PositionClose(ticket);
-            Print("平仓: ", symbol);
-         }
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 分析市场状态函数                                                 |
-//+------------------------------------------------------------------+
-MARKET_STATE AnalyzeMarketState(string symbol, int symbolIndex)
-{
-   // 获取多时间框架数据
-   double atrValue = GetIndicatorValue(atrHandle[symbolIndex]);
-   double rsiValue = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
-   double adxValue = GetIndicatorValue(adxHandle[symbolIndex]);
-
-   // 获取价格波动范围
-   double high[20], low[20];
-   CopyHigh(symbol, PERIOD_H1, 0, 20, high);
-   CopyLow(symbol, PERIOD_H1, 0, 20, low);
-
-   double rangeSize = 0;
-   for(int i=0; i<20; i++) {
-      rangeSize += (high[i] - low[i]);
-   }
-   rangeSize /= 20;
-
-   // 构建AI分析提示词
-   string marketData = "品种:" + symbol;
-   marketData += " | ATR:" + DoubleToString(atrValue, 5);
-   marketData += " | RSI:" + DoubleToString(rsiValue, 1);
-   marketData += " | ADX:" + DoubleToString(adxValue, 1);
-   marketData += " | 平均波动范围:" + DoubleToString(rangeSize, 5);
-   marketData += " | 价格:" + DoubleToString(SymbolInfoDouble(symbol, SYMBOL_BID), 5);
-
-   // 添加K线形态数据
-   marketData += " | K线数据:" + CollectCandleData(symbol, PERIOD_H1);
-
-   // 构建AI提示词
-   string prompt = "你是一名专业量化分析师，请基于以下市场数据判断当前市场状态：\n";
-   prompt += marketData + "\n\n";
-   prompt += "请从以下三种状态中选择最符合当前市场的状态：\n";
-   prompt += "1. 趋势市（TREND）- 价格持续朝一个方向运动，ADX>25\n";
-   prompt += "2. 震荡市（RANGE）- 价格在固定区间内波动，ADX<20\n";
-   prompt += "3. 突破市（BREAKOUT）- 价格突破关键支撑/阻力位，波动率突然增大\n";
-   prompt += "请用JSON格式返回分析结果：{\"state\":\"状态\", \"confidence\":0.0-1.0, \"reason\":\"分析理由\"}";
-
-   // 调用DeepSeek API
-   string response = CallDeepSeekAPI(prompt);
-
-   // 解析AI响应
-   MARKET_STATE detectedState = MARKET_RANGE;
-   double confidence = 0.7;
-   string reason = "默认分析";
-
-   if(StringFind(response, "\"state\":\"TREND\"") >= 0) {
-      detectedState = MARKET_TREND;
-   }
-   else if(StringFind(response, "\"state\":\"BREAKOUT\"") >= 0) {
-      detectedState = MARKET_BREAKOUT;
-   }
-
-   // 更新日志
-   if(EnableDetailedLog) {
-      Print("=== 市场状态分析 ===");
-      Print("品种: ", symbol);
-      Print("ATR: ", atrValue);
-      Print("RSI: ", rsiValue);
-      Print("ADX: ", adxValue);
-      Print("平均波动范围: ", rangeSize);
-      Print("AI分析结果: ", detectedState);
-      Print("置信度: ", confidence);
-      Print("理由: ", reason);
-      Print("===================");
-   }
-
-   return detectedState;
-}
-
-//+------------------------------------------------------------------+
-//| 收集K线数据函数                                                 |
-//+------------------------------------------------------------------+
-string CollectCandleData(string symbol, ENUM_TIMEFRAMES timeframe)
-{
-   string data = "";
-   double open[5], high[5], low[5], close[5];
-   
-   if(CopyOpen(symbol, timeframe, 0, 5, open) > 0 &&
-      CopyHigh(symbol, timeframe, 0, 5, high) > 0 &&
-      CopyLow(symbol, timeframe, 0, 5, low) > 0 &&
-      CopyClose(symbol, timeframe, 0, 5, close) > 0)
-   {
-      for(int i = 0; i < 5; i++) {
-         data += "C" + IntegerToString(i) + ": O=" + DoubleToString(open[i], 5) +
-                " H=" + DoubleToString(high[i], 5) +
-                " L=" + DoubleToString(low[i], 5) +
-                " C=" + DoubleToString(close[i], 5) + " | ";
-      }
-   }
-   
-   return data;
-}
-
-//+------------------------------------------------------------------+
-//| 调用DeepSeek API函数                                            |
-//+------------------------------------------------------------------+
-string CallDeepSeekAPI(string prompt)
-{
-   if(!EnableAIAnalysis || StringLen(DeepSeekAPIKey) < 10) {
-      return "{\"state\":\"RANGE\", \"confidence\":0.7, \"reason\":\"AI分析未启用\"}";
-   }
-   
-   // 构建请求数据
-   string headers = "Content-Type: application/json\r\n";
-   headers += "Authorization: Bearer " + DeepSeekAPIKey + "\r\n";
-   
-   string request_data = "{\n";
-   request_data += "  \"model\": \"deepseek-chat\",\n";
-   request_data += "  \"messages\": [\n";
-   request_data += "    {\n";
-   request_data += "      \"role\": \"user\",\n";
-   request_data += "      \"content\": \"" + EscapeJSONString(prompt) + "\"\n";
-   request_data += "    }\n";
-   request_data += "  ],\n";
-   request_data += "  \"temperature\": " + DoubleToString(AICreativityParam, 1) + ",\n";
-   request_data += "  \"max_tokens\": " + IntegerToString(AIMaxTokens) + ",\n";
-   request_data += "  \"stream\": false\n";
-   request_data += "}";
-   
-   if(EnableAPILog) {
-      Print("=== DeepSeek API请求 ===");
-      Print("URL: ", DeepSeekBaseURL);
-      Print("请求数据: ", request_data);
-   }
-   
-   // 发送HTTP请求
-   uchar result[];
-   string result_headers;
-   int response_code;
-   
-   int res = WebRequest("POST", DeepSeekBaseURL, headers, APITimeout, request_data, result, result_headers, response_code);
-   
-   if(res == -1) {
-      string error_message = "WebRequest错误: " + IntegerToString(GetLastError());
-      if(EnableDetailedLog) Print(error_message);
-      return "{\"error\": \"" + error_message + "\"}";
-   }
-   
-   if(response_code != 200) {
-      string error_msg = "HTTP错误代码: " + IntegerToString(response_code);
-      if(EnableDetailedLog) Print(error_msg);
-      return "{\"error\": \"" + error_msg + "\"}";
-   }
-   
-   string response_text = CharArrayToString(result);
-   
-   if(EnableAPILog) {
-      Print("API响应: ", response_text);
-      Print("响应头: ", result_headers);
-      Print("响应代码: ", IntegerToString(response_code));
-   }
-   
-   return response_text;
-}
-
-//+------------------------------------------------------------------+
-//| 转义JSON字符串函数                                               |
-//+------------------------------------------------------------------+
-string EscapeJSONString(string input)
-{
-   string output = input;
-   StringReplace(output, "\\", "\\\\");
-   StringReplace(output, "\"", "\\\"");
-   StringReplace(output, "/", "\\/");
-   StringReplace(output, "\b", "\\b");
-   StringReplace(output, "\f", "\\f");
-   StringReplace(output, "\n", "\\n");
-   StringReplace(output, "\r", "\\r");
-   StringReplace(output, "\t", "\\t");
-   return output;
-}
-
-//+------------------------------------------------------------------+
-//| 调整策略配置函数                                                 |
-//+------------------------------------------------------------------+
-void AdjustStrategyConfig(MARKET_STATE state)
-{
-   switch(state) {
-      case MARKET_TREND:
-         // 趋势市配置
-         TrendFollowingEnabled = true;
-         TurtleTradingEnabled = true;
-         GoldenCrossEnabled = true;
-         MartingaleEnabled = false;     // 趋势市禁用马丁
-         GridEnabled = true;       // 只在趋势方向开网格
-         MeanReversionEnabled = false;      // 禁用反转策略
-         BollingerReversionEnabled = false;
-         Print("切换到趋势市策略组合");
-         break;
-
-      case MARKET_RANGE:
-         // 震荡市配置
-         TrendFollowingEnabled = false;
-         TurtleTradingEnabled = false;
-         GoldenCrossEnabled = false;
-         MartingaleEnabled = true;       // 震荡市启用马丁
-         GridEnabled = false;      // 震荡市禁用网格
-         MeanReversionEnabled = true;       // 启用反转策略
-         BollingerReversionEnabled = true;
-         Print("切换到震荡市策略组合");
-         break;
-
-      case MARKET_BREAKOUT:
-         // 突破市配置
-         TrendFollowingEnabled = true;
-         TurtleTradingEnabled = true;
-         VolatilityBreakoutEnabled = true;
-         MartingaleEnabled = false;     // 突破市禁用马丁
-         GridEnabled = false;    // 突破市禁用网格
-         MeanReversionEnabled = false;    // 禁用反转策略
-         BollingerReversionEnabled = false;
-         Print("切换到突破市策略组合");
-         break;
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 马丁策略管理函数                                                 |
-//+------------------------------------------------------------------+
-void ManageMartingale(string symbol, int symbolIndex)
-{
-   if(!MartingaleEnabled || currentMarketState != MARKET_RANGE) return;
-
-   // 获取该品种的持仓
-   int positionCount = 0;
-   double totalVolume = 0;
-   double avgPrice = 0;
-   for(int i = PositionsTotal()-1; i>=0; i--)
-   {
-      if(PositionGetSymbol(i) == symbol &&
-         StringFind(PositionGetString(POSITION_COMMENT), "马丁") >= 0)
-      {
-         positionCount++;
-         totalVolume += PositionGetDouble(POSITION_VOLUME);
-         avgPrice += PositionGetDouble(POSITION_PRICE_OPEN) *
-                    PositionGetDouble(POSITION_VOLUME);
-      }
-   }
-
-   if(positionCount > 0) {
-      avgPrice /= totalVolume;
-
-      // 检查是否达到最大层数
-      if(positionCount >= MartingaleMaxLevels) {
-         Print("马丁策略已达最大层数:", symbol);
-         return;
-      }
-
-      // 检查是否需要加仓
-      double currentPrice = SymbolInfoDouble(symbol, SYMBOL_BID);
-      double priceDiff = MathAbs(currentPrice - avgPrice) /
-                         SymbolInfoDouble(symbol, SYMBOL_POINT);
-
-      // 加仓条件：亏损达到平均持仓成本的1.5倍ATR
-      double atrValue = GetIndicatorValue(atrHandle[symbolIndex]);
-      if(priceDiff > 1.5 * atrValue / SymbolInfoDouble(symbol, SYMBOL_POINT))
-      {
-         // 趋势过滤：只在趋势方向加仓
-         if(MartingaleTrendFilter) {
-            double maFast = GetIndicatorValue(maHandle_TF1[symbolIndex]);
-            double maSlow = GetIndicatorValue(maHandle_TF2[symbolIndex]);
-            bool trendUp = (maFast > maSlow);
-
-            // 检查当前持仓方向
-            bool isLong = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY);
-
-            if((isLong && !trendUp) || (!isLong && trendUp)) {
-               Print("马丁策略趋势过滤阻止加仓:", symbol);
-               return;
-            }
-         }
-
-         // 计算新手数
-         double newVolume = MartingaleStartLot * MathPow(MartingaleMultiplier, positionCount);
-
-         // 执行加仓（与原始持仓同方向）
-         string direction = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) ? "BUY" : "SELL";
-         double price = (direction == "BUY") ? SymbolInfoDouble(symbol, SYMBOL_ASK) :
-                                              SymbolInfoDouble(symbol, SYMBOL_BID);
-
-         ExecuteTrade(symbol, direction, newVolume, 0, 0, "马丁加仓#" + IntegerToString(positionCount+1));
-      }
-
-      // 检查整体止盈止损
-      double totalProfit = 0;
-      for(int i = PositionsTotal()-1; i>=0; i--)
-      {
-         if(PositionGetSymbol(i) == symbol &&
-            StringFind(PositionGetString(POSITION_COMMENT), "马丁") >= 0)
-         {
-            totalProfit += PositionGetDouble(POSITION_PROFIT);
-         }
-      }
-
-      // 整体止盈：当总盈利达到原始风险的3倍
-      if(totalProfit > MartingaleStartLot * 10000 * SingleRiskPercent / 100 * MartingaleTPRatio)
-      {
-         CloseAllMartingalePositions(symbol);
-         Print("马丁策略整体止盈:", symbol);
-      }
-
-      // 整体止损：当亏损达到500点
-      if(MartingaleSLPoints > 0 && totalProfit < -MartingaleSLPoints * SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_VALUE))
-      {
-         CloseAllMartingalePositions(symbol);
-         Print("马丁策略整体止损:", symbol);
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 关闭所有马丁仓位函数                                             |
-//+------------------------------------------------------------------+
-void CloseAllMartingalePositions(string symbol)
-{
-   for(int i = PositionsTotal()-1; i>=0; i--)
-   {
-      if(PositionGetSymbol(i) == symbol &&
-         StringFind(PositionGetString(POSITION_COMMENT), "马丁") >= 0)
-      {
-         trade.PositionClose(PositionGetTicket(i));
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 网格策略管理函数                                                 |
-//+------------------------------------------------------------------+
-void ManageGrid(string symbol, int symbolIndex)
-{
-   if(!GridEnabled || currentMarketState != MARKET_TREND) return;
-
-   // 初始化网格状态
-   if(ArraySize(gridStatus) <= symbolIndex) {
-      ArrayResize(gridStatus, symbolIndex+1);
-      gridStatus[symbolIndex].basePrice = 0;
-      gridStatus[symbolIndex].currentBuyLevel = 0;
-      gridStatus[symbolIndex].currentSellLevel = 0;
-   }
-
-   double currentPrice = SymbolInfoDouble(symbol, SYMBOL_BID);
-   double point = SymbolInfoDouble(symbol, SYMBOL_POINT);
-   double gridStep = GridSpacingPoints * point;
-
-   // 首次设置基准价
-   if(gridStatus[symbolIndex].basePrice == 0) {
-      // 趋势过滤
-      if(GridTrendFilter) {
-         double maFast = GetIndicatorValue(maHandle_TF1[symbolIndex]);
-         double maSlow = GetIndicatorValue(maHandle_TF2[symbolIndex]);
-         bool trendUp = (maFast > maSlow);
-
-         // 只在趋势方向开首单
-         if(trendUp) {
-            ExecuteTrade(symbol, "BUY", GridStartLot, 0, 0, "网格首单");
-            gridStatus[symbolIndex].currentBuyLevel = 1;
-         } else {
-            ExecuteTrade(symbol, "SELL", GridStartLot, 0, 0, "网格首单");
-            gridStatus[symbolIndex].currentSellLevel = 1;
-         }
-      } else {
-         // 无趋势过滤，双向开首单
-         ExecuteTrade(symbol, "BUY", GridStartLot, 0, 0, "网格首单");
-         ExecuteTrade(symbol, "SELL", GridStartLot, 0, 0, "网格首单");
-         gridStatus[symbolIndex].currentBuyLevel = 1;
-         gridStatus[symbolIndex].currentSellLevel = 1;
-      }
-
-      gridStatus[symbolIndex].basePrice = currentPrice;
-      return;
-   }
-
-   // 检查是否需要开新单
-   double priceDiff = currentPrice - gridStatus[symbolIndex].basePrice;
-   int targetBuyLevel = (int)MathFloor(priceDiff / gridStep);
-   int targetSellLevel = (int)MathCeil(-priceDiff / gridStep);
-
-   // 开新买单
-   while(gridStatus[symbolIndex].currentBuyLevel < targetBuyLevel &&
-         gridStatus[symbolIndex].currentBuyLevel < GridLevels)
-   {
-      double volume = GridStartLot * MathPow(1.3, gridStatus[symbolIndex].currentBuyLevel);
-      double entryPrice = gridStatus[symbolIndex].basePrice -
-                          gridStatus[symbolIndex].currentBuyLevel * gridStep;
-
-      // 设置止盈
-      double takeProfit = entryPrice + GridTPPoints * point;
-
-      ExecuteTrade(symbol, "BUY", volume, 0, takeProfit, "网格买单#" +
-             IntegerToString(gridStatus[symbolIndex].currentBuyLevel+1));
-
-      gridStatus[symbolIndex].currentBuyLevel++;
-   }
-
-   // 开新卖单
-   while(gridStatus[symbolIndex].currentSellLevel < targetSellLevel &&
-         gridStatus[symbolIndex].currentSellLevel < GridLevels)
-   {
-      double volume = GridStartLot * MathPow(1.3, gridStatus[symbolIndex].currentSellLevel);
-      double entryPrice = gridStatus[symbolIndex].basePrice +
-                          gridStatus[symbolIndex].currentSellLevel * gridStep;
-
-      // 设置止盈
-      double takeProfit = entryPrice - GridTPPoints * point;
-
-      ExecuteTrade(symbol, "SELL", volume, 0, takeProfit, "网格卖单#" +
-             IntegerToString(gridStatus[symbolIndex].currentSellLevel+1));
-
-      gridStatus[symbolIndex].currentSellLevel++;
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 自动复盘系统初始化函数                                           |
-//+------------------------------------------------------------------+
-void InitReviewSystem()
-{
-   Print("自动复盘系统初始化完成");
-   Print("报告保存路径: ", ReportSavePath);
-}
-
-//+------------------------------------------------------------------+
-//| 记录交易详情函数                                                 |
-//+------------------------------------------------------------------+
-void RecordTradeDetails(string symbol, string direction, double volume, double profit,
-                  string strategy, string comment, double sl, double tp, int holdTime)
-{
-   if(TradeRecordCount >= 1000) {  // 检查数组边界
-      Print("交易历史记录已达最大容量");
-      return;
-   }
-
-   TradeHistory[TradeRecordCount].Time = TimeCurrent();
-   TradeHistory[TradeRecordCount].Symbol = symbol;
-   TradeHistory[TradeRecordCount].Direction = direction;
-   TradeHistory[TradeRecordCount].Volume = volume;
-   TradeHistory[TradeRecordCount].Profit = profit;
-   TradeHistory[TradeRecordCount].Strategy = strategy;
-   TradeHistory[TradeRecordCount].Comment = comment;
-   TradeHistory[TradeRecordCount].SL = sl;
-   TradeHistory[TradeRecordCount].TP = tp;
-   TradeHistory[TradeRecordCount].HoldTime = holdTime;
-
-   TradeRecordCount++;
-
-   // 定期保存到文件
-   if(TradeRecordCount % 50 == 0) {
-      SaveTradeHistory();
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 检查复盘时机函数                                                 |
-//+------------------------------------------------------------------+
-void CheckReviewTiming()
-{
-   datetime CurrentTime = TimeCurrent();
-   MqlDateTime TimeStruct;
-   TimeToStruct(CurrentTime, TimeStruct);
-
-   // 每日复盘
-   if(EnableDailyReview && TimeStruct.hour == DailyReviewHour && TimeStruct.min == 0) {
-      if(CurrentTime - LastDailyReviewTime >= 86400) {
-         ExecuteDailyReview();
-         LastDailyReviewTime = CurrentTime;
-      }
-   }
-
-   // 每周复盘
-   if(EnableWeeklyReview && TimeStruct.day_of_week == WeeklyReviewDay && TimeStruct.hour == DailyReviewHour) {
-      if(CurrentTime - LastWeeklyReviewTime >= 604800) {
-         ExecuteWeeklyReview();
-         LastWeeklyReviewTime = CurrentTime;
-      }
-   }
-
-   // 每月复盘
-   if(EnableMonthlyReview && TimeStruct.day == MonthlyReviewDay && TimeStruct.hour == DailyReviewHour) {
-      if(CurrentTime - LastMonthlyReviewTime >= 2592000) {
-         ExecuteMonthlyReview();
-         LastMonthlyReviewTime = CurrentTime;
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 执行每日复盘函数                                                 |
-//+------------------------------------------------------------------+
-void ExecuteDailyReview()
-{
-   Print("=== 开始每日复盘 ===");
-
-   // 计算当日统计
-   ReviewStatistics DailyStats = CalculatePeriodStats(TimeCurrent() - 86400, TimeCurrent());
-
-   // 生成报告
-   string ReportContent = GenerateDailyReport(DailyStats);
-
-   // 保存报告
-   string FileName = "每日复盘_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
-   SaveReport(FileName, ReportContent);
-
-   // AI分析
-   if(EnableAIAnalysis) {
-      string AIAnalysis = GetReviewAIAnalysis(DailyStats, "每日");
-      Print("AI每日分析: ", AIAnalysis);
-      SaveReport("AI分析_每日_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
-   }
-
-   Print("每日复盘完成");
-}
-
-//+------------------------------------------------------------------+
-//| 执行每周复盘函数                                                 |
-//+------------------------------------------------------------------+
-void ExecuteWeeklyReview()
-{
-   Print("=== 开始每周复盘 ===");
-
-   datetime WeekStart = iTime(Symbol(), PERIOD_W1, 0);
-   datetime WeekEnd = TimeCurrent();
-
-   ReviewStatistics WeekStats = CalculatePeriodStats(WeekStart, WeekEnd);
-
-   string ReportContent = GenerateWeeklyReport(WeekStats);
-   string FileName = "每周复盘_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
-   SaveReport(FileName, ReportContent);
-
-   // 策略性能分析
-   AnalyzeStrategyPerformance(WeekStart, WeekEnd);
-
-   if(EnableAIAnalysis) {
-      string AIAnalysis = GetReviewAIAnalysis(WeekStats, "每周");
-      Print("AI每周分析: ", AIAnalysis);
-      SaveReport("AI分析_每周_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
-   }
-
-   Print("每周复盘完成");
-}
-
-//+------------------------------------------------------------------+
-//| 执行每月复盘函数                                                 |
-//+------------------------------------------------------------------+
-void ExecuteMonthlyReview()
-{
-   Print("=== 开始每月复盘 ===");
-
-   datetime MonthStart = iTime(Symbol(), PERIOD_MN1, 0);
-   datetime MonthEnd = TimeCurrent();
-
-   ReviewStatistics MonthStats = CalculatePeriodStats(MonthStart, MonthEnd);
-
-   string ReportContent = GenerateMonthlyReport(MonthStats);
-   string FileName = "每月复盘_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt";
-   SaveReport(FileName, ReportContent);
-
-   // 深度策略优化分析
-   ExecuteDeepStrategyAnalysis(MonthStart, MonthEnd);
-
-   if(EnableAIAnalysis) {
-      string AIAnalysis = GetReviewAIAnalysis(MonthStats, "每月");
-      Print("AI每月分析: ", AIAnalysis);
-      SaveReport("AI分析_每月_" + TimeToString(TimeCurrent(), TIME_DATE) + ".txt", AIAnalysis);
-   }
-
-   Print("每月复盘完成");
-}
-
-//+------------------------------------------------------------------+
-//| 计算周期统计函数                                                 |
-//+------------------------------------------------------------------+
-ReviewStatistics CalculatePeriodStats(datetime StartTime, datetime EndTime)
-{
-   ReviewStatistics Stats;
-   Stats.StartTime = StartTime;
-   Stats.EndTime = EndTime;
-
-   Stats.TotalTrades = 0;
-   Stats.WinTrades = 0;
-   Stats.LossTrades = 0;
-   Stats.TotalProfit = 0;
-   int CurrentWinStreak = 0;
-   int CurrentLossStreak = 0;
-   Stats.MaxWinStreak = 0;
-   Stats.MaxLossStreak = 0;
-   double MaxEquity = 0;
-   double CurrentDrawdown = 0;
-   Stats.MaxDrawdown = 0;
-   double CumulativeProfit = 0;
-   double CumulativeLoss = 0;
-
-   for(int i = 0; i < TradeRecordCount; i++) {
-      if(TradeHistory[i].Time >= StartTime && TradeHistory[i].Time <= EndTime) {
-         Stats.TotalTrades++;
-         Stats.TotalProfit += TradeHistory[i].Profit;
-
-         if(TradeHistory[i].Profit > 0) {
-            Stats.WinTrades++;
-            CurrentWinStreak++;
-            CurrentLossStreak = 0;
-            CumulativeProfit += TradeHistory[i].Profit;
-            if(CurrentWinStreak > Stats.MaxWinStreak) Stats.MaxWinStreak = CurrentWinStreak;
-         } else {
-            Stats.LossTrades++;
-            CurrentLossStreak++;
-            CurrentWinStreak = 0;
-            CumulativeLoss += MathAbs(TradeHistory[i].Profit);
-            if(CurrentLossStreak > Stats.MaxLossStreak) Stats.MaxLossStreak = CurrentLossStreak;
-         }
-
-         // 计算回撤
-         double CurrentEquity = CumulativeProfit - CumulativeLoss;
-         if(CurrentEquity > MaxEquity) {
-            MaxEquity = CurrentEquity;
-         }
-         CurrentDrawdown = MaxEquity - CurrentEquity;
-         if(CurrentDrawdown > Stats.MaxDrawdown) {
-            Stats.MaxDrawdown = CurrentDrawdown;
-         }
-      }
-   }
-
-   if(Stats.TotalTrades > 0) {
-      Stats.WinRate = (double)Stats.WinTrades / Stats.TotalTrades * 100;
-      Stats.AvgProfit = Stats.TotalProfit / Stats.TotalTrades;
-      Stats.ProfitFactor = (Stats.LossTrades > 0) ? (CumulativeProfit / Stats.LossTrades) / (CumulativeLoss / Stats.LossTrades) : 0;
-   }
-
-   return Stats;
-}
-
-//+------------------------------------------------------------------+
-//| 生成每日报告函数                                                 |
-//+------------------------------------------------------------------+
-string GenerateDailyReport(ReviewStatistics &Stats)
-{
-   string Report = "=== 宇川AI交易系统每日复盘报告 ===\n\n";
-   Report += "统计周期: " + TimeToString(Stats.StartTime) + " 至 " + TimeToString(Stats.EndTime) + "\n\n";
-
-   Report += "📊📊📊📊📊📊📊📊 当日交易概览\n";
-   Report += "───────────────\n";
-   Report += "总交易笔数: " + IntegerToString(Stats.TotalTrades) + "\n";
-   Report += "盈利交易: " + IntegerToString(Stats.WinTrades) + "笔\n";
-   Report += "亏损交易: " + IntegerToString(Stats.LossTrades) + "笔\n";
-   Report += "胜率: " + DoubleToString(Stats.WinRate, 1) + "%\n";
-   Report += "总盈亏: " + DoubleToString(Stats.TotalProfit, 2) + " USD\n";
-   Report += "平均每笔盈亏: " + DoubleToString(Stats.AvgProfit, 2) + " USD\n";
-   Report += "盈亏比: " + DoubleToString(Stats.ProfitFactor, 2) + "\n\n";
-
-   Report += "⚡⚡⚡⚡⚡⚡⚡⚡ 风险指标\n";
-   Report += "───────────────\n";
-   Report += "最大连胜: " + IntegerToString(Stats.MaxWinStreak) + "笔\n";
-   Report += "最大连败: " + IntegerToString(Stats.MaxLossStreak) + "笔\n";
-   Report += "最大回撤: " + DoubleToString(Stats.MaxDrawdown, 2) + " USD\n\n";
-
-   // 策略表现分析
-   Report += "🎯🎯🎯🎯🎯🎯🎯🎯 策略表现分析\n";
-   Report += "───────────────\n";
-   Report += AnalyzeDailyStrategyPerformance(Stats.StartTime, Stats.EndTime) + "\n";
-
-   // 错误分析
-   Report += "⚠️ 当日错误分析\n";
-   Report += "───────────────\n";
-   Report += AnalyzeDailyErrors() + "\n";
-
-   // 明日建议
-   Report += "💡💡💡💡💡💡💡💡 明日交易建议\n";
-   Report += "───────────────\n";
-   Report += GenerateTomorrowSuggestion(Stats) + "\n";
 
    Report += "报告生成时间: " + TimeToString(TimeCurrent()) + "\n";
 
@@ -3316,7 +1875,7 @@ string GenerateWeeklyReport(ReviewStatistics &Stats)
    string Report = "=== 宇川AI交易系统每周复盘报告 ===\n\n";
    Report += "统计周期: " + TimeToString(Stats.StartTime) + " 至 " + TimeToString(Stats.EndTime) + "\n\n";
 
-   Report += "📈📈📈📈📈📈📈📈 本周交易概览\n";
+   Report += "本周交易概览\n";
    Report += "───────────────\n";
    Report += "总交易笔数: " + IntegerToString(Stats.TotalTrades) + "\n";
    Report += "盈利交易: " + IntegerToString(Stats.WinTrades) + "笔\n";
@@ -3325,27 +1884,6 @@ string GenerateWeeklyReport(ReviewStatistics &Stats)
    Report += "总盈亏: " + DoubleToString(Stats.TotalProfit, 2) + " USD\n";
    Report += "平均每笔盈亏: " + DoubleToString(Stats.AvgProfit, 2) + " USD\n";
    Report += "盈亏比: " + DoubleToString(Stats.ProfitFactor, 2) + "\n\n";
-
-   Report += "⚡⚡⚡⚡⚡⚡⚡⚡ 风险指标\n";
-   Report += "───────────────\n";
-   Report += "最大连胜: " + IntegerToString(Stats.MaxWinStreak) + "笔\n";
-   Report += "最大连败: " + IntegerToString(Stats.MaxLossStreak) + "笔\n";
-   Report += "最大回撤: " + DoubleToString(Stats.MaxDrawdown, 2) + " USD\n\n";
-
-   // 深度策略分析
-   Report += "🎯🎯🎯🎯🎯🎯🎯🎯 深度策略分析\n";
-   Report += "───────────────\n";
-   Report += ExecuteDeepStrategyAnalysis(Stats.StartTime, Stats.EndTime) + "\n";
-
-   // 市场环境分析
-   Report += "🌍🌍🌍🌍🌍🌍🌍🌍 市场环境分析\n";
-   Report += "───────────────\n";
-   Report += AnalyzeMarketEnvironment(Stats.StartTime, Stats.EndTime) + "\n";
-
-   // 下周建议
-   Report += "💡💡💡💡💡💡💡💡 下周交易建议\n";
-   Report += "───────────────\n";
-   Report += GenerateNextWeekSuggestion(Stats) + "\n";
 
    Report += "报告生成时间: " + TimeToString(TimeCurrent()) + "\n";
 
@@ -3360,7 +1898,7 @@ string GenerateMonthlyReport(ReviewStatistics &Stats)
    string Report = "=== 宇川AI交易系统每月复盘报告 ===\n\n";
    Report += "统计周期: " + TimeToString(Stats.StartTime) + " 至 " + TimeToString(Stats.EndTime) + "\n\n";
 
-   Report += "📊📊📊📊📊📊📊📊 本月交易概览\n";
+   Report += "本月交易概览\n";
    Report += "───────────────\n";
    Report += "总交易笔数: " + IntegerToString(Stats.TotalTrades) + "\n";
    Report += "盈利交易: " + IntegerToString(Stats.WinTrades) + "笔\n";
@@ -3370,25 +1908,30 @@ string GenerateMonthlyReport(ReviewStatistics &Stats)
    Report += "平均每笔盈亏: " + DoubleToString(Stats.AvgProfit, 2) + " USD\n";
    Report += "盈亏比: " + DoubleToString(Stats.ProfitFactor, 2) + "\n\n";
 
-   Report += "⚡⚡⚡⚡⚡⚡⚡⚡ 风险指标\n";
+   Report += "风险指标\n";
    Report += "───────────────\n";
    Report += "最大连胜: " + IntegerToString(Stats.MaxWinStreak) + "笔\n";
    Report += "最大连败: " + IntegerToString(Stats.MaxLossStreak) + "笔\n";
    Report += "最大回撤: " + DoubleToString(Stats.MaxDrawdown, 2) + " USD\n";
    Report += "月收益率: " + DoubleToString(Stats.TotalProfit / AccountInfoDouble(ACCOUNT_BALANCE) * 100, 2) + "%\n\n";
 
-   // 深度策略分析
-   Report += "🎯🎯🎯🎯🎯🎯🎯🎯 深度策略分析\n";
+   // 策略表现分析
+   Report += "策略表现分析\n";
    Report += "───────────────\n";
-   Report += ExecuteDeepStrategyAnalysis(Stats.StartTime, Stats.EndTime) + "\n";
+   Report += AnalyzeStrategyPerformance(Stats.StartTime, Stats.EndTime) + "\n";
 
    // 资金管理分析
-   Report += "💰💰💰💰 资金管理分析\n";
+   Report += "资金管理分析\n";
    Report += "───────────────\n";
    Report += AnalyzeMoneyManagement(Stats.StartTime, Stats.EndTime) + "\n";
 
+   // 市场环境分析
+   Report += "市场环境分析\n";
+   Report += "───────────────\n";
+   Report += AnalyzeMarketEnvironment(Stats.StartTime, Stats.EndTime) + "\n";
+
    // 下月建议
-   Report += "💡💡💡💡💡💡💡💡 下月交易建议\n";
+   Report += "下月交易建议\n";
    Report += "───────────────\n";
    Report += GenerateNextMonthSuggestion(Stats) + "\n";
 
@@ -3398,13 +1941,16 @@ string GenerateMonthlyReport(ReviewStatistics &Stats)
 }
 
 //+------------------------------------------------------------------+
-//| 分析日策略表现函数                                               |
+//| 分析策略表现函数                                                 |
 //+------------------------------------------------------------------+
-string AnalyzeDailyStrategyPerformance(datetime StartTime, datetime EndTime)
+string AnalyzeStrategyPerformance(datetime StartTime, datetime EndTime)
 {
    string analysis = "策略表现详情:\n";
    
    // 统计各策略表现
+   string strategies[] = {"趋势跟踪", "均值回归", "海龟交易", "123法则", "裸K", 
+                          "波动率突破", "布林带", "SMC", "金叉死叉", "机器学习"};
+   
    int totalTrades = 0;
    double totalProfit = 0;
    
@@ -3425,26 +1971,28 @@ string AnalyzeDailyStrategyPerformance(datetime StartTime, datetime EndTime)
    
    // 按策略分类统计
    analysis += "按策略分类:\n";
-   string strategies[] = {"趋势跟踪", "均值回归", "海龟交易", "123法则", "裸K", 
-                          "波动率突破", "布林带", "SMC", "金叉死叉", "机器学习"};
    
-   for(int s = 0; s < 10; s++) {
+   for(int s = 0; s < ArraySize(strategies); s++) {
       int count = 0;
       double profit = 0;
+      int wins = 0;
       
       for(int i = 0; i < TradeRecordCount; i++) {
          if(TradeHistory[i].Time >= StartTime && TradeHistory[i].Time <= EndTime) {
             if(TradeHistory[i].Strategy == strategies[s]) {
                count++;
                profit += TradeHistory[i].Profit;
+               if(TradeHistory[i].Profit > 0) wins++;
             }
          }
       }
       
       if(count > 0) {
+         double winRate = (double)wins / count * 100;
          analysis += strategies[s] + ": " + IntegerToString(count) + "笔, " +
                     DoubleToString(profit, 2) + " USD, " +
-                    DoubleToString(profit / count, 2) + "平均盈亏\n";
+                    DoubleToString(profit / count, 2) + "平均盈亏, " +
+                    DoubleToString(winRate, 1) + "%胜率\n";
       }
    }
    
@@ -3452,113 +2000,127 @@ string AnalyzeDailyStrategyPerformance(datetime StartTime, datetime EndTime)
 }
 
 //+------------------------------------------------------------------+
-//| 分析日错误函数                                                   |
+//| 分析资金管理函数                                                 |
 //+------------------------------------------------------------------+
-string AnalyzeDailyErrors()
+string AnalyzeMoneyManagement(datetime StartTime, datetime EndTime)
 {
-   string errors = "";
-   int errorCount = 0;
-   int tradeErrorCount = 0;
-   int signalErrorCount = 0;
-   int executionErrorCount = 0;
+   string analysis = "资金管理分析:\n\n";
    
+   double initialBalance = AccountInfoDouble(ACCOUNT_BALANCE);
+   double finalBalance = initialBalance;
+   double maxBalance = initialBalance;
+   double minBalance = initialBalance;
+   double totalProfit = 0;
+   double totalLoss = 0;
+   
+   // 模拟资金曲线
    for(int i = 0; i < TradeRecordCount; i++) {
-      if(TradeHistory[i].Time >= TimeCurrent() - 86400) {
-         if(TradeHistory[i].Profit < 0) {
-            tradeErrorCount++;
-            
-            // 分析错误类型
-            if(StringFind(TradeHistory[i].Comment, "止损") >= 0) {
-               errors += "止损触发: " + TradeHistory[i].Symbol + " " + 
-                        TradeHistory[i].Direction + " 亏损" + 
-                        DoubleToString(TradeHistory[i].Profit, 2) + "\n";
-            }
-            else if(StringFind(TradeHistory[i].Comment, "超时") >= 0) {
-               errors += "执行超时: " + TradeHistory[i].Symbol + " " + 
-                        TradeHistory[i].Direction + "\n";
-            }
-            else {
-               errors += "普通亏损: " + TradeHistory[i].Symbol + " " + 
-                        TradeHistory[i].Direction + " 亏损" + 
-                        DoubleToString(TradeHistory[i].Profit, 2) + "\n";
-            }
-            
-            errorCount++;
-            if(errorCount >= 10) break; // 限制错误数量
-         }
+      if(TradeHistory[i].Time >= StartTime && TradeHistory[i].Time <= EndTime) {
+         finalBalance += TradeHistory[i].Profit;
+         totalProfit += MathMax(0, TradeHistory[i].Profit);
+         totalLoss += MathAbs(MathMin(0, TradeHistory[i].Profit));
+         
+         if(finalBalance > maxBalance) maxBalance = finalBalance;
+         if(finalBalance < minBalance) minBalance = finalBalance;
       }
    }
    
-   if(errorCount == 0) {
-      errors = "当日无重大错误";
-   }
+   analysis += "初始资金: " + DoubleToString(initialBalance, 2) + " USD\n";
+   analysis += "最终资金: " + DoubleToString(finalBalance, 2) + " USD\n";
+   analysis += "最高资金: " + DoubleToString(maxBalance, 2) + " USD\n";
+   analysis += "最低资金: " + DoubleToString(minBalance, 2) + " USD\n";
+   analysis += "绝对收益: " + DoubleToString(finalBalance - initialBalance, 2) + " USD\n";
+   analysis += "相对收益: " + DoubleToString((finalBalance - initialBalance) / initialBalance * 100, 2) + "%\n\n";
    
-   return errors;
-}
-
-//+------------------------------------------------------------------+
-//| 生成明日建议函数                                                 |
-//+------------------------------------------------------------------+
-string GenerateTomorrowSuggestion(ReviewStatistics &Stats)
-{
-   string suggestions = "";
+   analysis += "盈亏分析:\n";
+   analysis += "总盈利: " + DoubleToString(totalProfit, 2) + " USD\n";
+   analysis += "总亏损: " + DoubleToString(totalLoss, 2) + " USD\n";
+   analysis += "盈亏比: " + (totalLoss > 0 ? DoubleToString(totalProfit / totalLoss, 2) : "无限") + "\n\n";
    
-   if(Stats.TotalTrades == 0) {
-      suggestions = "当日无交易，建议明日重点关注市场机会";
-   }
-   else if(Stats.WinRate >= 70) {
-      suggestions = "当日表现优秀，建议明日保持当前策略，适当增加仓位";
-   }
-   else if(Stats.WinRate >= 50) {
-      suggestions = "当日表现良好，建议明日继续当前策略，注意风险控制";
-   }
-   else if(Stats.WinRate >= 30) {
-      suggestions = "当日表现一般，建议明日调整策略，减少交易频率";
-   }
-   else {
-      suggestions = "当日表现较差，建议明日暂停交易，重新分析市场";
-   }
-   
-   // 添加具体建议
-   suggestions += "\n具体建议:\n";
-   suggestions += "1. 关注主要交易品种的支撑阻力位\n";
-   suggestions += "2. 严格控制单笔风险在" + DoubleToString(SingleRiskPercent, 1) + "%以内\n";
-   suggestions += "3. 优先选择高置信度的交易机会\n";
-   suggestions += "4. 及时止损，保护资金安全";
-   
-   return suggestions;
-}
-
-//+------------------------------------------------------------------+
-//| 生成下周建议函数                                                 |
-//+------------------------------------------------------------------+
-string GenerateNextWeekSuggestion(ReviewStatistics &Stats)
-{
-   string suggestions = "";
-   
-   if(Stats.WinRate >= 60) {
-      suggestions = "本周表现优秀，建议下周:\n";
-      suggestions += "1. 保持当前策略组合\n";
-      suggestions += "2. 适当增加交易仓位\n";
-      suggestions += "3. 重点关注高胜率策略\n";
-   } else if(Stats.WinRate >= 40) {
-      suggestions = "本周表现良好，建议下周:\n";
-      suggestions += "1. 微调策略参数\n";
-      suggestions += "2. 保持当前仓位水平\n";
-      suggestions += "3. 加强风险控制\n";
+   // 资金曲线分析
+   analysis += "资金曲线分析:\n";
+   if(finalBalance > initialBalance * 1.15) {
+      analysis += "资金曲线表现优秀，稳定向上增长\n";
+   } else if(finalBalance > initialBalance) {
+      analysis += "资金曲线表现良好，稳步增长\n";
+   } else if(finalBalance > initialBalance * 0.85) {
+      analysis += "资金曲线表现一般，需要优化\n";
    } else {
-      suggestions = "本周表现不佳，建议下周:\n";
-      suggestions += "1. 重新评估策略有效性\n";
-      suggestions += "2. 减少交易频率\n";
-      suggestions += "3. 严格执行止损规则\n";
+      analysis += "资金曲线表现较差，需要重大调整\n";
    }
    
-   suggestions += "\n具体操作建议:\n";
-   suggestions += "- 单笔风险维持" + DoubleToString(SingleRiskPercent, 1) + "%\n";
-   suggestions += "- 每日交易不超过" + IntegerToString(MaxDailyTrades) + "笔\n";
-   suggestions += "- 关注" + TradingSymbols + "的主要品种\n";
+   // 回撤分析
+   double maxDrawdown = (maxBalance - minBalance) / maxBalance * 100;
+   analysis += "最大回撤: " + DoubleToString(maxDrawdown, 1) + "% - ";
+   if(maxDrawdown < 10) analysis += "优秀的风控表现";
+   else if(maxDrawdown < 20) analysis += "良好的风控表现";
+   else if(maxDrawdown < 30) analysis += "一般的风控表现";
+   else analysis += "较差的风控表现";
+   analysis += "\n\n";
    
-   return suggestions;
+   return analysis;
+}
+
+//+------------------------------------------------------------------+
+//| 分析市场环境函数                                                 |
+//+------------------------------------------------------------------+
+string AnalyzeMarketEnvironment(datetime StartTime, datetime EndTime)
+{
+   string analysis = "市场环境分析:\n";
+   
+   // 简化的市场环境分析
+   int trendDays = 0;
+   int rangeDays = 0;
+   int breakoutDays = 0;
+   
+   datetime current = StartTime;
+   while(current <= EndTime) {
+      ENUM_MARKET_STATE state = AnalyzeMarketState(Symbol(), 0);
+      
+      switch(state) {
+         case MARKET_TREND: trendDays++; break;
+         case MARKET_RANGE: rangeDays++; break;
+         case MARKET_BREAKOUT: breakoutDays++; break;
+      }
+      
+      current += 86400; // 增加一天
+   }
+   
+   int totalDays = (int)((EndTime - StartTime) / 86400) + 1;
+   
+   analysis += "统计天数: " + IntegerToString(totalDays) + "\n";
+   analysis += "趋势市天数: " + IntegerToString(trendDays) + " (" + 
+              DoubleToString((double)trendDays / totalDays * 100, 1) + "%)\n";
+   analysis += "震荡市天数: " + IntegerToString(rangeDays) + " (" + 
+              DoubleToString((double)rangeDays / totalDays * 100, 1) + "%)\n";
+   analysis += "突破市天数: " + IntegerToString(breakoutDays) + " (" + 
+              DoubleToString((double)breakoutDays / totalDays * 100, 1) + "%)\n\n";
+   
+   analysis += "市场环境建议:\n";
+   
+   if(trendDays > rangeDays + breakoutDays) {
+      analysis += "当前市场以趋势为主，建议:\n";
+      analysis += "1. 优先使用趋势跟踪策略\n";
+      analysis += "2. 增加趋势策略的权重配置\n";
+      analysis += "3. 适当放宽止损设置，让利润奔跑\n";
+   } else if(rangeDays > trendDays + breakoutDays) {
+      analysis += "当前市场以震荡为主，建议:\n";
+      analysis += "1. 优先使用均值回归策略\n";
+      analysis += "2. 收紧止损设置，控制单笔亏损\n";
+      analysis += "3. 采用网格或马丁策略（谨慎使用）\n";
+   } else if(breakoutDays > trendDays + rangeDays) {
+      analysis += "当前市场以突破为主，建议:\n";
+      analysis += "1. 优先使用突破策略\n";
+      analysis += "2. 关注关键支撑阻力位的突破\n";
+      analysis += "3. 适当放宽止损，避免被震荡洗出\n";
+   } else {
+      analysis += "市场状态混合，建议:\n";
+      analysis += "1. 采用多策略组合\n";
+      analysis += "2. 动态调整策略权重\n";
+      analysis += "3. 加强风险控制\n";
+   }
+   
+   return analysis;
 }
 
 //+------------------------------------------------------------------+
@@ -3630,14 +2192,7 @@ string GetReviewAIAnalysis(ReviewStatistics &Stats, string Period)
    prompt += "最大连败: " + IntegerToString(Stats.MaxLossStreak) + "笔\n";
    prompt += "最大回撤: " + DoubleToString(Stats.MaxDrawdown, 2) + " USD\n\n";
    
-   prompt += "请分析交易表现，指出潜在问题，并提出改进建议。返回JSON格式：\n";
-   prompt += "{\n";
-   prompt += "  \"analysis\": \"分析内容\",\n";
-   prompt += "  \"strengths\": \"优势\",\n";
-   prompt += "  \"weaknesses\": \"弱点\",\n";
-   prompt += "  \"suggestions\": \"改进建议\",\n";
-   prompt += "  \"risk_rating\": \"风险评级(HIGH/MEDIUM/LOW)\"\n";
-   prompt += "}\n";
+   prompt += "请分析交易表现，指出潜在问题，并提出改进建议。\n";
    
    // 调用DeepSeek API
    string response = CallDeepSeekAPI(prompt);
@@ -3650,6 +2205,66 @@ string GetReviewAIAnalysis(ReviewStatistics &Stats, string Period)
    }
    
    return apiResponse.content;
+}
+
+//+------------------------------------------------------------------+
+//| 调用DeepSeek API函数                                            |
+//+------------------------------------------------------------------+
+string CallDeepSeekAPI(string prompt)
+{
+   if(!EnableAIAnalysis || StringLen(DeepSeekAPIKey) < 10) {
+      return "AI分析未启用";
+   }
+   
+   // 构建请求数据
+   string headers = "Content-Type: application/json\r\n";
+   headers += "Authorization: Bearer " + DeepSeekAPIKey + "\r\n";
+   
+   string request_data = "{\n";
+   request_data += "  \"model\": \"deepseek-chat\",\n";
+   request_data += "  \"messages\": [\n";
+   request_data += "    {\n";
+   request_data += "      \"role\": \"user\",\n";
+   request_data += "      \"content\": \"" + EscapeJSONString(prompt) + "\"\n";
+   request_data += "    }\n";
+   request_data += "  ],\n";
+   request_data += "  \"temperature\": " + DoubleToString(AICreativityParam, 1) + ",\n";
+   request_data += "  \"max_tokens\": " + IntegerToString(AIMaxTokens) + ",\n";
+   request_data += "  \"stream\": false\n";
+   request_data += "}";
+   
+   if(EnableAPILog) {
+      Print("=== DeepSeek API请求 ===");
+      Print("URL: ", DeepSeekBaseURL);
+      Print("请求数据: ", request_data);
+   }
+   
+   // 发送HTTP请求
+   uchar result[];
+   string result_headers;
+   int response_code;
+   
+   int res = WebRequest("POST", DeepSeekBaseURL, headers, APITimeout, request_data, result, result_headers, response_code);
+   
+   if(res == -1) {
+      string error_message = "WebRequest错误: " + IntegerToString(GetLastError());
+      if(EnableDetailedLog) Print(error_message);
+      return "API请求失败: " + error_message;
+   }
+   
+   if(response_code != 200) {
+      string error_msg = "HTTP错误代码: " + IntegerToString(response_code);
+      if(EnableDetailedLog) Print(error_msg);
+      return "API响应错误: " + error_msg;
+   }
+   
+   string response_text = CharArrayToString(result);
+   
+   if(EnableAPILog) {
+      Print("API响应: ", response_text);
+   }
+   
+   return response_text;
 }
 
 //+------------------------------------------------------------------+
@@ -3692,13 +2307,12 @@ DeepSeekResponse ParseDeepSeekResponse(string json_response)
          }
       }
       
-      // 提取其他字段
       response.success = true;
       response.error_message = "";
       
    } catch(Exception e) {
       response.success = false;
-      response.error_message = "解析响应时出现异常: " + e.message;
+      response.error_message = "解析响应时出现异常";
    }
    
    return response;
@@ -3719,390 +2333,6 @@ string UnescapeJSONString(string input)
    StringReplace(output, "\\b", "\b");
    StringReplace(output, "\\f", "\f");
    return output;
-}
-
-//+------------------------------------------------------------------+
-//| 执行深度策略分析函数                                             |
-//+------------------------------------------------------------------+
-string ExecuteDeepStrategyAnalysis(datetime StartTime, datetime EndTime)
-{
-   string analysis = "深度策略分析:\n\n";
-   
-   // 策略相关性分析
-   analysis += "1. 策略相关性分析:\n";
-   analysis += "   趋势跟踪 vs 均值回归: 负相关\n";
-   analysis += "   海龟交易 vs 波动率突破: 正相关\n";
-   analysis += "   SMC vs 价格行为: 正相关\n\n";
-   
-   // 最佳参数分析
-   analysis += "2. 最佳参数分析:\n";
-   analysis += "   趋势跟踪: 50周期MA效果最佳\n";
-   analysis += "   均值回归: RSI(14)超买超卖区域效果最佳\n";
-   analysis += "   波动率突破: ATR(14)乘数2.0效果最佳\n\n";
-   
-   // 市场适应性分析
-   analysis += "3. 市场适应性分析:\n";
-   analysis += "   趋势市: 趋势跟踪策略胜率65%\n";
-   analysis += "   震荡市: 均值回归策略胜率58%\n";
-   analysis += "   突破市: 波动率突破策略胜率62%\n\n";
-   
-   // 风险调整后收益
-   analysis += "4. 风险调整后收益:\n";
-   analysis += "   夏普比率: 1.2\n";
-   analysis += "   索提诺比率: 1.5\n";
-   analysis += "   最大回撤恢复时间: 3.2天\n";
-   
-   return analysis;
-}
-
-//+------------------------------------------------------------------+
-//| 分析市场环境函数                                                 |
-//+------------------------------------------------------------------+
-string AnalyzeMarketEnvironment(datetime StartTime, datetime EndTime)
-{
-   string analysis = "市场环境分析:\n";
-   
-   // 简化的市场环境分析
-   int trendDays = 0;
-   int rangeDays = 0;
-   int breakoutDays = 0;
-   
-   datetime current = StartTime;
-   while(current <= EndTime) {
-      MARKET_STATE state = AnalyzeMarketState(Symbol(), 0);
-      
-      switch(state) {
-         case MARKET_TREND: trendDays++; break;
-         case MARKET_RANGE: rangeDays++; break;
-         case MARKET_BREAKOUT: breakoutDays++; break;
-      }
-      
-      current += 86400; // 增加一天
-   }
-   
-   int totalDays = (int)((EndTime - StartTime) / 86400) + 1;
-   
-  analysis += "统计天数: " + IntegerToString(totalDays) + "\n";
-   analysis += "趋势市天数: " + IntegerToString(trendDays) + " (" + 
-              DoubleToString((double)trendDays / totalDays * 100, 1) + "%)\n";
-   analysis += "震荡市天数: " + IntegerToString(rangeDays) + " (" + 
-              DoubleToString((double)rangeDays / totalDays * 100, 1) + "%)\n";
-   analysis += "突破市天数: " + IntegerToString(breakoutDays) + " (" + 
-              DoubleToString((double)breakoutDays / totalDays * 100, 1) + "%)\n\n";
-   
-   analysis += "市场环境建议:\n";
-   
-   if(trendDays > rangeDays + breakoutDays) {
-      analysis += "当前市场以趋势为主，建议:\n";
-      analysis += "1. 优先使用趋势跟踪策略\n";
-      analysis += "2. 增加趋势策略的权重配置\n";
-      analysis += "3. 适当放宽止损设置，让利润奔跑\n";
-      analysis += "4. 减少反转策略的使用频率\n";
-      analysis += "5. 关注主要趋势方向的交易机会\n";
-   } else if(rangeDays > trendDays + breakoutDays) {
-      analysis += "当前市场以震荡为主，建议:\n";
-      analysis += "1. 优先使用均值回归策略\n";
-      analysis += "2. 收紧止损设置，控制单笔亏损\n";
-      analysis += "3. 采用网格或马丁策略（谨慎使用）\n";
-      analysis += "4. 减少趋势策略的使用频率\n";
-      analysis += "5. 在支撑阻力位附近寻找交易机会\n";
-   } else if(breakoutDays > trendDays + rangeDays) {
-      analysis += "当前市场以突破为主，建议:\n";
-      analysis += "1. 优先使用突破策略\n";
-      analysis += "2. 关注关键支撑阻力位的突破\n";
-      analysis += "3. 适当放宽止损，避免被震荡洗出\n";
-      analysis += "4. 突破确认后顺势交易\n";
-      analysis += "5. 注意假突破的风险控制\n";
-   } else {
-      analysis += "市场状态混合，建议:\n";
-      analysis += "1. 采用多策略组合\n";
-      analysis += "2. 动态调整策略权重\n";
-      analysis += "3. 加强风险控制\n";
-      analysis += "4. 关注市场结构变化\n";
-      analysis += "5. 灵活应对不同市场环境\n";
-   }
-   
-   analysis += "\n具体操作建议:\n";
-   analysis += "- 趋势市: 趋势跟踪权重提升至70%\n";
-   analysis += "- 震荡市: 均值回归权重提升至60%\n";
-   analysis += "- 突破市: 突破策略权重提升至65%\n";
-   analysis += "- 混合市: 均衡配置各策略权重\n\n";
-   
-   analysis += "风险控制建议:\n";
-   analysis += "- 趋势市: 单笔风险" + DoubleToString(SingleRiskPercent, 1) + "%，日风险" + DoubleToString(DailyRiskLimit, 1) + "%\n";
-   analysis += "- 震荡市: 单笔风险" + DoubleToString(SingleRiskPercent * 0.8, 1) + "%，日风险" + DoubleToString(DailyRiskLimit * 0.8, 1) + "%\n";
-   analysis += "- 突破市: 单笔风险" + DoubleToString(SingleRiskPercent * 1.2, 1) + "%，日风险" + DoubleToString(DailyRiskLimit * 1.2, 1) + "%\n";
-   analysis += "- 混合市: 单笔风险" + DoubleToString(SingleRiskPercent, 1) + "%，日风险" + DoubleToString(DailyRiskLimit, 1) + "%\n";
-   
-   return analysis;
-}
-
-//+------------------------------------------------------------------+
-//| 分析资金管理函数                                                 |
-//+------------------------------------------------------------------+
-string AnalyzeMoneyManagement(datetime StartTime, datetime EndTime)
-{
-   string analysis = "资金管理分析:\n\n";
-   
-   double initialBalance = AccountInfoDouble(ACCOUNT_BALANCE);
-   double finalBalance = initialBalance;
-   double maxBalance = initialBalance;
-   double minBalance = initialBalance;
-   double totalProfit = 0;
-   double totalLoss = 0;
-   
-   // 模拟资金曲线
-   for(int i = 0; i < TradeRecordCount; i++) {
-      if(TradeHistory[i].Time >= StartTime && TradeHistory[i].Time <= EndTime) {
-         finalBalance += TradeHistory[i].Profit;
-         totalProfit += MathMax(0, TradeHistory[i].Profit);
-         totalLoss += MathAbs(MathMin(0, TradeHistory[i].Profit));
-         
-         if(finalBalance > maxBalance) maxBalance = finalBalance;
-         if(finalBalance < minBalance) minBalance = finalBalance;
-      }
-   }
-   
-   analysis += "初始资金: " + DoubleToString(initialBalance, 2) + " USD\n";
-   analysis += "最终资金: " + DoubleToString(finalBalance, 2) + " USD\n";
-   analysis += "最高资金: " + DoubleToString(maxBalance, 2) + " USD\n";
-   analysis += "最低资金: " + DoubleToString(minBalance, 2) + " USD\n";
-   analysis += "绝对收益: " + DoubleToString(finalBalance - initialBalance, 2) + " USD\n";
-   analysis += "相对收益: " + DoubleToString((finalBalance - initialBalance) / initialBalance * 100, 2) + "%\n\n";
-   
-   analysis += "盈亏分析:\n";
-   analysis += "总盈利: " + DoubleToString(totalProfit, 2) + " USD\n";
-   analysis += "总亏损: " + DoubleToString(totalLoss, 2) + " USD\n";
-   analysis += "盈亏比: " + (totalLoss > 0 ? DoubleToString(totalProfit / totalLoss, 2) : "无限") + "\n\n";
-   
-   // 资金曲线分析
-   analysis += "资金曲线分析:\n";
-   if(finalBalance > initialBalance * 1.15) {
-      analysis += "资金曲线表现优秀，稳定向上增长\n";
-   } else if(finalBalance > initialBalance) {
-      analysis += "资金曲线表现良好，稳步增长\n";
-   } else if(finalBalance > initialBalance * 0.85) {
-      analysis += "资金曲线表现一般，需要优化\n";
-   } else {
-      analysis += "资金曲线表现较差，需要重大调整\n";
-   }
-   
-   // 回撤分析
-   double maxDrawdown = (maxBalance - minBalance) / maxBalance * 100;
-   analysis += "最大回撤: " + DoubleToString(maxDrawdown, 1) + "% - ";
-   if(maxDrawdown < 10) analysis += "优秀的风控表现";
-   else if(maxDrawdown < 20) analysis += "良好的风控表现";
-   else if(maxDrawdown < 30) analysis += "一般的风控表现";
-   else analysis += "较差的风控表现";
-   analysis += "\n\n";
-   
-   // 资金管理建议
-   analysis += "资金管理建议:\n";
-   if(maxDrawdown > 20) {
-      analysis += "1. 降低单笔风险至" + DoubleToString(SingleRiskPercent * 0.7, 1) + "%\n";
-      analysis += "2. 减少每日交易次数\n";
-      analysis += "3. 加强止损设置\n";
-      analysis += "4. 避免过度交易\n";
-   } else if(totalProfit / totalLoss < 1.5) {
-      analysis += "1. 提高胜率或盈亏比\n";
-      analysis += "2. 优化入场时机\n";
-      analysis += "3. 改进止盈策略\n";
-      analysis += "4. 减少无效交易\n";
-   } else {
-      analysis += "1. 保持当前资金管理水平\n";
-      analysis += "2. 逐步增加资金规模\n";
-      analysis += "3. 继续优化策略表现\n";
-   }
-   
-   return analysis;
-}
-
-//+------------------------------------------------------------------+
-//| 策略性能分析函数                                                 |
-//+------------------------------------------------------------------+
-string AnalyzeStrategyPerformance(datetime StartTime, datetime EndTime)
-{
-   string analysis = "策略性能分析:\n\n";
-   
-   // 按策略分类统计
-   string strategies[] = {"趋势跟踪", "均值回归", "海龟交易", "123法则", "裸K", 
-                          "波动率突破", "布林带", "SMC", "金叉死叉", "机器学习"};
-   
-   int strategyCount[10] = {0};
-   int strategyWins[10] = {0};
-   double strategyProfit[10] = {0};
-   double strategyMaxDrawdown[10] = {0};
-   
-   // 收集策略数据
-   for(int i = 0; i < TradeRecordCount; i++) {
-      if(TradeHistory[i].Time >= StartTime && TradeHistory[i].Time <= EndTime) {
-         for(int s = 0; s < 10; s++) {
-            if(TradeHistory[i].Strategy == strategies[s]) {
-               strategyCount[s]++;
-               strategyProfit[s] += TradeHistory[i].Profit;
-               if(TradeHistory[i].Profit > 0) strategyWins[s]++;
-               
-               // 简化的回撤计算
-               if(TradeHistory[i].Profit < 0) {
-                  strategyMaxDrawdown[s] += MathAbs(TradeHistory[i].Profit);
-               }
-            }
-         }
-      }
-   }
-   
-   // 生成策略排名
-   analysis += "策略表现排名:\n";
-   analysis += "─────────────────────────────────────────\n";
-   analysis += "策略名称       交易次数  胜率    盈亏    平均盈亏\n";
-   analysis += "─────────────────────────────────────────\n";
-   
-   for(int s = 0; s < 10; s++) {
-      if(strategyCount[s] > 0) {
-         double winRate = (double)strategyWins[s] / strategyCount[s] * 100;
-         double avgProfit = strategyProfit[s] / strategyCount[s];
-         
-         analysis += StringFormat("%-8s %8d %6.1f%% %8.2f %8.2f\n",
-                                 strategies[s], strategyCount[s], winRate, 
-                                 strategyProfit[s], avgProfit);
-      }
-   }
-   analysis += "─────────────────────────────────────────\n\n";
-   
-   // 最佳和最差策略
-   int bestStrategy = -1;
-   int worstStrategy = -1;
-   double bestPerformance = -1000000;
-   double worstPerformance = 1000000;
-   
-   for(int s = 0; s < 10; s++) {
-      if(strategyCount[s] > 5) { // 至少5笔交易才参与评选
-         double performance = strategyProfit[s] / strategyCount[s];
-         if(performance > bestPerformance) {
-            bestPerformance = performance;
-            bestStrategy = s;
-         }
-         if(performance < worstPerformance) {
-            worstPerformance = performance;
-            worstStrategy = s;
-         }
-      }
-   }
-   
-   if(bestStrategy >= 0) {
-      analysis += "最佳表现策略: " + strategies[bestStrategy] + 
-                 " (平均盈亏:" + DoubleToString(bestPerformance, 2) + ")\n";
-   }
-   if(worstStrategy >= 0) {
-      analysis += "最差表现策略: " + strategies[worstStrategy] + 
-                 " (平均盈亏:" + DoubleToString(worstPerformance, 2) + ")\n";
-   }
-   analysis += "\n";
-   
-   // 策略优化建议
-   analysis += "策略优化建议:\n";
-   if(bestStrategy >= 0) {
-      analysis += "1. 增加" + strategies[bestStrategy] + "策略的权重\n";
-   }
-   if(worstStrategy >= 0) {
-      analysis += "2. 减少或暂停" + strategies[worstStrategy] + "策略的使用\n";
-   }
-   analysis += "3. 关注市场环境与策略的匹配度\n";
-   analysis += "4. 定期回顾和调整策略参数\n";
-   
-   return analysis;
-}
-
-//+------------------------------------------------------------------+
-//| 获取机器学习预测函数                                             |
-//+------------------------------------------------------------------+
-bool GetMLPrediction(string symbol, double &Prediction, double &Confidence)
-{
-   if(!EnableML) return false;
-   
-   datetime CurrentTime = TimeCurrent();
-   if(CurrentTime - LastMLPredictionTime < 3600) {
-      Prediction = MLPredictionValue;
-      Confidence = MLConfidence;
-      return true;
-   }
-   
-   // 简化的机器学习预测实现
-   // 实际中需要调用机器学习服务API
-   Prediction = 0.0;
-   Confidence = 0.5;
-   
-   // 基于技术指标的简单预测
-   int symbolIndex = GetSymbolIndex(symbol);
-   if(symbolIndex >= 0) {
-      double rsi = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
-      double maFast = GetIndicatorValue(maHandle_TF1[symbolIndex]);
-      double maSlow = GetIndicatorValue(maHandle_TF2[symbolIndex]);
-      
-      if(rsi < 30 && maFast > maSlow) {
-         Prediction = 1.0; // 看涨
-         Confidence = 0.7;
-      } else if(rsi > 70 && maFast < maSlow) {
-         Prediction = -1.0; // 看跌
-         Confidence = 0.7;
-      }
-   }
-   
-   MLPredictionValue = Prediction;
-   MLConfidence = Confidence;
-   LastMLPredictionTime = CurrentTime;
-   
-   return (Prediction != 0.0);
-}
-
-//+------------------------------------------------------------------+
-//| 获取品种索引函数                                                 |
-//+------------------------------------------------------------------+
-int GetSymbolIndex(string symbol)
-{
-   for(int i = 0; i < ArraySize(SymbolArray); i++) {
-      if(SymbolArray[i] == symbol) return i;
-   }
-   return -1;
-}
-
-//+------------------------------------------------------------------+
-//| 检查所有指标有效性函数                                           |
-//+------------------------------------------------------------------+
-bool CheckAllIndicatorsValid()
-{
-   for(int i = 0; i < ArraySize(SymbolArray); i++) {
-      string symbol = SymbolArray[i];
-      
-      if(!ValidateIndicatorData(maHandle_TF1[i], "MA主框架", symbol)) return false;
-      if(!ValidateIndicatorData(rsiHandle_TF1[i], "RSI", symbol)) return false;
-      if(!ValidateIndicatorData(atrHandle[i], "ATR", symbol)) return false;
-   }
-   return true;
-}
-
-//+------------------------------------------------------------------+
-//| 验证指标数据函数                                                 |
-//+------------------------------------------------------------------+
-bool ValidateIndicatorData(int handle, string indicatorName, string symbol)
-{
-   if(handle == INVALID_HANDLE) {
-      Print("错误: ", indicatorName, " 句柄无效 - ", symbol);
-      return false;
-   }
-   
-   double testValue[1];
-   if(CopyBuffer(handle, 0, 0, 1, testValue) <= 0) {
-      Print("错误: ", indicatorName, " 数据获取失败 - ", symbol);
-      return false;
-   }
-   
-   if(testValue[0] == 0 || testValue[0] == EMPTY_VALUE) {
-      Print("警告: ", indicatorName, " 数据异常 (值为0) - ", symbol);
-      return false;
-   }
-   
-   return true;
 }
 
 //+------------------------------------------------------------------+
@@ -4127,6 +2357,142 @@ void GenerateFinalReport(int reason)
    
    FileClose(handle);
    Print("最终报告已生成: ", filename);
+}
+
+//+------------------------------------------------------------------+
+//| 获取逆初始化原因描述                                             |
+//+------------------------------------------------------------------+
+string GetDeinitReasonDescription(int reason)
+{
+   switch(reason)
+   {
+      case 0:   return "EA被移除";
+      case 1:   return "图表被关闭";
+      case 2:   return "代码被重新编译";
+      case 3:   return "图表时间框架改变";
+      case 4:   return "图表品种改变";
+      case 5:   return "输入参数改变";
+      case 6:   return "账户改变";
+      case 7:   return "模板改变";
+      case 8:   return "初始化失败";
+      case 9:   return "终端关闭";
+      default:  return "未知原因 (" + IntegerToString(reason) + ")";
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 市场状态分析函数                                                 |
+//+------------------------------------------------------------------+
+ENUM_MARKET_STATE AnalyzeMarketState(string symbol, int symbolIndex)
+{
+   // 获取多时间框架数据
+   double atrValue = GetIndicatorValue(atrHandle[symbolIndex]);
+   double rsiValue = GetIndicatorValue(rsiHandle_TF1[symbolIndex]);
+   double adxValue = GetIndicatorValue(adxHandle[symbolIndex]);
+
+   // 获取价格波动范围
+   double high[20], low[20];
+   CopyHigh(symbol, PERIOD_H1, 0, 20, high);
+   CopyLow(symbol, PERIOD_H1, 0, 20, low);
+
+   double rangeSize = 0;
+   for(int i=0; i<20; i++) {
+      rangeSize += (high[i] - low[i]);
+   }
+   rangeSize /= 20;
+
+   // 基于技术指标判断市场状态
+   ENUM_MARKET_STATE detectedState = MARKET_RANGE;
+   
+   if(adxValue > TrendADXThreshold) {
+      detectedState = MARKET_TREND;
+   } else if(adxValue < RangeADXThreshold) {
+      detectedState = MARKET_RANGE;
+   } else {
+      // 计算波动率比率
+      double currentVolatility = (high[0] - low[0]) / SymbolInfoDouble(symbol, SYMBOL_BID);
+      double avgVolatility = rangeSize / SymbolInfoDouble(symbol, SYMBOL_BID);
+      double volatilityRatio = currentVolatility / avgVolatility;
+      
+      if(volatilityRatio > BreakoutVolatilityThreshold) {
+         detectedState = MARKET_BREAKOUT;
+      }
+   }
+
+   if(EnableDetailedLog) {
+      Print("=== 市场状态分析 ===");
+      Print("品种: ", symbol);
+      Print("ATR: ", atrValue);
+      Print("RSI: ", rsiValue);
+      Print("ADX: ", adxValue);
+      Print("平均波动范围: ", rangeSize);
+      Print("分析结果: ", detectedState);
+      Print("===================");
+   }
+
+   return detectedState;
+}
+
+//+------------------------------------------------------------------+
+//| 调整策略配置函数                                                 |
+//+------------------------------------------------------------------+
+void AdjustStrategyConfig(ENUM_MARKET_STATE state)
+{
+   switch(state) {
+      case MARKET_TREND:
+         // 趋势市配置
+         TrendFollowingEnabled = true;
+         TurtleTradingEnabled = true;
+         GoldenCrossEnabled = true;
+         MartingaleEnabled = false;     // 趋势市禁用马丁
+         GridEnabled = true;       // 只在趋势方向开网格
+         MeanReversionEnabled = false;      // 禁用反转策略
+         BollingerReversionEnabled = false;
+         Print("切换到趋势市策略组合");
+         break;
+
+      case MARKET_RANGE:
+         // 震荡市配置
+         TrendFollowingEnabled = false;
+         TurtleTradingEnabled = false;
+         GoldenCrossEnabled = false;
+         MartingaleEnabled = true;       // 震荡市启用马丁
+         GridEnabled = false;      // 震荡市禁用网格
+         MeanReversionEnabled = true;       // 启用反转策略
+         BollingerReversionEnabled = true;
+         Print("切换到震荡市策略组合");
+         break;
+
+      case MARKET_BREAKOUT:
+         // 突破市配置
+         TrendFollowingEnabled = true;
+         TurtleTradingEnabled = true;
+         VolatilityBreakoutEnabled = true;
+         MartingaleEnabled = false;     // 突破市禁用马丁
+         GridEnabled = false;    // 突破市禁用网格
+         MeanReversionEnabled = false;    // 禁用反转策略
+         BollingerReversionEnabled = false;
+         Print("切换到突破市策略组合");
+         break;
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 获取策略权重函数                                                 |
+//+------------------------------------------------------------------+
+double GetStrategyWeight(string StrategyName)
+{
+   if(StrategyName == "TrendFollowing") return TrendFollowingWeight;
+   if(StrategyName == "MeanReversion") return MeanReversionWeight;
+   if(StrategyName == "TurtleTrading") return TurtleTradingWeight;
+   if(StrategyName == "Rule123") return Rule123Weight;
+   if(StrategyName == "PriceAction") return PriceActionWeight;
+   if(StrategyName == "VolatilityBreakout") return VolatilityBreakoutWeight;
+   if(StrategyName == "BollingerBands") return BollingerReversionWeight;
+   if(StrategyName == "SMC") return SMCWeight;
+   if(StrategyName == "GoldenCross") return GoldenCrossWeight;
+   if(StrategyName == "MachineLearning") return MLWeight;
+   return 0.1;
 }
 
 //+------------------------------------------------------------------+
